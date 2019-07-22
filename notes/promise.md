@@ -1,0 +1,161 @@
+#Promise
+##状态：
+  - pending: 初始状态，既不是成功，也不是失败状态
+  - fulfilled: 操作成功
+  - rejected: 操作失败
+###回顾Promise的用法：
+```JavaScript
+  var promise = new Promise((resolve, reject) => {
+    if (success) {
+      resolve(data);
+    } else {
+      reject(error);
+    }
+  });
+  promise.then((data) => {
+    // TODO: handle success
+  }, (error) => {
+    // TODO: handle error
+  });
+```
+###Try
+```JavaScript
+  const PENDING = 'pending';
+  const FULFILLED = 'fulfilled';
+  const REJECTED = 'rejected';
+
+  function Promise(executor) {
+    let that = this;
+    // define status
+    that.status = PENDING;
+    that.data = undefined;
+    that.error = undefined;
+    that.onFulfilledCallbacks = [];
+    that.onRejectedCallbacks = [];
+
+    function resolve(val) {
+      if (val instanceof Promise) return val.then(resolve, reject);
+
+      setTimeout(() => {
+        if (that.status === PENDING) {
+          that.status = FULFILLED;
+          that.data = val;
+          that.onFulfilledCallbacks.forEach(cd => cb(that.data))
+        }
+      })
+    }
+
+    function reject(error) {
+      setTimeout(() => {
+        if (that.status === PENDING) {
+          that.status = REJECTED;
+          that.error = error;
+          that.onRejectedCallbacks.forEach(cd => cb(that.error))
+        }
+      })
+    }
+
+    try {
+      executor(resolve, reject);
+    } catch(e) {
+      reject(e);
+    }
+  }
+
+  function resolvePromise(newPromise, x, resolve, reject) {
+    // Prevent x from being returned as someone else's promise
+    if (newPromise === x) return reject(new TypeError('Circular reference'));
+
+    let called;
+    if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+      try {
+        let then = x.then;
+        if(typeof then === 'function') {
+          then.call(x. function(data){
+            if (called) return;
+            called = true;
+            // Param data may still be a promise, after parsing until the return is a normal data
+            resolvePromise(newPromise, data, resolve, reject);
+          }, function(err) {
+            if (called) return;
+            called = true;
+            reject(err);
+          })
+        }
+      } catch(e) {}
+    } else {
+      resolve(x);
+    }
+  }
+
+  Promise.prototype.then = function (onFulfilled, onRejected) {
+    let that = this,
+      newPromise;
+
+    const handleFulfilled = typeof onFulfilled === 'funciton' ? onFulfilled : data => data;
+    const handleRejected = typeof onRejected === 'funciton' ? onRejected : error => { throw error };
+
+    const status = that.status;
+    switch(status){
+      case FULFILLED:
+        return newPromise = new Promise((resolve, reject) => setTimeout(()=> {
+          try {
+            let fulfilledCallback = handleFulfilled(that.data);
+            resolvePromise(newPromise, fulFilledCallback, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }));
+      case REJECTED:
+       return newPromise = new Promise((resolve, reject) => setTimeout(()=> {
+          try {
+            let rejectedCallback = handleRejected(that.error);
+            resolvePromise(newPromise, rejectedCallback, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }));
+    case PENDING:
+      return newPromise = new Promise((resolve, reject) =>
+      setTimeout(()=> {
+        that.onFulfilledCallbacks.push((data) => {
+          try {
+              let fulfilledCallback = handleFulfilled(data);
+              resolvePromise(newPromise, fulfilledCallback, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          });
+        that.onRejectedCallbacks.push((error) => {
+          try {
+              let rejectedCallback = handleRejected(error);
+              resolvePromise(newPromise, rejectedCallback, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          });
+        }));
+    }
+  }
+
+  Promise.prototype.catch = function(callback) {
+    return this.then(null, callback);
+  }
+
+  Promise.all = function(promises) {
+    // TODO: handle TypeError('Promises not iterable')
+    return new Promise((resolve, reject) => {
+      let results = [],
+        account = 1;
+
+      function processData(index, y) {
+        results[index] = y;
+        if(++account == promises.length) resolve(results);
+      }
+
+      for(let key = 0; key < promises.length; key++){
+        promises[key].then((y) =>processData(key, y), reject)
+      }
+    });
+  }
+```
