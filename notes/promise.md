@@ -1,9 +1,10 @@
-#Promise
-##状态：
-  - pending: 初始状态，既不是成功，也不是失败状态
-  - fulfilled: 操作成功
-  - rejected: 操作失败
-###回顾Promise的用法：
+#Promise: 该对象用于表示一个异步操作的最终状态（完成或失败），以及该异步操作的结果值。
+<br /> ##状态：
+
+- pending: 初始状态，既不是成功，也不是失败状态
+- fulfilled: 操作成功
+- rejected: 操作失败 ###回顾 Promise 的用法：
+
 ```JavaScript
   var promise = new Promise((resolve, reject) => {
     if (success) {
@@ -18,7 +19,9 @@
     // TODO: handle error
   });
 ```
+
 ###Try
+
 ```JavaScript
   const PENDING = 'pending';
   const FULFILLED = 'fulfilled';
@@ -153,9 +156,23 @@
         if(++account == promises.length) resolve(results);
       }
 
-      for(let key = 0; key < promises.length; key++){
-        promises[key].then((y) =>processData(key, y), reject)
+      for(let key = 0; key < promises.length; key++) {
+        promises[key].then((y) => processData(key, y), reject)
       }
     });
+  }
+
+  // Generate a successful promise
+  Promise.resolve = function(val) {
+    return new Promise(function(resolve, reject) {
+      resolve(val);
+    })
+  }
+
+   // Generate a failed promise
+  Promise.reject = function(err) {
+    return new Promise(function(resolve, reject) {
+      reject(err);
+    })
   }
 ```
