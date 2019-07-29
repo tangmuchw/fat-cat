@@ -20,7 +20,65 @@
   });
 ```
 
-###Try
+###Simple Try
+
+```JavaScript
+  function Promise(executor){
+    let self = this,
+      status = 'pending',
+      data = undefined,
+      error = undefined;
+
+    function resolve(val) {
+      if (self.status === 'pending' ) {
+        self.data = val;
+        self.status = 'fulfilled';
+        return;
+      }
+    }
+
+    function reject(err) {
+      if (self.status === 'pending') {
+        self.error = err;
+        self.status = 'rejected'
+      }
+    }
+
+  try {
+    executor(resolve, reject);
+  } catch (e) {
+    reject(e)
+  }
+
+  Promise.prototype.then = function(onFulfilled, onRejected) {
+    let self = this;
+    let status = self.status;
+    switch(status) {
+      case 'fulfilled':
+        onFulfilled(self.data);
+        return;
+      case 'rejected':
+        onRejected(self.error);
+        return;
+      default:
+        throw new Error('Unexpected state');
+        return;
+    }
+  }
+```
+
+###Test
+
+```Javascript
+   var testPromise = new Promise(function(resolve, reject) {
+     resolve('Successful operation')
+   });
+   testPromise.then(function(data){
+     console.log(data); // output: Successful operation
+   })
+```
+
+###Advanced Try
 
 ```JavaScript
   const PENDING = 'pending';
