@@ -19,6 +19,7 @@
 │   │   └── three_way_handshake.md
 │   ├── js
 │   │   ├── instanceof.md
+│   │   ├── new.md
 │   │   ├── promise.md
 │   │   └── reg_exp.md
 │   ├── principle
@@ -28,6 +29,7 @@
 │       ├── DDos.md
 │       └── xss.md
 └── README.md
+
 ```
 
 <br />
