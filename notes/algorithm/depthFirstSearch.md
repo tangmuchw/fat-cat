@@ -1,0 +1,44 @@
+#深度优先遍历（Depth-First-Search）:
+
+## 特点
+- 深度优先遍历不需要记住所有的节点，所以**占用空间少**
+- 深度优先遍历有回溯的操作，没有路走了需要回头，所以相对而言**时间会长一点**
+- 采用**堆栈的形式**，即先进后出
+
+```Javascript
+const data = [
+    {
+        name: 'a',
+        children: [
+            { name: 'b', children: [{ name: 'e' }] },
+            { name: 'c', children: [{ name: 'f' }] },
+            { name: 'd', children: [{ name: 'g' }] },
+        ],
+    },
+    {
+        name: 'a2',
+        children: [
+            { name: 'b2', children: [{ name: 'e2' }] },
+            { name: 'c2', children: [{ name: 'f2' }] },
+            { name: 'd2', children: [{ name: 'g2' }] },
+        ],
+    }
+]
+
+// 递归
+const depthFirstSearch = (data) => {
+    let result = []
+
+    data.forEach((item) => {
+        const _map = (dt) => {
+            result.push(dt.name)
+            dt.children && dt.children.forEach((child) => _map(child))
+        }
+
+        _map(item)
+    })
+
+    return result
+}
+ 
+```

@@ -4,7 +4,7 @@
 ###Test
 
 ```Javascript
-  function instanceOf(child, parent) {
+  const _instanceOf = (child, parent) => {
     let proto = child.__proto__;
     let prototype = parent.prototype;
     while(true) {
