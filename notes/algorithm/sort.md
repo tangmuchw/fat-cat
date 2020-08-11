@@ -102,3 +102,73 @@
 ```
 
 ## 插入排序
+
+
+## 归并排序
+>> 归并排序使用是分治思想
+- **分**的过程， 将其分成左右两个部分，分别递归
+- **治**的过程，将左右两个部分合并
+
+- 空间复杂度：O(n)
+- 时间复杂度：O(nlogn)
+
+```JavaScript
+
+/**
+* @description 递归方法，实现对数组的分割和合并
+* @params {number} start 开始下标
+* @params {number} end 结束下标
+*/
+ const mergeSort = (originList, newList, start, end) => {
+    
+     let mid,  // 定义该值将originList从中间分割
+      tempList = [] // 存放被分割的数组
+    
+    if (start === end) {
+        newList[start] = originList[end]
+        return
+    }
+
+    mid = (start + end) / 2
+    
+    // 分别对新分割好的数组进行分割
+    mergeSort(originList, tempList, start, mid)
+    mergeSort(originList, tempList, mid + 1, end)
+
+    // 对分割好的数组进行排序和合并操作
+    combine(tempList, newList, start, mid, end)
+ }
+
+ const combine = (tempList, newList,start, end) => {
+     // 已知每个数组被分割成了两个子数组, 左和右数组
+     // 从左和右数据的最小下标开始，一次进行比较
+     let mid = Math.floor((start + end) / 2),
+      i = start,
+      j = mid + 1,
+      pos = start
+
+      // tempList[i]到tempList[mid]为左，反之为右
+      // 左当前元素小，就先放在新数组里，反之，右小先放新数组里
+      while(i !== mid + 1 && j !== end + 1){
+           tempList[pos++] = newList[i] <= newList[j] ? newList[i++] : newList[j++] 
+      }
+
+     // 上个操作完成后，左或右可能有剩余，继续将剩余元素补充到需序列总
+     // 归并右边剩下的
+     while(j !== end + 1) {
+         tempList[pos++] = newList[j++]
+     }
+
+     // 归并左边剩下的
+     while(i !== mid + 1) {
+         tempList[pos++] = newList[i++]
+     }
+
+     // 转移到原数组
+     while(start !== end + 1){
+         newList[start] = tempList[start]
+         start++
+     }
+    
+ }
+```
