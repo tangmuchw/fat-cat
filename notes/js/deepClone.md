@@ -9,15 +9,15 @@ const simpleDeepClone = (origin) => {
 
 
 // 数组或对象的深拷贝
-const deepClone = (obj, newObj) => {
+const deepClone = (origin, newObj) => {
     let temp = newObj || {}
 
-    for(let key in obj){
-        if(typeof obj[key] === 'object'){
-            temp[key] = obj[key].constructor === Array ? [] :{}
-            deepClone(obj[key], temp[key])
+    for(let key in origin){
+        if(typeof origin[key] === 'object'){
+            temp[key] = origin[key].constructor === Array ? [] :{}
+            deepClone(origin[key], temp[key])
         } else {
-            temp[key] = obj[key]
+            temp[key] = origin[key]
         }
     }
 

@@ -1,7 +1,7 @@
-#new运算符: 创建一个用户定义的兑现类型的实例，或具有构造函数的内置兑现的实例
+# new运算符: 创建一个用户定义的兑现类型的实例，或具有构造函数的内置兑现的实例
 <br />
 
-###new关键字会进行如下的操作：
+## new关键字会进行如下的操作：
  - 创建一个空的全新JavaScript对象(即{})
  - 执行[[prototype]]链接, 即\_\_proto__链接（即设置该对象的构造函数，又叫设置原型链）
  - 使得**this**只想新创建的对象
@@ -11,7 +11,7 @@
    - 摘自掘金[「中高级前端面试」JavaScript手写代码无敌秘籍](https://juejin.im/post/5c9c3989e51d454e3a3902b6#heading-0)
 
 
-###MDN版：
+## MDN版：
  - 创建一个空的简单JavaScript对象（即{}）
  - 链接该对象（即设置该对象的构造函数）到另一个对象
  - 将步骤1新创建的对象作为this的上下文
@@ -38,4 +38,24 @@
   console.log(instanceA1 instanceof A) // true
   console.log(instanceA2 instanceof A) // true
 
+ ```
+
+ ## 举个栗子
+ ```JavaScript
+  function A(){
+    this.a = 1 // 执行A(), 这里的 this 指向的是 window
+
+    return {
+      b: 2,
+      c: 3
+    }
+  }
+
+  A.prototype.a = 4
+  A.prototype.b = 5
+  A.prototype.c = 6
+
+  const x = new A()
+
+  console.log(x.a, x.b, x.c) // undefined, 2, 3
  ```
