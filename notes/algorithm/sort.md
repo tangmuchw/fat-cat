@@ -77,12 +77,13 @@
     const pivotIdx = Math.floor(randomIdx)
     const pivot = list[pivotIdx]
 
-    // 基准的值换到了末尾
+    // 基准的值换到了末尾, 为了后面进行基准对比 
     swap(list, pivotIdx, end)
 
     // 重新排序数列，所有元素比哨兵值小的摆放在哨兵前面，所有元素比哨兵值大的摆在哨兵的后面（相同的数可以到任一边）
     // i 记录最后一个小于基准值的索引
-    for(let i = start - 1, j = start; j < end; j++){
+    let i = start - 1
+    for(let j = start ; j < end; j++){
         // a < b
         if(comparator(list[j], pivot) < 0){
             i++
@@ -102,6 +103,35 @@
 ```
 
 ## 插入排序
+>> 插入排序是一种简单且稳定的算法，适用于已排好序的序列，往其他插入某个元素，保证数据有序
+- 时间复杂度：O(n*n)
+
+### 特点
+- 序列中的数据分为两个区域：已排序区域和未排序区域
+- 从序列的最左侧开始定义排序区域
+- 已排序区域的数据按照从小到达的顺序进行排列
+- 元素比较时，首先用未排序区域的第一个元素与已排序区域的最后一个元素进行比较
+
+```JavaScript
+ const insertSort = (list) => {
+     const len = list.length
+
+     for(let i = 1; i < len; i++){
+         let temp = list[i]
+         let j = i - 1
+
+         while(j >= 0 && list[j] > temp) {
+            // 已排序的元素大于新元素，将该元素移到一下个位置
+             list[j + 1] = list[j]
+             j--
+         }
+
+         list[j + 1] = temp
+     }
+
+     return list
+ }
+```
 
 
 ## 归并排序
