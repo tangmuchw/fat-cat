@@ -1,7 +1,10 @@
 # http
 
+## 概念
+>> http是一个简单的请求-响应协议, 应用于应用层
+
 ## HTTP 1.1
-- 引入了持久连接（persistent connection）,即TCP连接默认不关闭，可以被多个请求复用，不用声明Connection: keep-alive。长连接的连接时常
+- 引入了持久连接（persistent connection）,即TCP连接默认不关闭，可以被多个请求复用，不用在响应头声明**Connection: keep-alive**。长连接的连接时常
 - 引入了管道机制（pipelining）,即在同一个TCP连接里，客户端可以同时发送多个请求，进一步改进HTTP协议的效率
 - HTTP 1.1 中新增加了 E-tag, If-Unmodified-Since, If-Match, If-None-Match 等缓存控制标头来控制缓存失效
 - 支持断点续传，通过使用请求头中的<code>Range</code>来实现

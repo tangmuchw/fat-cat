@@ -188,6 +188,8 @@
          tempList[pos++] = originList[i++]
      }
 
+     console.log(tempList)
+
      // 转移到原数组
      while(start !== end + 1){
          originList[start] = tempList[start]

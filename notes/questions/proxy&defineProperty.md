@@ -14,6 +14,29 @@
 - 只能劫持对象的属性，需要多次用遍历方法遍历对象的属性
 - 修改属性时，是直接对对象属性直接修改
 
+### defineProperty-语法
+>> Object.defineProperty(obj, prop, descriptor)
+>> 注意： **value、writable 不能和 set、 get同时出现**
+
+```JavaScript
+ let obj = {}
+
+ Object.defineProperty(obj, 'property1', {
+     value: 44,
+     writable: false,
+ })
+
+
+ Object.defineProperty(obj, 'property2', {
+    set: (v) => {
+        this.value = v
+    },
+    get: () => {
+        return this.value
+    }
+ })
+```
+
 
 ## proxy
 ### 特点：
@@ -22,3 +45,23 @@
 - Proxy有多达13种拦截方法, 不限于apply、ownKeys、deleteProperty、has等等是Object.defineProperty不具备的
 - Proxy返回的是一个新对象, 可以只操作新的对象达到目的
 - 缺点：兼容性问题
+
+```JavaScript
+ const p = new Proxy({}, {
+     get: (obj, prop) => {
+         return prop in obj ? obj[prop] : undefined
+     },
+     set: (obj, prop, val) => {
+        // TODO: 可以在赋值前做一些数据校验的处理
+
+        obj[prop] = val
+
+        // 表示成功，也可以忽略不用这一行代码 
+        return true
+
+     }
+ })
+
+ p.age = 20
+ console.log(p.age) // 20
+```
