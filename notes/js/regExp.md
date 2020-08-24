@@ -46,6 +46,7 @@
 ## 将'get-element-by-id'转换成‘getElementById’
 
 ```JavaScript
+ // 假如replace()方法的第一个参数是一个RegExp 对象，则代表第n个括号匹配的字符串。
  'get-element-by-id'.replace(/\-(\w)/g, (match, p) => p.toUpperCase())
 
  'get-element-by-id'.replace(/\-([a-z])/g, (match, p) => p.toUpperCase())
