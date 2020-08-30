@@ -18,4 +18,6 @@
   const child = new Parent()
 
   console.log(child.__proto__) // { constructor: f Parent()}
+  console.log(Parent.prototype) // { constructor: f Parent()}
+  console.log(Parent.prototype.__proto__) // { constructor: f Object(), hasOwnProperty: f hasOwnProperty(), ...rest }
 ```
