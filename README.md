@@ -14,6 +14,9 @@
 ├── README.md
 ├── TODO.md
 ├── img
+├── library
+│   ├── JS�\230级�\213�\217设计(第3�\211\210)
+│   └── �\227�\225�\233�解
 └── notes
     ├── algorithm
     │   ├── breadthFirstSearch.md
@@ -41,6 +44,7 @@
     │   ├── deepClone.md
     │   ├── extendsES5.md
     │   ├── flat.md
+    │   ├── fromCharCode.md
     │   ├── instanceOf.md
     │   ├── let.md
     │   ├── new.md
@@ -55,8 +59,6 @@
     │   ├── basic
     │   │   ├── index.md
     │   │   └── program.md
-    │   ├── kuaishou
-    │   │   └── index.md
     │   ├── proxy&defineProperty.md
     │   └── toutiao
     │       ├── basic.md

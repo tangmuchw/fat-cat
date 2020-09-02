@@ -24,7 +24,7 @@
     var obj = {};
     if(func.prototype !== null) obj.__proto__ = func.prototype;
 
-    var params = Array.prototype.slice.call(arguments, 1); // arguments :[ func, ...rest]
+    var params = Array.prototype.slice.call(arguments, 1); // arguments :[func, ...rest]
     var ret = func.apply(obj, params);
     if((typeof ret === 'object' || typeof ret === 'function') && ret !== null) return ret;
 
