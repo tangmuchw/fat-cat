@@ -3,7 +3,7 @@
  * theme: fatCat
  * author: tangmuchw
  * email: tangmuchw@163.com
- * description: This is my weekly notes, just interested. If you have a good idea, you can contact me. Feel your participation.
+ * description: This is my study notes.
  */
 ```
 
