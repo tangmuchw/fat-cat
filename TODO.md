@@ -9,3 +9,4 @@
 - webpack打包机制
 - JavaScript高级程序设计
 - 了解react 16.x 和 15.x的某些底层实现逻辑
+- 常见算法手写，LeetCode练习

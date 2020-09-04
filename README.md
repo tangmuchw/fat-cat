@@ -15,8 +15,8 @@
 ├── TODO.md
 ├── img
 ├── library
-│   ├── JS�\230级�\213�\217设计(第3�\211\210)
-│   └── �\227�\225�\233�解
+│   ├── JS高级程序设计(第3版)
+│   └── 算法图解
 └── notes
     ├── algorithm
     │   ├── breadthFirstSearch.md
