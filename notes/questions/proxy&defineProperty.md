@@ -3,9 +3,9 @@
 >>实现一个完整的双向绑定需要以下几个要点:
 - 利用<code>Proxy</code>或<code>Object.defineProperty</code>生成的Observer针对对象/对象的属性进行“劫持”，在属性发生变化后通知订阅者
 
-- 解析器Compile解析模版中的Directive（指令），收集指令所依赖的方法和数据，等待数据变化后进行渲染
+- 解析器 Compile 解析模版中的 Directive（指令），收集指令所依赖的方法和数据，等待数据变化后进行渲染
 
-- Watcher属于Observer和Compile桥梁，他将接收到的Observer产生的数据变化，并根据COmpile提供的指令进行视图渲染，使得数据变化促使视图变化
+- Watcher属于 Observer 和 Compile 桥梁，他将接收到的 Observer 产生的数据变化，并根据 Compile 提供的指令进行视图渲染，使得数据变化促使视图变化
 
 
 ## defineProperty
