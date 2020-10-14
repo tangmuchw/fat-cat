@@ -1,6 +1,7 @@
-#深度优先遍历（Depth-First-Search）:
+# 深度优先遍历（Depth-First-Search）:
 
 ## 特点
+
 - 深度优先遍历不需要记住所有的节点，所以**占用空间少**
 - 深度优先遍历有回溯的操作，没有路走了需要回头，所以相对而言**时间会长一点**
 - 采用**堆栈的形式**，即先进后出
@@ -40,5 +41,5 @@ const depthFirstSearch = (data) => {
 
     return result
 }
- 
+
 ```

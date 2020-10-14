@@ -1,7 +1,9 @@
-#广度优先遍历（Breadth-First-Search）:
+# 广度优先遍历（Breadth-First-Search）:
+
 <br />
 
 ## 特点
+
 - 广度优先遍历需要先记录所有的节点，**占用空间大**
 - 采用**队列的形式**，即先进先出
 
@@ -42,5 +44,5 @@ const breadthFirstSearch = (data) => {
 
     return result
 }
- 
+
 ```
