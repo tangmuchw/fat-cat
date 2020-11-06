@@ -3,9 +3,11 @@
  * theme: fatCat
  * author: tangmuchw
  * email: tangmuchw@163.com
- * description: This is my study notes.
+ * description: this is my study notes.
  */
 ```
+
+> 生成目录命令: tree -CN
 
 <h2>目录:<h2>
 
@@ -16,6 +18,16 @@
 ├── img
 ├── library
 │   ├── JS高级程序设计(第3版)
+│   │   ├── 第一章「JavaScript简介」
+│   │   │   ├── BOM.md
+│   │   │   └── DOM.md
+│   │   ├── 第二章「在HTML中使用JavaScript」
+│   │   │   └── DocumentMode.md
+│   │   └── 第三章「基本概念」
+│   │       ├── DataType.md
+│   │       ├── Operator.md
+│   │       ├── Statements.md
+│   │       └── function.md
 │   └── 算法图解
 └── notes
     ├── algorithm
@@ -34,7 +46,9 @@
     │   ├── threeWayHandshake.md
     │   └── udp.md
     ├── js
+    │   ├── !.md
     │   ├── ==.md
+    │   ├── >.md
     │   ├── apply.md
     │   ├── bind.md
     │   ├── call.md
@@ -62,6 +76,7 @@
     │   │   └── program.md
     │   ├── peerDependencies.md
     │   ├── proxy&defineProperty.md
+    │   ├── querySelector&getElementById.md
     │   └── toutiao
     │       ├── basic.md
     │       └── difficult.md
