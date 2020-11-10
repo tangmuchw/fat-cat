@@ -1,13 +1,13 @@
-```JAvascript
+```Javascript
 /**
- * theme: fatCat
+ * theme: fat-Cat
  * author: tangmuchw
  * email: tangmuchw@163.com
- * description: this is my study notes.
+ * description: Weekly study notes about front-end technology, mainly javascript, secondary unlimited.
  */
 ```
 
-> 生成目录命令: tree -CN
+> 生成目录命令: <code>tree -CN</code>
 
 <h2>目录:<h2>
 
