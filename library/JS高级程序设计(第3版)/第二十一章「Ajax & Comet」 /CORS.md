@@ -73,7 +73,7 @@ const createCORSRequest = (method, url) => {
 
     if('widthCredentials' in xhr){
         xhr.open(method, url, true)
-    } else if(typeof XDomainRequest) {
+    } else if(typeof XDomainRequest !== 'undefined') {
         xhr = new XDomainRequest()
         xhr.open(method, url)
     } else {
