@@ -38,6 +38,21 @@
         return this.value
     }
  })
+
+ // 定义多个属性
+ Object.defineProperties(obj, {
+     _year: {
+         value: 3,
+     },
+     property4: {
+         value: 4,
+     },
+     year: {
+         get: function(){
+             return this._year
+         }
+     }
+ })
 ```
 
 ## proxy
