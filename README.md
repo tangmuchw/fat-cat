@@ -1,17 +1,16 @@
 <img src="./img/gratitude.jpg" width="100%" height="auto" style="border-radius:4px;">
 
-<div style="background-color: rgba(0,0,0,0.1); padding: 8px 16px; border-radius:4px; color: #808080;">
-<p>theme: <font color=#DEB887>fat-cat</font></p>
-<p>author: <font color=#A52A2A>tangmuchw</font></p>
-<p>email: <font color=#008080>tangmuchw@163.com</font></p>
-<p>description: <font color=#FF8C00>Weekly study notes about front-end technology, mainly javascript, secondary unlimited.</font></p>
-</div>
-
 ---
 
-<h2>模块索引:<h2>
+> theme: fat-cat
 
-[toc]
+> author: tangmuchw
+
+> email: tangmuchw@163.com
+
+> description: Weekly study notes about front-end technology, mainly javascript, secondary unlimited.
+
+---
 
 ## Library
 
