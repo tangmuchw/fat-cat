@@ -1,9 +1,11 @@
-<img src="./img/gratitude.jpg" width="100%" height="auto">
+<img src="./img/gratitude.jpg" width="100%" height="auto" style="border-radius:4px;">
 
-> theme: <font color=#DEB887>fat-cat</font>
-> author: <font color=#00FFFF>tangmuchw</font>
-> email: tangmuchw@163.com
-> description: <font color=#FF8C00>Weekly study notes about front-end technology, mainly javascript, secondary unlimited.</font>
+<div style="background-color: rgba(0,0,0,0.1); padding: 8px 16px; border-radius:4px; color: #808080;">
+<p>theme: <font color=#DEB887>fat-cat</font></p>
+<p>author: <font color=#A52A2A>tangmuchw</font></p>
+<p>email: <font color=#008080>tangmuchw@163.com</font></p>
+<p>description: <font color=#FF8C00>Weekly study notes about front-end technology, mainly javascript, secondary unlimited.</font></p>
+</div>
 
 ---
 
@@ -13,9 +15,9 @@
 
 ## Library
 
-- [JS 高级程序设计(第 3 版)](./library/ProfessionalJavaScriptforWebDevalopers3rdEdition/README.md)
+- [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
 
-- [HTTP 权威指南](./library/HTTP: The Definitive Guide/README.md)
+- [HTTP 权威指南](./library/TheDefinitiveGuideOfHTTP/README.md)
 - [深入浅出 Webpack](./library/Webpack/README.md)
 - [算法图解](./library/AlgorithmDiagram/README.md)
 
@@ -30,7 +32,7 @@
 
 - [媒体查询属性](./notes/css/media.md)
 
-## 设计模式
+## Design Patterns
 
 - [发布订阅者模式](./notes/design/publish&subscribe.md)
 

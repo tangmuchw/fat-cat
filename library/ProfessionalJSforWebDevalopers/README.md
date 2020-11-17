@@ -1,4 +1,4 @@
-<img src="../../img/persistence.jpg" width="100%" height="auto">
+<img src="../../img/persistence.jpg" width="100%" height="auto" style="border-radius:4px;">
 
 > JavaScript 高级程序设计（第 3 版）
 
