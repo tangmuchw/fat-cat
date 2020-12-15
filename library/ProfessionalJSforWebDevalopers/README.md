@@ -12,7 +12,7 @@
 - 第 16 章讲<code>HTML5</code>
 - 第 17 章讲调试
 - 第 18~19 章讲<code>XML</code>
-- 第 20 章讲<code>jSON</code>
+- 第 20 章讲<code>JSON</code>
 - 第 21 章讲<code>Ajax</code>和跨域
 - 第 22 章讲高级技巧-高级函数，高级定时器等
 - 第 23 章讲本地存储机制-Cookie, sessionStorage,localStorage 与 IndexedDB 等 \*
