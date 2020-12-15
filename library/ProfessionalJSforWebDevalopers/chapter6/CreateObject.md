@@ -87,6 +87,7 @@ const p2 = new Person()
 
 p1.friends.push('van')
 console.log(p1.friends) // 'jack', 'hri', 'van'
+console.log(p2.friends) // 'jack', 'hri', 'van'
 
 ```
 
@@ -101,11 +102,76 @@ Object.getPrototypeOf(p1) == Person.prototype // true
 
 ## 组合使用构造函数模式和原型模式
 
+```JavaScript
+function Person(){
+  this.friends = ['tom', 'jack']
+}
+
+Person.prototype = {
+    constructor: Person,
+    sayName: function(){
+        console.log(this.name)
+    }
+}
+
+const p1 = new Person()
+const p2 = new Person()
+
+p1.friends.push('van')
+console.log(p1.friends) // ['tom', 'jack', 'van']
+console.log(p1.friends) // ['tom', 'jack']
+```
+
 ## 动态原型模式
+
+```JavaScript
+function Person(){
+  this.friends = ['tom', 'jack']
+
+  if(typeof this.sayName !== 'function') {
+    Person.prototype.sayName = function(){
+      console.log(this.name)
+    }
+  }
+}
+```
 
 ## 寄生构造函数模式
 
+> 基本思想：创建一个函数，该函数的作用仅仅是封装创建对象的代码, 然后再返回新创建的对象
+
+```JavaScript
+function Person(name){
+  var obj = new Object()
+  obj.name = name
+  obj.sayName = function(){
+    console.log(this.name)
+  }
+
+  return obj
+}
+```
+
 ## 稳妥构造函数模式
+
+> 所谓稳妥对象，指的是没有公共属性，而且其方法也不引用 this 的对象
+
+```JavaScript
+function Person(){
+  var obj = new Object()
+
+  // 可以再这里定义私有变量和函数
+
+  // 添加方法
+  obj.sayName = function(){
+    console.log(this.name)
+  }
+
+  return obj
+}
+```
+
+## QA
 
 ```JavaScript
 
