@@ -8,6 +8,7 @@
 
 - matchPositiveInteger: `/^[^0 | -]([0-9]?)+$/`
 - matchFloat: `/^(([1-9]\d*)|0)(\.\d{0,20})?$/`
+- formatCommaNumber : Number(num).toString().replace(new RegExp(/(?<=-?\d)(?=(\d{3})+(\.{1}\d+)?$)/,'g'), ',') // 8432957983475934.333 => 8,432,957,983,475,934.333
 
 ###使用正则表达式的方法
 | 方法 | 描述 |
