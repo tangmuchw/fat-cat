@@ -6,6 +6,7 @@
 
 - 广度优先遍历需要先记录所有的节点，**占用空间大**
 - 采用**队列的形式**，即先进先出
+- BFS 可用来解决计算机游戏（例如即时策略游戏）中找寻路径的问题
 
 ```Javascript
 const data = [
@@ -44,5 +45,8 @@ const breadthFirstSearch = (data) => {
 
     return result
 }
+
+const rlt = breadthFirstSearch(data)
+console.log(rlt) // ["a", "a2", "b", "c", "d", "b2", "c2", "d2", "e", "f", "g", "e2", "f2", "g2"]
 
 ```

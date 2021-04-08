@@ -5,6 +5,7 @@
 - 深度优先遍历不需要记住所有的节点，所以**占用空间少**
 - 深度优先遍历有回溯的操作，没有路走了需要回头，所以相对而言**时间会长一点**
 - 采用**堆栈的形式**，即先进后出
+- DFS 应用举例如 DOM 树的遍历
 
 ```Javascript
 const data = [
@@ -41,5 +42,8 @@ const depthFirstSearch = (data) => {
 
     return result
 }
+
+const rlt = depthFirstSearch(data);
+console.log(rlt); // ["a", "b", "e", "c", "f", "d", "g", "a2", "b2", "e2", "c2", "f2", "d2", "g2"]
 
 ```

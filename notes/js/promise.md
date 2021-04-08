@@ -157,8 +157,8 @@
     let that = this,
       newPromise;
 
-    const handleFulfilled = typeof onFulfilled === 'funciton' ? onFulfilled : data => data;
-    const handleRejected = typeof onRejected === 'funciton' ? onRejected : error => { throw error };
+    const handleFulfilled = typeof onFulfilled === 'function' ? onFulfilled : data => data;
+    const handleRejected = typeof onRejected === 'function' ? onRejected : error => { throw error };
 
     const status = that.status;
     switch(status){
