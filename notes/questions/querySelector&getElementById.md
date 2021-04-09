@@ -28,7 +28,7 @@
 
 ```JavaScript
     const lis = document.getElementsByTagName('li');
-    const ulDom = document.querySelector('ul');
+    const ulDom = document.getElementById('ul');
     console.log(lis);
 
     // 死循环
