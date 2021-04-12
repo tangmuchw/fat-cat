@@ -37,7 +37,9 @@
 
 ## Http
 
+- [cros](./notes/http/cros.md)
 - [http](./notes/http/http.md)
+- [P2P](./notes/http/P2P.md)
 - [请求方法](./notes/http/requestMethods.md)
 - [TCP](./notes/http/tcp.md)
 - [三次握手](./notes/http/threeWayHandshake.md)
@@ -54,7 +56,6 @@
 - [chatCodeAt](./notes/js/chatCodeAt.md)
 - [const](./notes/js/const.md)
 - [debounce](./notes/js/debounce.md)
-- [throttle](./notes/js/throttle.md)
 - [deepClone](./notes/js/deepClone.md)
 - [extendsES5](./notes/js/extendsES5.md)
 - [flat](./notes/js/flat.md)
@@ -65,6 +66,9 @@
 - [new](./notes/js/new.md)
 - [promise](./notes/js/promise.md)
 - [regExp](./notes/js/regExp.md)
+- [roundOff](./notes/js/roundOff.md)
+- [this](./notes/js/this.md)
+- [throttle](./notes/js/throttle.md)
 
 ## TS
 
