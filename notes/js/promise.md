@@ -207,6 +207,14 @@
     return this.then(null, callback);
   }
 
+  Promise.prototype.finally = function(onFinally){
+    return this.then(
+      res => Promise.resolve(onFinally()).then(() => res),
+       err => Promise.reject(onFinally()).then(() => { throw err
+       })
+    )
+  }
+
   Promise.all = function(promises) {
     // TODO: handle TypeError('Promises not iterable')
     return new Promise((resolve, reject) => {
@@ -220,6 +228,16 @@
 
       for(let key = 0; key < promises.length; key++) {
         promises[key].then((y) => processData(key, y), reject)
+      }
+    });
+  }
+
+  Promise.race = function(promises) {
+    return new Promise((resolve, reject) => {
+
+      for(let key = 0; key < promises.length; key++) {
+         // 这里使用 Promise.resolve 包了一下，以防传递了 non-promise
+        Promise.resolve(promises[key]).then(res => resolve(res), err => reject(err))
       }
     });
   }
