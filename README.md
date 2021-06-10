@@ -29,6 +29,8 @@
 
 ## CSS
 
+- [CSS 权重](./notes/css/cssWeight.md)
+- [Flex 布局](./notes/css/flex.md)
 - [媒体查询属性](./notes/css/media.md)
 
 ## Design Patterns
@@ -85,6 +87,12 @@
 ## Principle
 
 - [事件循环](./notes/principle/eventLoop.md)
+
+## react
+
+- [DOM Diff](./notes/react/domDiff.md)
+- [hooks](./notes/react/hooks.md)
+- [setState](./notes/react/setState.md)
 
 ## Security
 
