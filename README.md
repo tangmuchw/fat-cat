@@ -93,6 +93,7 @@
 - [DOM Diff](./notes/react/domDiff.md)
 - [hooks](./notes/react/hooks.md)
 - [setState](./notes/react/setState.md)
+- [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
 
 ## Security
 

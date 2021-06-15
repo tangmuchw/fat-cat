@@ -1,7 +1,9 @@
 # 深拷贝
 
 ## Object.assign
->> 缺点：对于Object.assign()而言, 如果对象的属性值为简单类型（string， number），通过Object.assign({},srcObj);得到的新对象为‘深拷贝’；如果属性值为对象或其它引用类型，那对于这个对象而言其实是浅拷贝的
+
+> > 缺点：对于 Object.assign()而言, 如果对象的属性值为简单类型（string， number），通过 Object.assign({},srcObj);得到的新对象为‘深拷贝’；如果属性值为对象或其它引用类型，那对于这个对象而言其实是浅拷贝的
+
 ```JavaScript
 // 简单的深拷贝
 const simpleDeepClone = (origin) => {
@@ -12,12 +14,19 @@ const simpleDeepClone = (origin) => {
 ```
 
 ## 普通函数(数组或对象的深拷贝)
->> 缺点： 函数无法深拷贝，并且数据太多进行深拷贝，容易导致堆栈溢出
+
+> > 缺点： 函数无法深拷贝，并且数据太多进行深拷贝，容易导致堆栈溢出
 
 ```JavaScript
 // 数组或对象的深拷贝
+// for-in origin
+// typeof origin[key] === 'object'
+// 检查 origin[key].constructor === Array
+// 递归
 const deepClone = (origin, newObj) => {
-    let temp = newObj || {}
+    let temp = newObj
+        ? newObj
+        : origin.constructor === Array ? {}: []
 
     for(let key in origin){
         if(typeof origin[key] === 'object'){
@@ -33,6 +42,7 @@ const deepClone = (origin, newObj) => {
 ```
 
 ## 更完善版
+
 ```JavaScript
     const isTypeofObject = (origin) => {
         const type = typeof origin
@@ -58,9 +68,9 @@ const deepClone = (origin, newObj) => {
     const getCopyReferenceType = (origin, originPrototypeStr) => {
         // 需要处理： arrayBuffer， init32array, dateview等
         switch(originPrototypeStr){
-            case '[object RegExp]': 
+            case '[object RegExp]':
              return cloneRegExp(origin)
-            default: 
+            default:
              return {}
         }
     }
