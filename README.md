@@ -33,16 +33,22 @@
 - [Flex 布局](./notes/css/flex.md)
 - [媒体查询属性](./notes/css/media.md)
 
+## Browser
+
+- [浏览器缓存](./notes/browser/cache.md)
+
 ## Design Patterns
 
 - [发布订阅者模式](./notes/design/publish&subscribe.md)
 
-## Http
+## HTTP
 
-- [cros](./notes/http/cros.md)
-- [http](./notes/http/http.md)
+- [缓存](./notes/http/cache.md)
+- [Cros](./notes/http/cros.md)
+- [HTTP 版本](./notes/http/http.md)
 - [P2P](./notes/http/P2P.md)
 - [请求方法](./notes/http/requestMethods.md)
+- [状态码](./notes/http/statusCode.md)
 - [TCP](./notes/http/tcp.md)
 - [三次握手](./notes/http/threeWayHandshake.md)
 - [UDP](./notes/http/udp.md)
