@@ -5,7 +5,7 @@
 - 出现的早，可以处理常用的字符编码
 
 ```JavaScript
- String.fromCodePoint(65) // A
+ String.fromCharCode(65) // A
 ```
 
 # fromCodePoint
@@ -15,5 +15,11 @@
 - ES2015 出现的，可以处理高位编码
 
 ```JavaScript
- String.fromCodePoint(65) // A
+ String.fromCodeChar(92) // '\\'
+```
+
+# 将字符串转化成 ASCII 码
+
+```JavaScript
+ 'A'.charCodeAt() // 65
 ```
