@@ -22,6 +22,9 @@
 ```JavaScript
 var xhr = new XMLHttpRequest() // IE => ActiveXObject
 
+// 前端设置是否带cookie
+xhr.withCredentials = true;
+
 xhr.open('get', 'example.txt', true) // 第三个参数表示是否异步发送请求
 
 xhr.setRequestHeader('MyHeader','MyValue')

@@ -103,9 +103,9 @@
 
 ## Security
 
-- [scrf](./notes/security/csrf.md)
+- [SCRF](./notes/security/CSRF.md)
 - [DDos](./notes/security/DDos.md)
-- [xss](./notes/security/DDos.md)
+- [XSS](./notes/security/XSS.md)
 
 ---
 
