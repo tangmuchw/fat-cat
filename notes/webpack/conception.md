@@ -76,13 +76,13 @@ module.exports = config
 
 ## Runtime
 
-> > runtime， 以及伴随的 manifest 数据，主要是指：在浏览器运行时，webpack 用来连接模块化的应用程序的所有代码。
+> runtime， 以及伴随的 manifest 数据，主要是指：在浏览器运行时，webpack 用来连接模块化的应用程序的所有代码。
 
 - runtime 包含：在模块交互时，链接模块所需的加载和解析逻辑。包括浏览器中的已加载模块的连接，以及懒加载模块的执行逻辑。
 
 ## Manifest
 
-> > 管理所有模块之间的交互。
+> 管理所有模块之间的交互。
 
 - 当编译器(complier)开始**执行、解析和映射**应用程序时，他会保留所有模块的详细要点。这个数据集合称为**Manifest**
 - 当完成打包并发送到浏览器时，会在运行时通过 Manifest 来解析和加载模块，无论你选择哪种模块语法，那些<code>import</code>或<code>require</code>语句现在都已经转换成<code>**webpack_require**</code>方法
