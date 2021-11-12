@@ -82,4 +82,4 @@ const MyComponent = () => {
 
 > 不是用 class 的情况下可以使用 state
 
-### 优点 & 缺点 见 [HOC，RenderProps, Hooks 简单对比](./componentCreationContrast.md)
+### 优点 & 缺点 见 [hooks](./hooks.md)

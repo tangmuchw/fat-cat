@@ -41,7 +41,13 @@ const person = {
     say,
 }
 
-person.say() // 1
+function createBoy() {
+    return person
+}
+
+const boy = createBoy()
+
+boy.say() // tmchw
 ```
 
 ### 隐式丢失
