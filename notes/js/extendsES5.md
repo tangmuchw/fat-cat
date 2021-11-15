@@ -14,7 +14,7 @@
      Parent.call(this, 'tom')
  }
 
- // 原型链继承
+ // 寄生组合式继承
  //  Child.prototype = new Parent()
  Child.prototype = Object.create(parent)
  Child.prototype.constructor = Child

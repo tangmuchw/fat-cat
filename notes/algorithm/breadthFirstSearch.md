@@ -1,6 +1,4 @@
-# 广度优先遍历（Breadth-First-Search）:
-
-<br />
+# 广度优先遍历（Breadth-First-Search）
 
 ## 特点
 
@@ -36,7 +34,7 @@ const breadthFirstSearch = (data) => {
     while(queue.length > 0){
         //  数据过于复杂时，需要进行深拷贝
         [...queue].forEach(child => {
-            queue.shift()
+            queue.shift() // 取第一项
             result.push(child.name)
 
             child.children && (queue.push(...child.children))

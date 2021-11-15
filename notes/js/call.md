@@ -16,7 +16,7 @@
      const fn = Symbol('fn')
      caller = thisArg || window
 
-     caller[fn] = this // this 指向调用call的对象, 即改变this 指向的函数
+     caller[fn] = this // this 指向调用 call 的对象, 即改变 this 指向的函数
 
      const result = caller[fn](...arg) // 执行当前函数
 
