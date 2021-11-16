@@ -100,6 +100,7 @@
 - [hooks](./notes/react/hooks.md)
 - [setState](./notes/react/setState.md)
 - [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
+- [DOM Update Process](./notes/react/domUpdateProcess.md)
 
 ## Security
 
