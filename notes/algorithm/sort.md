@@ -18,6 +18,8 @@
 
      list[idxA] = c ^ a
      list[idxB] = c ^ b
+
+     // => [list[idxB], list[idxA]] = [list[idxA], list[idxB]]
  }
 ```
 
@@ -40,17 +42,9 @@ const bubbleSort = (list) => {
    // 最外层循环控制的内容是循环次数
    // 每一次比较的内容都是相邻两者之间的大小关系
    const count = len - 1
-   for(let i = 0; i < count; i++) {
-       for(let j = 0; j < count - i; j++){
-           if(list[j] > list[j + 1]){
-               [
-                   list[j],
-                   list[j + 1]
-               ] = [
-                   list[j + 1],
-                   list[j]
-               ]
-           }
+   for(let i = 0; i < len; i++) {
+       for(let j = 0; j < count; j++){
+           if(list[j] > list[j + 1]) [list[j + 1], list[j]] = [list[j], list[j]]
        }
    }
 
@@ -83,7 +77,7 @@ const bubbleSort = (list) => {
     // 重新排序数列，所有元素比哨兵值小的摆放在哨兵前面，所有元素比哨兵值大的摆在哨兵的后面（相同的数可以到任一边）
     // lastMinIdx 记录最后一个小于基准值的索引
     let lastMinIdx = start - 1
-    for(let i = start ; j < end; j++){
+    for(let i = start ; i < end; i++){
         // a < b
         if(comparator(list[i], pivot) < 0){
             lastMinIdx++
@@ -95,7 +89,7 @@ const bubbleSort = (list) => {
     swap(list, lastMinIdx + 1, end)
 
     // 递归地把小于哨兵值元素的子数列和大于哨兵值元素的子数列排序
-    separateList(list, comparator, start, i)
+    separateList(list, comparator, start, lastMinIdx)
     separateList(list, comparator, lastMinIdx + 2, end)
 
     return list
@@ -127,14 +121,15 @@ console.log(quickSort([1, 7, 4, 8, 3, 18])) // [1, 3, 4, 7, 8, 18] => take 0.069
 
      for(let i = 1; i < len; i++){
          let temp = list[i]
-         let j = i - 1 // 假定记录要插入的位置个位置前一个位置
+            leftLastIdx = i - 1 // 假定记录要插入的位置个位置前一个位置
 
-         while(j >= 0 && list[j] > temp) {
-             list[j + 1] = list[j] // 已排序的元素大于新元素，将该元素插到一下个位置
-             j-- // 检查已排序区域的上一个位置
+        // 数值大的往后插
+         while(leftLastIdx >= 0 && list[leftLastIdx] > temp) {
+             list[leftLastIdx + 1] = list[leftLastIdx] // 已排序的元素大于新元素，将该元素插到一下个位置
+             leftLastIdx-- // 检查已排序区域的上一个位置
          }
 
-         list[j + 1] = temp // 重新返回被插入位置的值
+        list[leftLastIdx + 1] = temp // 交换被插入位置的值
      }
 
      return list
