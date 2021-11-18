@@ -31,14 +31,14 @@ const data = [
 const depthFirstSearch = (data) => {
     let result = []
 
-    const mapChild = (dt) => {
-        result.push(dt.name)
-        dt.children && dt.children.forEach((child) => mapChild(child))
+    const mapChild = (dt = {}) => {
+        const { name. children } = dt
+
+        result.push(name)
+        children && children.forEach(mapChild)
     }
 
-    data.forEach((item) => {
-        mapChild(item)
-    })
+    data.forEach(mapChild)
 
     return result
 }

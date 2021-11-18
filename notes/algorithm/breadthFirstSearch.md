@@ -28,17 +28,14 @@ const data = [
 
 // 创建一个执行队列，当队列为空时
 const breadthFirstSearch = (data) => {
-    let result = []
-    let queue = data
+    let result = [],
+     queue = [...data]
 
     while(queue.length > 0){
-        //  数据过于复杂时，需要进行深拷贝
-        [...queue].forEach(child => {
-            queue.shift() // 取第一项
-            result.push(child.name)
+       const { name, children } = queue.shift()
+       result.push(name)
 
-            child.children && (queue.push(...child.children))
-        })
+       if(children) queue.push(...children)
     }
 
     return result

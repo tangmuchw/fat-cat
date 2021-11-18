@@ -157,19 +157,19 @@ console.log(insertSort([1, 7, 4, 8, 3, 18])) // [1, 3, 4, 7, 8, 18] => take 0.06
 * @params {number} end 结束下标
 */
  const combine = (leftList, rightList) => {
-    let result = [],
-        i = 0,
-        j = 0
-
     const leftLen = leftList.length
     const rightLen = rightList.length
 
-    while (i < leftLen && j < rightLen) {
-        result.push(leftList[i] <= rightList[j] ? leftList[i++] : rightList[j++])
+    let result = [],
+        leftIdx = 0,
+        rightIdx = 0
+
+    while (leftIdx < leftLen && rightIdx < rightLen) {
+        result.push(leftList[leftIdx] <= rightList[rightIdx] ? leftList[leftIdx++] : rightList[rightIdx++])
     }
 
-    if (i < leftLen) result.push(...leftList.slice(i))
-    else result.push(...rightList.slice(j))
+    if (leftIdx < leftLen) result.push(...leftList.slice(leftIdx))
+    else result.push(...rightList.slice(rightIdx))
 
     return result
 }

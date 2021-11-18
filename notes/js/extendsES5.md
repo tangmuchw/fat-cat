@@ -16,6 +16,6 @@
 
  // 寄生组合式继承
  //  Child.prototype = new Parent()
- Child.prototype = Object.create(parent)
+ Child.prototype = Object.create(Parent.prototype)
  Child.prototype.constructor = Child
 ```
