@@ -1,9 +1,8 @@
 [toc]
 
-#Promise: 该对象用于表示一个异步操作的最终状态（完成或失败），以及该异步操作的结果值。
-<br />
+# Promise: 该对象用于表示一个异步操作的最终状态（完成或失败），以及该异步操作的结果值。
 
-##状态：
+## 状态：
 
 - pending: 初始状态，既不是成功，也不是失败状态
 - fulfilled: 操作成功
@@ -24,7 +23,7 @@
   });
 ```
 
-###Simple Try
+### Simple Try
 
 ```JavaScript
   function Promise(executor){
@@ -45,6 +44,7 @@
       if (self.status === 'pending') {
         self.error = err;
         self.status = 'rejected'
+        return
       }
     }
 
@@ -71,7 +71,7 @@
   }
 ```
 
-###Test
+### Test
 
 ```Javascript
    var testPromise = new Promise(function(resolve, reject) {
@@ -82,7 +82,7 @@
    })
 ```
 
-###Advanced Try
+### Advanced Try
 
 ```JavaScript
   const PENDING = 'pending';
@@ -221,13 +221,13 @@
       let results = [],
         account = 1;
 
-      function processData(index, y) {
-        results[index] = y;
+      function processData(index, ret) {
+        results[index] = ret;
         if(++account == promises.length) resolve(results);
       }
 
       for(let key = 0; key < promises.length; key++) {
-        promises[key].then((y) => processData(key, y), reject)
+        promises[key].then((ret) => processData(key, ret), reject)
       }
     });
   }
