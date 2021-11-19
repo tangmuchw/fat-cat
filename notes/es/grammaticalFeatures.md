@@ -78,10 +78,10 @@ const match = reg.exec('2021-02-23'); // groups:{ day: '23', month: '02', year: 
 
 - 正则表达时反向断言
 
-  - ?=pattern 正向肯定预查
-  - ?!pattern 正向否定预查
-  - ?<=pattern 反向肯定预查
-  - ?<!pattern 反向否定预查
+  - ?=pattern 先行断言
+  - ?!pattern 正向否定查找
+  - ?<=pattern 后行断言
+  - ?<!pattern 反向否定查找
 
 ```JavaScript
    (?=p)、(?<=p)  p 前面(位置)、p 后面(位置)

@@ -15,7 +15,7 @@
 - 执行关键的 make 钩子，即开始执行真正的编译，这里会调用 loader 对代码解析，递归模块的依赖解析等
 - make 结束后，进入 compilation 的 seal 阶段，这个阶段会创建 chunk，并且有许多用于处理优化的 hook
 
-### run
+## run
 
 - 先经过 beforeRun、run 的钩子，进入 compile 方法
 - 在 compile 中经过 beforeCompile、compile 钩子后，**实例化 compilation**，来到真正执行编译的钩子 make

@@ -46,7 +46,7 @@ console.log(foo(5)) // 30
  const findTwiceEle = (list) => {
      const len = list.length
 
-     for(let i = 0; i < len - 1; i++){
+     for(let i = 0; i < len; i++){
          const ele = list[i]
          const idx = ele - 1
 
@@ -59,7 +59,7 @@ console.log(foo(5)) // 30
 
      console.log('list =>',list) //  [1, 2, 3, 4, 3, 2, 7, 8]
 
-     for(let j = 0; j < len - 1; j++) {
+     for(let j = 0; j < len; j++) {
          if(list[j] - 1 !== j) {
              list.push(list[j])
          }
@@ -327,6 +327,17 @@ const swap = (list, idxA, idxB) => {
 
      return getSum(root.left, sum) + getSum(root.right, sum)
  }
+
+// const getSum = (data, num = data.val) => {
+//     const { left, right } = data
+
+//     if (left && right) {
+//         const nextNum = num * 10
+//         return getSum(left, nextNum + left.val) + getSum(right, nextNum + right.val)
+//     }
+
+//     return num
+// }
 
  console.log(getSum(root, 0))
 ```
