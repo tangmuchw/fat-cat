@@ -31,17 +31,18 @@ const getMaxProfit = (costs = [3000, 2000, 1500], weights = [4, 3, 1], maxWeight
     const planLen = costs.length - 1
     const dp = [[]]
 
-    for (let i = 0; i <= maxWeight; i++) {
-        dp[0][i] = i < weights[0] ? 0 : costs[0]
+    for (let i = 0; i <= maxWeight; i++) dp[0][i] = i < weights[0] ? 0 : costs[0]
+    for (let j = 1; j <= planLen; j++) {
+        dp[j] = new Array(maxWeight)
+        dp[j][0] = 0
     }
 
-    for (let m = 0; m <= maxWeight; m++) {
-        for (let n = 1; n <= planLen; n++) {
-            if (!dp[n]) dp[n] = []
+    for (let i = 1; i <= planLen; i++) {
+        for (let j = 1; j <= maxWeight; j++) {
+            const weight = weights[i]
 
-            if (m < weights[n]) dp[n][m] = dp[n - 1][m]
-            else dp[n][m] = Math.max(dp[n - 1][m], costs[n] + dp[n - 1][m - weights[n]])
-
+            if (j < weight) dp[i][j] = dp[i - 1][j - 1]
+            else dp[i][j] = Math.max(dp[i - 1][j - 1], costs[i] + dp[i - 1][j - weight])
         }
     }
 
