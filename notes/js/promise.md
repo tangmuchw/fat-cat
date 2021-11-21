@@ -28,9 +28,9 @@
 ```JavaScript
   function Promise(executor){
     let self = this,
-      status = 'pending',
-      data = undefined,
-      error = undefined;
+      self.status = 'pending',
+      self.data = undefined,
+      self.error = undefined;
 
     function resolve(val) {
       if (self.status === 'pending' ) {

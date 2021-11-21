@@ -26,6 +26,7 @@
 - [深度优先遍历](./notes/algorithm/depthFirstSearch.md)
 - [排序](./notes/algorithm/sort.md)
 - [时间和空间复杂度](./notes/algorithm/timeAndSpaceComplexity.md)
+- [动态规划](./notes/algorithm/dynamicProgramming.md)
 
 ## CSS
 

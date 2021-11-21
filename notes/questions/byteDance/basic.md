@@ -197,7 +197,7 @@ const swap = (list, idxA, idxB) => {
 > 输出： 15
 > 解释：最低花费是从 cost[1]开始，然后走两步即可到阶梯顶，一共花费 15
 
-> 解题：比如当前是第 6 级阶梯，则站在这级台阶需要的体力就是 min{站在第五计级的最小体力 + 这一级体力，站在第四级的最小体力 + 这一级体力 }
+> 解题：比如当前是第 6 级阶梯，则站在这级台阶需要的体力就是 min{站在第五级的最小体力 + 这一级体力，站在第四级的最小体力 + 这一级体力 }
 
 ```JavaScript
     const minCostClimbStairs = (cost = []) => {
@@ -220,44 +220,50 @@ const swap = (list, idxA, idxB) => {
 > 输出：3
 > 解释： horse => rorse (将'h'替换'r') => rose (删除'r') => ros (删除'e')
 
+| \*  | ""  | r   | o   | s   |
+| --- | --- | --- | --- | --- |
+| ""  | 0   | 1   | 2   | 3   |
+| h   | 1   | 1   | 2   | 2   |
+| o   | 2   | 2   | 1   | 3   |
+| r   | 3   | 2   | 2   | 2   |
+| s   | 3   | 3   | 3   | 2   |
+| e   | 3   | 4   | 4   | 3   |
+
+- add = dp[i, j - 1], 代表插入一个字符
+- delete = dp[i - 1, j]，代表删除一个字符
+- replace = dp[i - 1, j - 1]，代表替换一个字符
+- dp = 1 + min(add, delete, replace)
+
 ```JavaScript
-    const minDistance = (word1, word2) => {
-        const len1 = word1.length
-        const len2 = word2.length
+    const getMinDistance = (word1 = 'horse', word2 = 'ros') => {
+        let len1 = word1.length
+        let len2 = word2.length
 
-        if(len1 === 0) return len1
-        if(len2 === 0) return len2
+        let dp = [[]]
 
-        let dp = new Array()
+        // 默认第 0 行 和 第 0 列字符变为空字符为被删除的次数
+        for (let i = 0; i <= len2; i++) dp[0][i] = i
+        for (let j = 1; j <= len1; j++) {
+            dp[j] = []
+            dp[j][0] = j
+        }
 
-        dp[0][0] = 0
-
-        for(let i = 1; i <= len1; i++) dp[i][0] = i
-        for(let j = 1; j <= len2; j++) dp[0][j] = i
-
-        for(let m = 1; m <= len1; m++){
-            for(let n = 1; n <= len2; n++) {
-                if(word[m -1] === word[n - 1]){
-                    // dp[1][1] = dp[0][0]
-                    dp[i][j] = dp[i - 1][j - 1]
-                } else {
-                    // min(dp[0][1] + 1, min(dp[1][0] + 1, dp[0][0] + 1 ))
-                    dp[i][j] = Math.min(
-                        dp[i - 1][j] + 1,
-                        Math.min(
-                            dp[i][j - 1] + 1,
-                            dp[i - 1][j - 1] + 1
-                        )
-                    )
-                }
+        for (let i = 1; i <= len1; i++) {
+            for (let j = 1; j <= len2; j++) {
+                if (word1[i - 1] === word2[j - 1]) dp[i][j] = dp[i - 1][j - 1]
+                else dp[i][j] = Math.min(
+                    dp[i - 1][j - 1],
+                    dp[i - 1][j],
+                    dp[i][j - 1]
+                ) + 1
             }
         }
 
-        return dp[len1][len2]
 
+        return dp[len1][len2]
     }
 
-    console.log(minDistance('horse', 'ros')) // 3
+    console.log(getMinDistance('horse', 'ros')) // 3
 ```
 
 ## 简单说一下 react 16.x 执行过程
@@ -331,12 +337,10 @@ const swap = (list, idxA, idxB) => {
 // const getSum = (data, num = data.val) => {
 //     const { left, right } = data
 
-//     if (left && right) {
-//         const nextNum = num * 10
-//         return getSum(left, nextNum + left.val) + getSum(right, nextNum + right.val)
-//     }
+//     if (left === null || right === null) return num
 
-//     return num
+//     const nextNum = num * 10
+//     return getSum(left, nextNum + left.val) + getSum(right, nextNum + right.val)
 // }
 
  console.log(getSum(root, 0))

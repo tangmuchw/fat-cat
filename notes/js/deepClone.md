@@ -26,7 +26,7 @@ const simpleDeepClone = (origin) => {
 const deepClone = (origin, newObj) => {
     let temp = newObj
         ? newObj
-        : origin.constructor === Array ? {}: []
+        : origin.constructor === Array ? []: {}
 
     for(let key in origin){
         if(typeof origin[key] === 'object'){
@@ -81,7 +81,6 @@ const deepClone = (origin, newObj) => {
 
         // 处理引用类型
         let  temp = Array.isArray(origin) ? [] : getCopyReferenceType(origin, getPrototypeStr(origin))
-
 
         // 处理循环引用
         if(wMap.has(origin)) return wMap.get(origin)
