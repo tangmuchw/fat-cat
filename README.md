@@ -42,6 +42,8 @@
 
 - [发布订阅者模式](./notes/design/publish&subscribe.md)
 
+- [单例模式](./notes/design/singleMode.md)
+
 ## HTTP
 
 - [缓存](./notes/http/cache.md)
