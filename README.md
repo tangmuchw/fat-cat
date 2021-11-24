@@ -111,8 +111,10 @@
 
 ## Security
 
-- [SCRF](./notes/security/CSRF.md)
+- [CSRF](./notes/security/CSRF.md)
 - [DDos](./notes/security/DDos.md)
+- [DNSHijack](./notes/security/DNSHijack.md)
+- [JSONHijack](./notes/security/JSONHijack.md)
 - [XSS](./notes/security/XSS.md)
 
 ## Interview
