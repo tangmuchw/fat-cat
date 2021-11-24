@@ -14,10 +14,10 @@
 
 > 缓存校验有：Expires，Last-Modified，E-Tag
 
-> 在 chrome 浏览器中返回的 200 状态会有两种状态：
+> chrome 浏览器中返回的 200 状态会有两种状态：
 
 - from memory cache (从内存中获取/一般缓存封信频率较高的 js、图片和字体等资源)
-- from disk cache (从字盘中获取/一般缓存更新频率较低的 js 和 css 等资源)
+- from disk cache (从磁盘中获取/一般缓存更新频率较低的 js 和 css 等资源)
 
 ## 协商缓存
 
