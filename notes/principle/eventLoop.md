@@ -100,3 +100,62 @@
 ### 甜品-await
 
 - 实际上 await 是**一个让出线程的标志**，await 后面的表达式会先执行一遍，将 await 后面的代码加入到 micro task 中，然后就会跳出 async 函数来执行后面的代码
+
+## Promise.then 的执行顺序
+
+- 当前一个 then 中的代码都是同步执行的，执行结束后第二个 then 即可注册进入微任务队列
+- 当前一个 then 中有 return 关键字，需要 return 的内容完全执行结束,第二个 then 才会注册进入微任务队列
+
+```JavaScript
+new Promise((resolve, reject) => {
+    console.log(1)
+    reject(2)
+    console.log(2)
+})
+    .then(() => console.log(3))
+    .catch(() => console.log(4))
+    .then(() => {
+        console.log(5)
+        Promise.reject().catch(() => console.log('5-1'))
+    })
+    .catch(() => console.log(6))
+    .then(() => {
+        console.log(7)
+        new Promise((resolve, reject) => {
+            console.log(8)
+            resolve()
+        })
+            .then(() => console.log(9))
+            .then(() => console.log(10))
+
+
+        Promise.resolve().then(() => console.log('promise.resolve'))
+
+        // 有没有 return 结果是一样的
+        return new Promise((resolve, reject) => {
+            console.log(11)
+            reject()
+        })
+            .then(() => console.log(12))
+            .catch(() => console.log(13))
+            .then(() => console.log(15))
+    })
+    .catch(() => console.log(16))
+    .then(() => console.log(17))
+
+// 1
+// 2
+// 4
+// 5
+// 5-1
+// 7
+// 8
+// 11
+// 9
+// promise.resolve
+// 10
+// 13
+// 15
+// 17
+
+```
