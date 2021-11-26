@@ -17,3 +17,45 @@ const getRest = (...params) => {
 ```
 
 - 箭头函数不能作 Generator 函数，不能使用 yield 关键字
+
+# 如何让 (a == 1 && a ==2 && a == 3) 返回 true
+
+```JavaScript
+const a = {
+    val: 1,
+    toString: function(){
+        return a.val++
+    },
+    // valueOf: function(){
+    //     return a.val++
+    // }
+}
+
+// 利用 Proxy，可以将读取属性的操作（get），转变为执行某个函数，从而实现属性的链式操作
+// const a = new Proxy({ val: 1}, {
+//     get(target){
+//         return () => target.val++
+//     }
+// })
+
+console.log(a == 1 && a ==2 && a == 3) // true
+
+```
+
+# 检查输出值
+
+```JavaScript
+function wrapFunction(func) {
+    return function () {
+        const args = Array.prototype.slice.call(arguments);
+        func.apply(args)
+    }
+}
+const ins = {
+    method: (
+        () => { return wrapFunction(function () { console.log(this) }) }
+    )()
+}
+
+ins.method(10)
+```
