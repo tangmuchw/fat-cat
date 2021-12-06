@@ -13,9 +13,11 @@
 const removeDuplicates = (list) => {
     if(!Array.isArray(list)) return 0
 
+    const len = list.length
+
     let left = 0
 
-    for(let right = 1; right < list.length; right++) {
+    for(let right = 1; right < len; right++) {
         // 如果左指针和右指针指向的值一样，说明有重复
         // 这个时候，左指针不动，右指针继续右移
         // 如果他俩指向的值是不一样，就使右指针指向的值赋值到左指针 +1 上,
