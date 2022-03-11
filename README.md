@@ -117,6 +117,14 @@
 - [JSONHijack](./notes/security/JSONHijack.md)
 - [XSS](./notes/security/XSS.md)
 
+## Tech
+
+- [Docker](./tech/docker.md)
+- [Nginx](./tech/nginx.md)
+- [Prisma](./tech/prisma.md)
+- [SSG](./tech/ssg.md)
+- [SSR](./tech/ssr.md)
+
 ## Interview
 
 - [Skill Demands](./interview/skills.md)
