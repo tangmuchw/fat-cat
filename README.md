@@ -130,6 +130,14 @@
 ### 问答题
 
 - [箭头函数与普通函数区别？能不能作为构造函数？](./notes/questions/arrowFunc&normalFunc.md)
+- [对 requestAnimationFrame 的理解](./notes/questions/requestAnimationFrame.md)
+- [package.json 中的 peerDependencies 的作用](./notes/questions/packageJson&peerDependencies.md)
+- [虚拟 DOM 的好处](./notes/questions/virtualDomAdvantages.md.md)
+- [简单说一下 react 16.x 执行过程](./notes/questions/react16xImplementation.md)
+- [cookie 跨域时候要如何处理](./notes/questions/crossCookieNginx.md)
+- [301, 302, 303, 307, 308 的区别](./notes/questions/crosCookieNginx.md)
+- [Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办](./notes/questions/maxNumber.md)
+- [Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办](./notes/questions/jsBasicDataTypes.md)
 
 ### 编程题
 
@@ -138,6 +146,16 @@
 - [字符串的全排列](./notes/questions/programing/transferStrWithNum.md)
 - [如何让 (a == 1 && a ==2 && a == 3) 返回 true](./notes/questions/programing/equalValue.md)
 - [将单个函数参数转化成 this 输出](./notes/questions/programing/wrapFunction.md)
+- [compose 实现](./notes/questions/programing/composeFuncs.md)
+- [找出所有出现两次的元素。需要不用到任何额外的空间并在 O(n)时间复杂度内解决这个问题](./notes/questions/programing/findTwiceEle.md)
+- [给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素](./notes/questions/programing/twoSum.md)
+- [简单的洗牌算法](./notes/questions/programing/shuffle.md)
+- [数组中的第 K 个最大元素，在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素](./notes/questions/programing/findKthLargest.md)
+- [爬楼梯。假设你正在爬楼梯，需要 n 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶，你有多少种不同的不同的方法可以爬到楼顶](./notes/questions/programing/climbStairs.md)
+- [使用最小花费爬楼梯。数组的每个索引作为一个阶梯，第 i 个阶梯对应着一个非负数的体力花费之 cost[i](索引从 0 开始)，每当你爬上一个阶梯你都要花费对应的体力花费，然后你可以选择继续爬一个阶梯或者两个阶梯。您需要找到达到楼层顶部的最低花费。在开始时，你可以选择从索引 0 或 1 的元素作为初始阶梯](./notes/questions/programing/minCostClimbStairs.md)
+- [编辑距离。给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数。可以对一个单词进行如下操作：1.插入一个字符 2.删除一个字符 3.替换一个字符梯](./notes/questions/programing/getMinDistance.md)
+- [求二叉树所有根到叶子路径组成的数字之和](./notes/questions/programing/getTreeNodesSum.md)
+- [compareVersion(version1, version2) {} 版本号可能是 7.5.0 或者 1.12 这种格式，输出较大的版本号](./notes/questions/programing/compareMaxVersion.md)
 
 ## Interview
 

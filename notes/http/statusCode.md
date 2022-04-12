@@ -58,7 +58,7 @@
 - 请求方法和主体不会被更改
 - 浏览器重定向到这个页面，搜索引擎更新它们到资源的链接（在 SEO 中，据说链接被发送到新的 URL）
 
-> [301 与 308 的区别？ 302, 303 和 307 的区别？](../questions/byteDance/basic.md)
+> [301 与 308 的区别？ 302, 303 和 307 的区别？](../questions/redirectDistinction.md)
 
 ## 400 Bad Request
 
