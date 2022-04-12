@@ -8,7 +8,7 @@
 
 > email: tangmuchw@163.com
 
-> description: Weekly study notes about front-end technology, mainly javascript, secondary unlimited.
+> description: studying notes about front-end technology, mainly javascript, secondary unlimited.
 
 ---
 
@@ -33,6 +33,7 @@
 - [CSS 权重](./notes/css/cssWeight.md)
 - [Flex 布局](./notes/css/flex.md)
 - [媒体查询属性](./notes/css/media.md)
+- [scroll-snap-type](./notes/css/scrollSnapType.md)
 
 ## Browser
 
@@ -41,7 +42,6 @@
 ## Design Patterns
 
 - [发布订阅者模式](./notes/design/publish&subscribe.md)
-
 - [单例模式](./notes/design/singleMode.md)
 
 ## HTTP
@@ -124,6 +124,20 @@
 - [Prisma](./tech/prisma.md)
 - [SSG](./tech/ssg.md)
 - [SSR](./tech/ssr.md)
+
+## Questions
+
+### 问答题
+
+- [箭头函数与普通函数区别？能不能作为构造函数？](./notes/questions/arrowFunc&normalFunc.md)
+
+### 编程题
+
+- [合并两个有序数组](./notes/questions/programing/mergeOrderedArray.md)
+- [将 'aabbcca' 转变成 'a2b2c2a1'](./notes/questions/programing/transferStrWithNum.md)
+- [字符串的全排列](./notes/questions/programing/transferStrWithNum.md)
+- [如何让 (a == 1 && a ==2 && a == 3) 返回 true](./notes/questions/programing/equalValue.md)
+- [将单个函数参数转化成 this 输出](./notes/questions/programing/wrapFunction.md)
 
 ## Interview
 

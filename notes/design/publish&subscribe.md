@@ -22,7 +22,7 @@
         console.log(args)
         typeof fn === 'function' && fn.apply(this, args)
      },
-     remove: function(key){
+     remove: function(key) {
         const _map = this.queue
         const hasKey = _map.has(key)
 

@@ -18,7 +18,7 @@
 
      caller[fn] = this // this 指向调用 call 的对象, 即改变 this 指向的函数
 
-     const result = caller[fn](...arg) // 执行当前函数
+     const result = caller[fn](...args) // 执行当前函数
 
      delete caller[fn] // 删除声明的fn属性
      return result
