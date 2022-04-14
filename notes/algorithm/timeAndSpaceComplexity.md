@@ -7,3 +7,57 @@
 | O(n^2)   | 对 n 个数排序，需要扫描 n\*n 次                                                                           | 冒泡算法                                                                                       |
 | O(logn)  | 当数据增大 n 倍，耗时增大 logn 倍(这里的 log 是以 2 为底，比如，**当数据增大 256 倍时，耗时只增大 8 倍)** | 二分查找就是 O(logn) 的算法，每找一次排除一半的可能，256 个数据中查找只要找 8 次就可以找到目标 |
 | O(nlogn) | 就是 n*logn, 当数据增大 256 倍时，耗时增大 256*8 倍。**这个复杂度高于线性低于平方**                       |
+
+## 递归算法的时间复杂度
+
+> 其本质是 **递归的次数与每次递归的的时间复杂度的乘积**
+
+```Javascript
+const fibonacci = (i) => {
+    if(i <= 0) return 0
+    if(i === 1) return 1
+
+    return fibonacci(i - 1) + fibonacci(i - 2)
+}
+// 每次递归都是时间复杂度为 O(1) 的操作
+// 以 i = 4 为例抽象成一棵递归树，可以看出 一棵深度为 k 的二叉树最多可以有 2^k - 1 个节点
+// 所以该递归算法的时间复杂度为 O(2^n)
+
+// 每次递归的空间复杂度为 O(1), 调用栈深度为 n，所以其空间复杂度为 O(n)
+```
+
+```Javascript
+const fibonacciUp = (first = 0, second = 1, n) => {
+    if(i <= 0) return 0
+
+    if(i < 3) {
+        return 1
+    } else if(i === 3) {
+        return first + second
+    } else {
+        return fibonacci(second, first + second, n - 1)
+    }
+}
+
+// 这里相当于用 first 和 second 记录了当前相加的两个数值，此时就不必使用两次递归
+// 因为每次递归的时候 n 要减 1，即递归了 n 次，所以时间复杂度为 O(n)
+// 递归的深度依然是 n，所以空间负责度为 O(n)
+```
+
+## 空间复杂度
+
+```JavaScript
+let j = 0, n = 20
+for (let i = 0; i < n; i++) {
+    j++
+}
+// 消耗的内存空间并不会随着 n 的变化而变化，空间复杂度为一个常量，即 O(1)
+```
+
+```JavaScript
+let list = new Array(26)
+for (let i = 0; i < list.length; i++) {
+    list[i] = i
+}
+// 当消耗的空间和输入参数保持线性增长时，这时空间复杂度为 O(n)
+```

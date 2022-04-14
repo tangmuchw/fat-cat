@@ -22,4 +22,5 @@
 
 ```JavaScript
  'A'.charCodeAt() // 65
+ 'a'.charCodeAt() // 97
 ```

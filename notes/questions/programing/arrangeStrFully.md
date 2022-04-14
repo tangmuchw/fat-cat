@@ -13,7 +13,7 @@ const arrangeStr = (str) => {
     let result = []
     for(let i = 0; i < len; i++) {
         let pivotChar = str[i],
-         nextStr = str.slice(0, i) + str.slice(i + 1),
+         nextStr = str.slice(0, i) + str.slice(i + 1), // i = 0, nextStr = 'bc'
          newResult = arrangeStr(nextStr)
 
         const newLen = newResult.length

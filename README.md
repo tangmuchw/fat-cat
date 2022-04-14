@@ -143,7 +143,7 @@
 
 - [合并两个有序数组](./notes/questions/programing/mergeOrderedArray.md)
 - [将 'aabbcca' 转变成 'a2b2c2a1'](./notes/questions/programing/transferStrWithNum.md)
-- [字符串的全排列](./notes/questions/programing/transferStrWithNum.md)
+- [字符串的全排列](./notes/questions/programing/arrangeStrFully.md)
 - [如何让 (a == 1 && a ==2 && a == 3) 返回 true](./notes/questions/programing/equalValue.md)
 - [将单个函数参数转化成 this 输出](./notes/questions/programing/wrapFunction.md)
 - [compose 实现](./notes/questions/programing/composeFuncs.md)
@@ -156,6 +156,7 @@
 - [编辑距离。给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数。可以对一个单词进行如下操作：1.插入一个字符 2.删除一个字符 3.替换一个字符梯](./notes/questions/programing/getMinDistance.md)
 - [求二叉树所有根到叶子路径组成的数字之和](./notes/questions/programing/getTreeNodesSum.md)
 - [compareVersion(version1, version2) {} 版本号可能是 7.5.0 或者 1.12 这种格式，输出较大的版本号](./notes/questions/programing/compareMaxVersion.md)
+- [给出 n 个字母（小写字母从 a 到 z），找出出现次数最多的字母，输出该字母](./notes/questions/programing/getMostOccurrenceLetter.md)
 
 ## Interview
 
