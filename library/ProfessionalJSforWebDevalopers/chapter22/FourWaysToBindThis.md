@@ -6,7 +6,7 @@
 
 ## 默认绑定
 
-> 默认绑定时，使用严格模式，不能讲全局对象用于默认绑定，<code>this</code> 会绑定到<code>undefined</code>
+> 默认绑定时，使用严格模式，不能将全局对象用于默认绑定，<code>this</code> 会绑定到<code>undefined</code>
 
 ```JavaScript
 function say(){
@@ -48,6 +48,7 @@ function createBoy() {
 const boy = createBoy()
 
 boy.say() // tmchw
+person.say() // tmchw
 ```
 
 ### 隐式丢失
@@ -84,6 +85,7 @@ function talk(fn){
 const person = {
     name: 'tmchw',
     say,
+}
 
 talk(person.say) // undefined
 

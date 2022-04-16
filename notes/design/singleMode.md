@@ -18,7 +18,7 @@ var LazySingle = (function(){
     }
 
     // 获取单例对象接口
-    return  function(){
+    return  function() {
         if(!_instance) {
             // _instance = new Single()
             _instance = Single()

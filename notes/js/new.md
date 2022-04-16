@@ -33,7 +33,7 @@
    return obj;
  }
 
- function A(){}
+ function A() {}
 
  var instanceA1 = _new(A, 1, 2);
  var instanceA2 = new A(1, 2);
@@ -45,7 +45,7 @@
 ## 举个栗子
 
 ```JavaScript
- function A(){
+ function A() {
    this.a = 1 // 执行A(), 这里的 this 指向的是 window
 
    return {

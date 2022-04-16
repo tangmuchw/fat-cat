@@ -34,6 +34,10 @@
 - [Flex 布局](./notes/css/flex.md)
 - [媒体查询属性](./notes/css/media.md)
 - [scroll-snap-type](./notes/css/scrollSnapType.md)
+- [盒模型介绍](./notes/css/boxModel.md)
+- [重排和重绘](./notes/css/reflow&repaint.md)
+- [经典三分栏布局](./notes/css/threeColumnLayout.md)
+- [line—height 如何继承](./notes/css/lineHeight.md)
 
 ## Browser
 
@@ -55,6 +59,7 @@
 - [TCP](./notes/http/tcp.md)
 - [三次握手](./notes/http/threeWayHandshake.md)
 - [UDP](./notes/http/udp.md)
+- [DNS 解析](./notes/http/dns.md)
 
 ## JS
 
@@ -83,7 +88,7 @@
 
 ## Module
 
-- [认识 CJS、AMD、UMD 和 ESM](./notes/js/throttle.md)
+- [认识 CJS、AMD、UMD 和 ESM](./notes/module/buildModuleTypes.md)
 
 ## TS
 
@@ -108,6 +113,9 @@
 - [setState](./notes/react/setState.md)
 - [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
 - [DOM Update Process](./notes/react/domUpdateProcess.md)
+- [事件机制](./notes/react/eventMechanism.md)
+- [useEffect 和 useLayoutEffect 区别](./notes/react/useEffect&useLayoutEffect.md)
+- [React.memo 和 useMemo 区别](./notes/react/memo&useMemo.md)
 
 ## Security
 
@@ -124,6 +132,7 @@
 - [Prisma](./tech/prisma.md)
 - [SSG](./tech/ssg.md)
 - [SSR](./tech/ssr.md)
+- [技术调研的核心步骤](./tech/researchSteps.md)
 
 ## Questions
 
@@ -157,6 +166,13 @@
 - [求二叉树所有根到叶子路径组成的数字之和](./notes/questions/programing/getTreeNodesSum.md)
 - [compareVersion(version1, version2) {} 版本号可能是 7.5.0 或者 1.12 这种格式，输出较大的版本号](./notes/questions/programing/compareMaxVersion.md)
 - [给出 n 个字母（小写字母从 a 到 z），找出出现次数最多的字母，输出该字母](./notes/questions/programing/getMostOccurrenceLetter.md)
+
+## LeetCode
+
+- [存在重复元素](./leetcode/containsDuplicate.md)
+- [买卖股票的最佳时机 II](./leetcode/maxProfit.md)
+- [删除排序数组中的重复项](./leetcode/removeDuplicates.md)
+- [旋转数组](./leetcode/rotateArray.md)
 
 ## Interview
 

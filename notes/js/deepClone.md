@@ -29,7 +29,7 @@ const deepClone = (origin, newObj) => {
         : origin.constructor === Array ? []: {}
 
     for(let key in origin){
-        if(typeof origin[key] === 'object'){
+        if(typeof origin[key] === 'object') {
             temp[key] = origin[key].constructor === Array ? [] :{}
             deepClone(origin[key], temp[key])
         } else {
@@ -38,6 +38,25 @@ const deepClone = (origin, newObj) => {
     }
 
     return temp
+}
+```
+
+```JavaScript
+const deepClone = (obj = {}, weakMap = new WeakMap()) => {
+    if(typeof obj !== 'object') return obj
+
+    if(weakMap.get(obj)) return weakMap.get(obj)
+
+
+    const result = obj instanceof Array || Object.prototype.toString.call(obj) === '[object Array]' ? [] : {}
+
+    for(let key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            result[key] = deepClone(obj[key], weakMap)
+        }
+    }
+
+    return result
 }
 ```
 

@@ -37,6 +37,7 @@ const maxProfit = (prices) => {
 ```
 
 - 使用动态规划
+  - 建立数学模型
 
 ```JavaScript
 

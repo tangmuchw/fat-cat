@@ -5,6 +5,8 @@
 - 一个 Event Loop => 一个或者多个任务队列（task queue）
 - 一个任务队列 => 一系列有序任务（task）的集合
 - 每个任务 => 一个任务源（task source）
+- **其组成： Call stack 调用栈，Web APIs, Event Loop, Callback Queue 回调队列**
+- Web APIs 会穿件对应的线程，比如 setTimeOut 会创建定时器线程，ajax 请求会创建 http 线程等
 
 ## 特点
 
@@ -62,7 +64,7 @@
 
 ### 主菜-宏任务
 
-- 概念：每次执行栈执行的代码就是一个宏任务（macro task）
+- 概念：每次执行栈执行的代码就是一个宏任务（macro task），DOM 渲染后触发
 - 与 DOM 任务交互流程： 会在一个 macro task 执行结束后，在下一个 macro task 执行开始前，对页面进行渲染, 即 macro task => 渲染 => macro task
 - 场景：
   - script（整体代码）
@@ -76,7 +78,7 @@
 
 ### 主菜-微任务
 
-- 概念：在当前 task 执行结束后立即执行的任务（micro task）
+- 概念：在当前 task 执行结束后立即执行的任务（micro task），DOM 渲染前触发
 - 场景：
   - Promise.then
   - MutationObserver: 提供了监视对 DOM 树所做更改的能力
@@ -104,13 +106,13 @@
 ## Promise.then 的执行顺序
 
 - 当前一个 then 中的代码都是同步执行的，执行结束后第二个 then 即可注册进入微任务队列
-- 当前一个 then 中有 return 关键字，需要 return 的内容完全执行结束,第二个 then 才会注册进入微任务队列
+- 当前一个 then 中有 return 关键字，需要 return 的内容完全执行结束，第二个 then 才会注册进入微任务队列
 
 ```JavaScript
 new Promise((resolve, reject) => {
     console.log(1)
     reject(2)
-    console.log(2)
+    console.log(2) // 会被输出
 })
     .then(() => console.log(3))
     .catch(() => console.log(4))
