@@ -2,6 +2,16 @@
 
 > 动态规划先解决子问题，再逐步解决大问题
 
+## 对于动态规划问题，下面将其拆解为如下“五部曲”：
+
+- 确定 dp 数组（dp table）及下标的含义
+- 确定递推公式
+- 初始化 dp 数组
+- 确定遍历顺序
+- 举例推导 dp 数组
+
+> tips: 做动态规划的题目，写代码之前一定要把状态转在 dp 数组中具体情况模拟一遍，做到心中有数，确定最后推导出的是想要的结果
+
 ## 绘制网格
 
 > 用于解决这个问题的网格是什么样的呢？要确定这一点，得回答如下问题
@@ -9,6 +19,58 @@
 - 单元格中的值是什么
 - 如何将这个问题划分为子问题
 - 网格的坐标轴是什么
+
+## 斐波那契数列
+
+> F(0)=0，F(1)=1，F(n)=F(n - 1) + F(n - 2)
+
+### 解法一
+
+```JavaScript
+const fabonacci = (n) => {
+    if(n <=1) return 0
+
+    const dp = new Array(n + 1)
+
+    dp[0] = 0
+    dp[1] = 1
+
+    for(let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2]
+    }
+
+    return dp[i]
+}
+
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)
+
+```
+
+### 优化版
+
+```JavaScript
+const fabonacci = (n) => {
+    if(n <=1) return 0
+
+    const dp = new Array(2)
+
+    dp[0] = 0
+    dp[1] = 1
+
+    for(let i = 2; i <= n; i++) {
+        let sum = dp[0] + dp[1]
+        dp[0] = dp[1]
+        dp[1] = sum
+    }
+
+    return dp[1]
+}
+
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
+
+```
 
 ## 背包问题
 
@@ -20,6 +82,11 @@
 
 > 解析，横坐标为 1~4 磅的背包容量
 
+- 确定 dp[i]\[j]: 从下标为 0~i 的物品中取任意物品并放进容量为 j 的背包的价值总和
+- 确定递推公式
+  - dp[i - 1]\[j]: 容量为 j，里面不放物品 i 的最大价值，此时 dp[i][j] = dp[i - 1][j]
+  - dp[i - 1]\[j - weights[i]]：容量为 j - weights[i] 时不放物品 i 的最大价值，那么 物品 i 的最大价值为 dp[i - 1]\[j - weights[i]] + value[i]
+
 | \*            | 1       | 2       | 3       | 4                      |
 | ------------- | ------- | ------- | ------- | ---------------------- |
 | 音响(A)       | 0       | 0       | 0       | 3000(A)                |
@@ -28,21 +95,21 @@
 
 ```JavaScript
 const getMaxProfit = (costs = [3000, 2000, 1500], weights = [4, 3, 1], maxWeight = 4) => {
-    const planLen = costs.length - 1
+    const planLen = costs.length
     const dp = [[]]
 
     for (let i = 0; i <= maxWeight; i++) dp[0][i] = i < weights[0] ? 0 : costs[0]
-    for (let j = 1; j <= planLen; j++) {
+    for (let j = 1; j < planLen; j++) {
         dp[j] = new Array(maxWeight)
         dp[j][0] = 0
     }
 
-    for (let i = 1; i <= planLen; i++) {
+    for (let i = 1; i < planLen; i++) {
         for (let j = 1; j <= maxWeight; j++) {
             const weight = weights[i]
 
-            if (j < weight) dp[i][j] = dp[i - 1][j - 1]
-            else dp[i][j] = Math.max(dp[i - 1][j - 1], costs[i] + dp[i - 1][j - weight])
+            if (weight > j) dp[i][j] = dp[i - 1][j]
+            else dp[i][j] = Math.max(dp[i - 1][j], costs[i] + dp[i - 1][j - weight])
         }
     }
 
