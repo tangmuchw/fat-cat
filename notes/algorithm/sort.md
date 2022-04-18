@@ -35,7 +35,7 @@
 
 ```JavaScript
 const bubbleSort = (list) => {
-   const len = list?.length
+   const len = list?.length - 1
 
    if(!len) return []
 
@@ -44,7 +44,7 @@ const bubbleSort = (list) => {
    const count = len - 1
    for(let i = 0; i < len; i++) {
        for(let j = 0; j < count; j++){
-           if(list[j] > list[j + 1]) [list[j + 1], list[j]] = [list[j], list[j]]
+           if(list[j] > list[j + 1]) [list[j + 1], list[j]] = [list[j], list[j + 1]]
        }
    }
 
