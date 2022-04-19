@@ -38,6 +38,8 @@
 - [重排和重绘](./notes/css/reflow&repaint.md)
 - [经典三分栏布局](./notes/css/threeColumnLayout.md)
 - [line—height 如何继承](./notes/css/lineHeight.md)
+- [CSS3 利用伪元素(::before)获取标签自定义属性(data-xx)的值](./notes/css/before.md)
+- [ CSS 实现自适应正方形](./notes/css/adaptiveSquare.md)
 
 ## Browser
 

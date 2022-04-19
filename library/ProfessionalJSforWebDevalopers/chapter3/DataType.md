@@ -9,6 +9,12 @@
 - 'object'
 - 'function'
 
+> 注意一点
+
+- typeof NaN === 'number' // true
+- typeof undefined === 'undefined' // true
+- typeof null === 'object' // true
+
 ## 5 种基本数据类型 + 1 种复杂数据类型
 
 - Undefined, Null, Boolean, Number, String
