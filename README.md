@@ -19,6 +19,7 @@
 - [HTTP 权威指南](./library/TheDefinitiveGuideOfHTTP/README.md)
 - [深入浅出 Webpack](./library/Webpack/README.md)
 - [算法图解](./library/AlgorithmDiagram/README.md)
+- [CSS 权威指南（第三版）](./library/CSSTheDefinitiveGuide/README.md)
 
 ## Algorithm
 
