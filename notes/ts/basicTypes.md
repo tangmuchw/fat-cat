@@ -81,6 +81,7 @@
 > never 类型表示的是那些永不存在的值的类型
 
 - 例如， never 类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+- 与 void 相比，never 应该是 void 子集，**因为 void 实际上的返回值为 undefined**，而 never 连 undefined 也不行
 
 ```JavaScript
 // 返回never的函数必须存在无法达到的终点

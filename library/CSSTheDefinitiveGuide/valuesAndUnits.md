@@ -13,3 +13,15 @@
 > 在 CSS 中，1 个 em 定义为一种给定字体的 font-size 值。如果一个元素的 font-size 为 14 px，那么对于该元素，1 em = 14px
 
 - 另一方面，**在设置字体的大小时，em 的值会相对于父元素的字体大小改变**
+
+## fr
+
+> 四栏等宽（就是 1/4 或者是 25%）。横向的 overflow 消失了。每个栏的宽度设置为 1fr 后，三个 10px 的间隙首先从总宽度减去，再计算每个栏的宽度
+
+```CSS
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 10px;
+}
+```
