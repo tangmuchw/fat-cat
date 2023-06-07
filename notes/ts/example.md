@@ -1,4 +1,4 @@
-```Typescript
+```TypeScript
 interface GenerateMsgData {
     a: {
         field: string;
@@ -18,7 +18,7 @@ const doSomething = <
       switch(type){
           case 'a': {
 
-            const {} = (meta as unknown) as as GenerateMsgData["a"];
+            const {} = (meta as unknown)  as GenerateMsgData["a"];
             // do something
             break;
           }
