@@ -48,11 +48,11 @@
 
 ### 通用 commit message 表达式：
 
-> type(optional scopes): [optional pingCodeId] subject // tips: 注意空格
+> type(optional scopes): [optional taskId] subject // tips: 注意空格
 
 -   type：表明本次 commit 的操作属性，其取值可参考下表 「Type 使用场景」
 -   optional scopes：可选的，表明影响的范围；多个影响范围时，使用 “,” 分割
--   optional pingCodeId：可选的，pingCode 对应的 task/bug/story 的 ID ，多个 pingCodeId 时，使用 “,” 分割（\*pingCodeId 的是否填写，唯一的标准是：明确 owner 打 tag 的时候，需要写进发行说明里，则必须填有 pingCodeId，否则可以不填写）
+-   optional taskId：可选的，任务平台 对应的 task/bug/story 的 ID ，多个 taskId 时，使用 “,” 分割（\*taskId 的是否填写，唯一的标准是：明确 owner 打 tag 的时候，需要写进发行说明里，则必须填有 taskId，否则可以不填写）
 -   subject：表明具体的改动说明，也可以在 subject 里标明影响范围
 
 ### 部分场景举个栗子：
