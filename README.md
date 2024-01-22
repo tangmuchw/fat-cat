@@ -15,7 +15,6 @@
 ## Library
 
 -   [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
-
 -   [HTTP 权威指南](./library/TheDefinitiveGuideOfHTTP/README.md)
 -   [深入浅出 Webpack](./library/Webpack/README.md)
 -   [算法图解](./library/AlgorithmDiagram/README.md)
@@ -143,6 +142,7 @@
 ## 规范
 
 -   [Commit Message 规范](./notes/specification/commit.md)
+-   [本作者推荐在使用觉得好用的 git config 配置](./notes/specification/git.config.md)
 
 ### 问答题
 

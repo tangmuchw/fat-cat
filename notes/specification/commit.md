@@ -8,11 +8,13 @@
 -   dev：开发分支，用于功能开发
 -   test：测试分支，多提供于测试人员测试使用
 -   preprod：预发布分支，多用于 owner 打 tag 使用
--   功能分支合并的流程：chw/xxx => fe/xxx => test => preprod => master 或者 chw/xxx => fe/xxx => preprod => master，具体合到哪个 测试分支 由 owner 决定，绝不允许反向 merge，即 preprod => test，理论是不允许的。 最后由 owner 手动同步这 4 个基础分支
+-   功能分支合并的流程：{{{name}}}/xxx => fe/xxx => test => preprod => master 或者 {{name}}/xxx => fe/xxx => preprod => master，具体合到哪个 测试分支 由 owner 决定，绝不允许反向 merge，即 preprod => test，理论是不允许的。 最后由 owner 手动同步这 4 个基础分支
+-   **⚠️ 测试提出的 bug 不能在 test 分支上修改提交，只能在 对应的 功能分支上改后，再通过 mr 合并到 test 上**
 
 > 项目开发 owner 会根据功能需求基于 dev 新建功能分支 fe 和 bugfix 分支 fix，这个两种类型的分支可以直接进行代码操作的权限可由 owner 根据实际情况决定
 
--   fe/xxx: 功能分支
+-   fe/xxx: 公共功能分支
+-   {{name}}/xxx: 特定的某个开发者的功能分支
 -   fix/xxx: bugfix 分支
 
 ## 开始开发（单人开发）
@@ -23,20 +25,20 @@
 
 ## 开始开发（多人协作开发）
 
-本地新建自己的功能分支，举个栗子：chw/xxx，命名规则：{名字拼音缩写}/xxx
+本地新建自己的功能分支，举个栗子：{{name}}/xxx，命名规则：{开发者名字拼音缩写}/xxx
 一顿操作后，要提交代码了
 本地提交 commit，commit message 请按「如何提交规范的 commit message」的规范书写
 
--   更新本地代码 chw/xxx 分支
+-   更新本地代码 {{name}}/xxx 分支
 -   检查远程分支 fe/xxx 是否有更新，运行命令：git remote update (推荐)或者 git fetch
 -   若 fe/xxx 有更新 - 运行命令：git rebase origin/fe/xxx - 若有冲突，解决冲突后，运行以下命令：
     -   git add .
     -   git rebase --continue
     -   若还有冲突，重复以上步骤，即 解决冲突，git add . ，git rebase --continue，直到没有冲突
     -   若没有冲突，检查一下 git log，确认一下本次修改，commit 是否正确否 运行命令: git log --oneline
-    -   Congratulation！你更新本地代码成功
+    -   Congratulation！你更新本地代码成功（😄 安利一下 [本作者推荐在使用觉得好用的 git config 配置](./git.config.md)）
     -   若 fe/xxx 没有更新，直接 push 本地分支到远程上
-        -   第一次 push：git push --set-upstream origin chw/xxx
+        -   第一次 push：git push --set-upstream origin {{name}}/xxx
             远程已有本地同名分支：git push
         -   一顿操作后，功能都开发完成了，要提 mr 了，需要自己整合一下 commit，保证 commit 的个数不要太多，暂时界定不超过 5 个（以项目开发 owner 实际界定为准）
         -   **git rebase -i HEAD~{num}**: 将多个 commit 合成一个 commit
