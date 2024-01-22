@@ -154,7 +154,7 @@
 -   [cookie 跨域时候要如何处理](./notes/questions/crossCookieNginx.md)
 -   [301, 302, 303, 307, 308 的区别](./notes/questions/crosCookieNginx.md)
 -   [Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办](./notes/questions/maxNumber.md)
--   [Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办](./notes/questions/jsBasicDataTypes.md)
+-   [JS 数据类型](./notes/questions/jsBasicDataTypes.md)
 
 ### 编程题
 
