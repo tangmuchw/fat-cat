@@ -113,12 +113,13 @@
 
 -   [DOM Diff](./notes/react/domDiff.md)
 -   [hooks](./notes/react/hooks.md)
--   [setState](./notes/react/setState.md)
+-   [setState（React < 18.x）](./notes/react/setState.md)
 -   [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
 -   [DOM Update Process](./notes/react/domUpdateProcess.md)
 -   [事件机制](./notes/react/eventMechanism.md)
 -   [useEffect 和 useLayoutEffect 区别](./notes/react/useEffect&useLayoutEffect.md)
 -   [React.memo 和 useMemo 区别](./notes/react/memo&useMemo.md)
+-   [Concurrent Mode（React >= 18.x）](./notes/react/concurrent-mode.md)
 
 ## Security
 
