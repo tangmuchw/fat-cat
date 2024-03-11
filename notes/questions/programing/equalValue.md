@@ -12,7 +12,7 @@ const a = {
 }
 
 // 利用 Proxy，可以将读取属性的操作（get），转变为执行某个函数，从而实现属性的链式操作
-// const a = new Proxy({ val: 1}, {
+// const a = new Proxy({ val: 1 }, {
 //     get(target){
 //         return () => target.val++
 //     }

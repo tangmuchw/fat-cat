@@ -92,6 +92,7 @@
 ## Module
 
 -   [认识 CJS、AMD、UMD 和 ESM](./notes/module/buildModuleTypes.md)
+-   [简单对比 webpack、rollup、esbuild 和 vite](./notes/module/build-tools.md)
 
 ## TS
 
@@ -109,7 +110,7 @@
 
 -   [事件循环](./notes/principle/eventLoop.md)
 
-## react
+## React
 
 -   [DOM Diff](./notes/react/domDiff.md)
 -   [hooks](./notes/react/hooks.md)
@@ -175,6 +176,7 @@
 -   [求二叉树所有根到叶子路径组成的数字之和](./notes/questions/programing/getTreeNodesSum.md)
 -   [compareVersion(version1, version2) {} 版本号可能是 7.5.0 或者 1.12 这种格式，输出较大的版本号](./notes/questions/programing/compareMaxVersion.md)
 -   [给出 n 个字母（小写字母从 a 到 z），找出出现次数最多的字母，输出该字母](./notes/questions/programing/getMostOccurrenceLetter.md)
+-   [JS 简单实现：根据奖品权重计算中奖概率实现抽奖](./notes/questions/programing/lottery.md)
 
 ## LeetCode
 

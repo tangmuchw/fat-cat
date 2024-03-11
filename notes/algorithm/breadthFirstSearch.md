@@ -2,9 +2,9 @@
 
 ## 特点
 
-- 广度优先遍历需要先记录所有的节点，**占用空间大**
-- 采用**队列的形式**，即先进先出
-- BFS 可用来解决计算机游戏（例如即时策略游戏）中找寻路径的问题
+-   广度优先遍历需要先记录所有的节点，**占用空间大**
+-   采用**队列的形式**，即先进先出
+-   BFS 可用来解决计算机游戏（例如即时策略游戏）中找寻路径的问题
 
 ```Javascript
 const data = [
@@ -31,7 +31,8 @@ const breadthFirstSearch = (data) => {
     let result = [],
      queue = [...data]
 
-    while(queue.length > 0){
+    const canLoop = queue.length > 0
+    while(canLoop){
        const { name, children } = queue.shift()
        result.push(name)
 
