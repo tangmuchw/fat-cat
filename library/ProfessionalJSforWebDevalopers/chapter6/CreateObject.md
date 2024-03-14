@@ -4,17 +4,17 @@
 
 ## 使用 Object 构造函数或对象字面量创建单个对象
 
-- 缺点
-  - 对于相似对象，使用同一个接口创建很多对象，会产生大量的重复代码
+-   缺点
+    -   对于相似对象，使用同一个接口创建很多对象，会产生大量的重复代码
 
 ## 工厂模式
 
-- 优点
+-   优点
 
-  - 解决了创建多个相似对象的问题
+    -   解决了创建多个相似对象的问题
 
-- 缺点
-  - 没有解决对象识别的问题, 即怎么知道一个对象的类型
+-   缺点
+    -   没有解决对象识别的问题, 即怎么知道一个对象的类型
 
 ```JavaScript
 function createPerson(name, age, job){
@@ -35,12 +35,12 @@ const p2 = createPerson('jack', 4, 'Doctor')
 
 ## 构造函数模式
 
-- 优点
-  - 可以将构造函数的实例标识为一种特定的类型
-- 缺点
-  - 每个方法都要在每个实例上重新创建一遍
-  - 全局作用域中定义的函数实际上只能被某个对象调用，这让全局作用域优点名不副实
-  - 如果对象需要定义很多方法，那么就要定义很多个全局函数，导致**自定义的引用类型没有封装性而言**
+-   优点
+    -   可以将构造函数的实例标识为一种特定的类型
+-   缺点
+    -   每个方法都要在每个实例上重新创建一遍
+    -   全局作用域中定义的函数实际上只能被某个对象调用，这让全局作用域优点名不副实
+    -   如果对象需要定义很多方法，那么就要定义很多个全局函数，导致**自定义的引用类型没有封装性而言**
 
 ```JavaScript
 function sayName(){
@@ -65,8 +65,8 @@ const p2 = new Person('jack', 4, 'Doctor')
 
 > **创建的每个函数**都有一个 prototype (原型) 属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以用特定类型的所有实例共享的属性和方法
 
-- isPrototypeOf(): 测试一个对象是否存在于另一个对象的原型链上
-- getPrototypeOf(): 返回 [[prototype]] 的值
+-   isPrototypeOf(): 测试一个对象是否存在于另一个对象的原型链上
+-   getPrototypeOf(): 返回 [[prototype]] 的值
 
 ```JavaScript
 function Person(){}
@@ -187,23 +187,23 @@ function Person(){
 Person.prototype.name = 'helle world'
 
 const p1 = new Person()
-console.log(p1.name)
-console.log(p1.skin)
+console.log(p1.name) // world
+console.log(p1.skin) // undefined
 
 function Parent(){
     this.skin = ['white', 'yellow', 'black']
 }
 function Child(){}
-Child.prototype = new Person2()
+Child.prototype = new Parent()
 
 const m1 = new Child()
 const m2 = new Child()
 m1.name = 'man1'
 m1.skin.push('red')
 
-console.log(m1.name)
-console.log(m1.skin)
-console.log(m2.name)
-console.log(m2.skin)
+console.log(m1.name) // man1
+console.log(m1.skin) // [ 'white', 'yellow', 'black', 'red' ]
+console.log(m2.name) // undefined
+console.log(m2.skin) // [ 'white', 'yellow', 'black', 'red' ]
 
 ```

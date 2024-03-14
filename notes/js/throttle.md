@@ -14,14 +14,14 @@
 - 浏览器播放事件，每隔一秒计算一次进度信息等
 
 ```JavaScript
-const throttle = (f, wait) => {
+const throttle = (fn, wait) => {
     let timer
 
     return (...args) => {
         if(timer) return
 
         timer = setTimeout(() => {
-            f(...args)
+            fn(...args)
             timer = null
         }, wait)
     }

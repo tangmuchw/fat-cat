@@ -72,6 +72,7 @@
 -   [apply](./notes/js/apply.md)
 -   [bind](./notes/js/bind.md)
 -   [call](./notes/js/call.md)
+-   [reduce](./notes/js/reduce.md)
 -   [chatCodeAt](./notes/js/chatCodeAt.md)
 -   [const](./notes/js/const.md)
 -   [debounce](./notes/js/debounce.md)
@@ -108,7 +109,7 @@
 
 ## Principle
 
--   [事件循环](./notes/principle/eventLoop.md)
+-   [JavaScript 事件循环](./notes/principle/eventLoop.md)
 
 ## React
 
@@ -138,8 +139,6 @@
 -   [SSG](./tech/ssg.md)
 -   [SSR](./tech/ssr.md)
 -   [技术调研的核心步骤](./tech/researchSteps.md)
-
-## Questions
 
 ## 规范
 
@@ -184,6 +183,11 @@
 -   [买卖股票的最佳时机 II](./leetcode/maxProfit.md)
 -   [删除排序数组中的重复项](./leetcode/removeDuplicates.md)
 -   [旋转数组](./leetcode/rotateArray.md)
+
+## Live
+
+-   [RTMP 协议](./notes/live/rtmp.md)
+-   [RTSP 协议](./notes/live/rtsp.md)
 
 ## Interview
 

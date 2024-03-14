@@ -4,20 +4,20 @@
 
 ## new 关键字会进行如下的操作：
 
-- 创建一个空的全新 JavaScript 对象(即{})
-- 执行[[prototype]]链接, 即\_\_proto\_\_链接（即设置该对象的构造函数，又叫设置原型链）
-- 使得**this**只想新创建的对象
-- 通过**new**创建的每个对象将最终被[[prototype]]连接到这个函数的[[prototype]]对象上
-- 如果函数没有返回对象类型[[Object]](包含[[Function]], [[Array]], [[Data]], [[RegExp]], [[Error]]), 那么**new**表达式中的函数调用将返回该对象引用
-  - 参考[「你不知道的 javascript」](http://blog.ifyouseewendy.com/blog/2017/07/03/review-you-dont-know-js-this-and-object-prototypes/#what-happened-when-we-callnew-)
-  - 摘自掘金[「中高级前端面试」JavaScript 手写代码无敌秘籍](https://juejin.im/post/5c9c3989e51d454e3a3902b6#heading-0)
+-   创建一个空的全新 JavaScript 对象(即{})
+-   执行[[prototype]]链接, 即\_\_proto\_\_链接（即设置该对象的构造函数，又叫设置原型链）
+-   使得**this**只想新创建的对象
+-   通过**new**创建的每个对象将最终被[[prototype]]连接到这个函数的[[prototype]]对象上
+-   如果函数没有返回对象类型[[Object]](包含[[Function]], [[Array]], [[Data]], [[RegExp]], [[Error]]), 那么**new**表达式中的函数调用将返回该对象引用
+    -   参考[「你不知道的 javascript」](http://blog.ifyouseewendy.com/blog/2017/07/03/review-you-dont-know-js-this-and-object-prototypes/#what-happened-when-we-callnew-)
+    -   摘自掘金[「中高级前端面试」JavaScript 手写代码无敌秘籍](https://juejin.im/post/5c9c3989e51d454e3a3902b6#heading-0)
 
 ## MDN 版：
 
-- 创建一个空的简单 JavaScript 对象（即{}）
-- 链接该对象（即设置该对象的构造函数）到另一个对象
-- 将步骤 1 新创建的对象作为 this 的上下文
-- 如果该函数没有返回对象，则返回 this
+-   创建一个空的简单 JavaScript 对象（即{}）
+-   链接该对象（即设置该对象的构造函数）到另一个对象
+-   将步骤 1 新创建的对象作为 this 的上下文
+-   如果该函数没有返回对象，则返回 this
 
 <br />
 

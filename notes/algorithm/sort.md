@@ -83,7 +83,7 @@ const bubbleSort = (list) => {
     // 重新排序数列，所有元素比哨兵值小的摆放在哨兵前面，所有元素比哨兵值大的摆在哨兵的后面（相同的数可以到任一边）
     // lastMinIdx 记录最后一个小于基准值的索引
     let lastMinIdx = start - 1
-    for(let i = start ; i < end; i++){
+    for(let i = start; i < end; i++){
         // a < b
         if(comparator(list[i], pivot) < 0){
             lastMinIdx++
