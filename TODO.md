@@ -3,17 +3,11 @@
 > 攻克薄弱之处
 > 自我驱动力的提升
 > 技术的创造力和好奇心
-> PartyTown
 > 绝对的自信心
 
 ## 2024-01-01 ～ 2024-12-31
 
--   webpack 打包机制 🌞
--   手写正则表达式
--   手写常见的排序算法
--   手写一些常用的 js 方法
--   算法的时间复杂度和空间复杂度的转换
--   了解 react 16.x 和 15.x 的某些底层实现逻辑
--   snowpack & rollup
 -   react-router 原理 ✅
 -   JavaScript 高级程序设计 ✅
+-   react 18 相关的优化点
+-   snowpack & rollup & ...
