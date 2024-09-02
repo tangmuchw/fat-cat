@@ -9,5 +9,6 @@
 
 -   react-router 原理 ✅
 -   JavaScript 高级程序设计 ✅
--   react 18 相关的优化点
+-   react 18 相关的优化点 ✅
+-   scss, sass, less 区别
 -   snowpack & rollup & ...

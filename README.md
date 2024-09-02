@@ -12,6 +12,10 @@
 
 ---
 
+## AJAX
+
+-   [AJAX 介绍](./notes/ajax/introduction.md)
+
 ## Library
 
 -   [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
@@ -50,6 +54,10 @@
 
 -   [发布订阅者模式](./notes/design/publish&subscribe.md)
 -   [单例模式](./notes/design/singleMode.md)
+
+## HTML5
+
+-   [HTML5 介绍](./notes/html5/introduction.md)
 
 ## HTTP
 
@@ -125,8 +133,10 @@
 -   [事件机制](./notes/react/eventMechanism.md)
 -   [useEffect 和 useLayoutEffect 区别](./notes/react/useEffect&useLayoutEffect.md)
 -   [React.memo 和 useMemo 区别](./notes/react/memo&useMemo.md)
--   [Concurrent Mode（React >= 18.x）](./notes/react/concurrent-mode.md)
+-   [Concurrent Mode 并发模式（React >= 18.x）](./notes/react/18x/concurrent-mode.md)
 -   [ReactJS 是什么以及它是如何工作的？](./notes/react/daily/2024-04-03.md)
+-   [state 如同一张快照](./notes/react/18x/state.md)
+-   [React 渲染和提交](./notes/react/18x/renderAndCommit.md)
 
 ## Security
 
