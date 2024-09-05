@@ -10,5 +10,8 @@
 -   react-router 原理 ✅
 -   JavaScript 高级程序设计 ✅
 -   react 18 相关的优化点 ✅
--   scss, sass, less 区别
--   snowpack & rollup & ...
+-   scss, sass, less 区别 ✅
+-   snowpack & rollup & ... ✅
+-   npm,yarn 缓存机制
+-   react lane
+-   严格模式都做了什么

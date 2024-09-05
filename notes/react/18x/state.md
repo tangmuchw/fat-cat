@@ -16,7 +16,7 @@
 
 ## 自动批处理 Automatic Batching
 
--   在 React 18 之前，React 只会在事件回调中使用批处理，而在 Promise、setTimeout、原生事件等场景下，是不能使用批处理的。
+-   在 React 18 之前，React 只会在事件回调中使用批处理，而在 Promise、setTimeout、原生事件等场景下，是不能使用批处理的（react17 里 setState enqueue TaskQueue 之后，直接 flushSyncCallbackQueue 掉，不再在 port.postMessage 后 flush 了。这也就是为什么 18 之前的版本多次 render 的原因 ；react18 在 <code>scheduleUpdateOnFiber</code>里相当于屏蔽了 ensureRootIsScheduled()后 flushSyncCallbackQueue 的执行来处理批量更新，相当于多了并发模式的判断后再去 flush）。
 
 -   而在 React 18 中，所有的状态更新，都会自动使用批处理，不关心场景
--   如果你在某种场景下不想使用批处理，你可以通过 flushSync 来强制同步执行（比如：你需要在状态更新后，立刻读取新 DOM 上的数据等
+-   如果你在某种场景下不想使用批处理，你可以通过 ReactDOM.flushSync 来强制同步执行（比如：你需要在状态更新后，立刻读取新 DOM 上的数据等

@@ -67,5 +67,5 @@ React Router 路由的基础实现原理分为两种：
     -   其次在整体的数据通信上使用了 Context API 完成上下文传递。
     -   在关键模块上，主要分为三类组件：
         -   第一类是 Context 容器，比如 Router 与 MemoryRouter；
-        -   第二类是消费者组件，用以匹配路由，主要有 Route、Redirect、Switch 等；
+        -   第二类是消费者组件，用以匹配路由，主要有 Route、Redirect(v6 版本已去掉)、Switch 等；
         -   第三类是与平台关联的功能组件，比如 Link、NavLink、DeepLinking（native） 等。

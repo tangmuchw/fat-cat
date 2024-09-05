@@ -39,12 +39,13 @@
 -   [媒体查询属性](./notes/css/media.md)
 -   [scroll-snap-type](./notes/css/scrollSnapType.md)
 -   [盒模型介绍](./notes/css/boxModel.md)
--   [重排和重绘](./notes/css/reflow&repaint.md)
+-   [重排（回流）和重绘](./notes/css/reflow&repaint.md)
 -   [经典三分栏布局](./notes/css/threeColumnLayout.md)
 -   [line—height 如何继承](./notes/css/lineHeight.md)
 -   [CSS3 利用伪元素(::before)获取标签自定义属性(data-xx)的值](./notes/css/before.md)
 -   [CSS 实现自适应正方形](./notes/css/adaptiveSquare.md)
 -   [CSS 是怎么工作的](./notes/css/howToWork.md)
+-   [移动布局](./notes/css/mobile-layout.md)
 
 ## Browser
 
@@ -105,7 +106,7 @@
 ## Module
 
 -   [认识 CJS、AMD、UMD 和 ESM](./notes/module/buildModuleTypes.md)
--   [简单对比 webpack、rollup、esbuild 和 vite](./notes/module/build-tools.md)
+-   [简单对比 Webpack、Rollup、ESbuild、Parcel、Snowpack 和 Vite](./notes/module/build-tools.md)
 
 ## TS
 
