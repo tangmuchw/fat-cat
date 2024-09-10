@@ -29,7 +29,7 @@ say() // undefined
 
 > 当函数引用有上下文对象时，隐式绑定会把函数调用中的 this 绑定到这个上下文对象
 
-- **本质上**，判断隐式绑定时，必须是一个对象内部包含一个指向函数的属性，通过这个属性间接的引用函数，从而把 this 间接（隐式）绑定到这个对象中
+-   **本质上**，判断隐式绑定时，必须是一个对象内部包含一个指向函数的属性，通过这个属性间接的引用函数，从而把 this 间接（隐式）绑定到这个对象中
 
 ```JavaScript
 function say(){
@@ -53,7 +53,7 @@ person.say() // tmchw
 
 ### 隐式丢失
 
-- 引用赋值隐式丢失
+-   引用赋值隐式丢失
 
 ```JavaScript
 function say(){
@@ -71,7 +71,7 @@ talk() // undefined
 // talk 实际上引用的 say 函数本身，所以应用了默认绑定，这是的 this 指向 window
 ```
 
-- 参数传递隐式丢失
+-   参数传递隐式丢失
 
 ```JavaScript
 function say(){
@@ -96,8 +96,8 @@ talk(person.say) // undefined
 
 > 调用函数时，强制响函数绑定到<code>this</code>，可以通过<code>call</code>、<code>apply</code>、<code>bind</code> 方法实现
 
-- 硬绑定：等同于 bind
-- new 绑定
+-   硬绑定：等同于 bind
+-   new 绑定
 
 ## 绑定优先级
 

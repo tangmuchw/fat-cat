@@ -57,7 +57,7 @@ const server = http.createServer()
 // 监听http请求
 server.on('request', (req, res) => {
     // 获取客户端传来的回调函数名称
-    const  {callback } = url.parse(req.url, true).query
+    const  { callback } = url.parse(req.url, true).query
     const user = { // 模拟返回数据
         id: 1,
         name: 'zhangsan',

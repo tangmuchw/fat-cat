@@ -108,6 +108,10 @@
 -   [认识 CJS、AMD、UMD 和 ESM](./notes/module/buildModuleTypes.md)
 -   [简单对比 Webpack、Rollup、ESbuild、Parcel、Snowpack 和 Vite](./notes/module/build-tools.md)
 
+## Optimization
+
+-   [当 QPS 达到峰值时 该如何处理](./notes/optimization/QPS.md)
+
 ## TS
 
 -   [基本类型](./notes/ts/basicTypes.md)
@@ -172,6 +176,8 @@
 -   [301, 302, 303, 307, 308 的区别](./notes/questions/crosCookieNginx.md)
 -   [Number() 的存储空间是多大？如果后台发送了一个超过最大自己的数字怎么办](./notes/questions/maxNumber.md)
 -   [JS 数据类型](./notes/questions/jsBasicDataTypes.md)
+-   [同一个链接，PC 打开的是 web 应用，手机打开的是 h5 应用](./notes/questions/judge-web-or-h5.md)
+-   [设计一套全站请求耗时统计工具](./notes/questions/stats-request-time-tool.md)
 
 ### 编程题
 

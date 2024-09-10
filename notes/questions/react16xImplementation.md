@@ -5,7 +5,7 @@
 -   enqueueUpdate
 -   scheduleWork 更新 expirationTime
 -   requestWork
--   workLoop 大循环
+-   workLoop 大循环：循环处理每个 fiber 节点
 -   Effect List
 -   commit
 

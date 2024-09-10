@@ -52,6 +52,41 @@
 
 ```
 
+```Javascript
+// 观察者模式 - 定义
+class Observable {
+    constructor() {
+        this.observers = [];
+    }
+
+    addObserver(observer) {
+        this.observers.push(observer);
+    }
+
+    removeObserver(observer) {
+        this.observers = this.observers.filter(obs => obs !== observer);
+    }
+
+    notifyObservers(data) {
+        this.observers.forEach(observer => observer.update(data));
+    }
+}
+
+// 观察者模式 - 实现
+class Observer {
+    update(data) {
+        console.log('Observer received data:', data);
+    }
+}
+
+// 使用
+const observable = new Observable();
+const observer = new Observer();
+
+observable.addObserver(observer);
+observable.notifyObservers({ message: 'Hello, World!' });
+```
+
 ## 发布订阅模式与观察者模式的区别是什么
 
 -   在观察者模式中，被观察者通常会维护一个观察者列表。当被观察者的状态发生改变时，就会通知观察者。

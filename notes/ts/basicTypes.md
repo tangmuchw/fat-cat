@@ -45,7 +45,7 @@
 
 > enum 类型是对 JavaScript 标准数据类型的一个补充。 像 C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字
 
-- 默认情况下，从**0**开始为元素编号
+-   默认情况下，从**0**开始为元素编号
 
 ```JavaScript
  enum Color {Red = 1, Green, Blue}
@@ -80,8 +80,8 @@
 
 > never 类型表示的是那些永不存在的值的类型
 
-- 例如， never 类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
-- 与 void 相比，never 应该是 void 子集，**因为 void 实际上的返回值为 undefined**，而 never 连 undefined 也不行
+-   例如， never 类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
+-   与 void 相比，never 应该是 void 子集，**因为 void 实际上的返回值为 undefined**，而 never 连 undefined 也不行
 
 ```JavaScript
 // 返回never的函数必须存在无法达到的终点
@@ -111,14 +111,14 @@ declare function create(o: object | null): void
 
 ## 类型断言
 
-- “尖括号”语法
+-   “尖括号”语法
 
 ```JavaScript
 let someValue: any = 'this is a string'
 let strLength: number = (<string>someValue).length
 ```
 
-- as 语法（ts 中使用 jsx， 只有 as 语法断言是被允许的）
+-   as 语法（ts 中使用 jsx， 只有 as 语法断言是被允许的）
 
 ```JavaScript
 let someValue: any = 'this is a string'
