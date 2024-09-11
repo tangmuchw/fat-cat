@@ -31,6 +31,8 @@
 
 ## 冒泡排序
 
+> 重复地遍历要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。重复进行直到没有再需要交换的元素，这意味着数列已经排序完成。
+
 -   时间复杂度**O(n\*n)**
 -   思路
 
@@ -45,11 +47,12 @@ const bubbleSort = (list) => {
 
    if(!len) return []
 
+    // [1, 9, 6]
    // 最外层循环控制的内容是循环次数
    // 每一次比较的内容都是相邻两者之间的大小关系
    const count = len - 1
    for(let i = 0; i < len; i++) {
-       for(let j = 0; j < count; j++){
+       for(let j = 0; j < count - i; j++){
            if(list[j] > list[j + 1]) [list[j + 1], list[j]] = [list[j], list[j + 1]]
        }
    }
@@ -129,6 +132,7 @@ console.log(quickSort([1, 7, 4, 8, 3, 18])) // [1, 3, 4, 7, 8, 18] => take 0.069
          let temp = list[i]
             leftLastIdx = i - 1 // 假定记录要插入的位置个位置前一个位置
 
+        // [4,8,5,7,2]
         // 数值大的往后插
          while(leftLastIdx >= 0 && list[leftLastIdx] > temp) {
              list[leftLastIdx + 1] = list[leftLastIdx] // 已排序的元素大于新元素，将该元素插到一下个位置

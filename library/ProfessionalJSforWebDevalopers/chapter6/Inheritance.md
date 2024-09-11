@@ -4,9 +4,10 @@
 
 ## 原型链
 
-- 缺点
-  - 包含引用类型值的原型
-  - 创建子类型的实例时，不能向超类型的构造函数中传递参数
+-   Child.prototype = new Parent()
+-   缺点
+    -   包含引用类型值的原型
+    -   创建子类型的实例时，不能向超类型的构造函数中传递参数
 
 ```JavaScript
 function SuperType(){
@@ -34,8 +35,9 @@ console.log(ins.getSuperValue()) // true
 
 ## 借用构造函数
 
-- 优点: 可以再子类型构造函数中向超类型构造函数传递参数
-- 缺点: 方法都在构造函数中定义，因此函数无法复用
+-   在函数里 Parent.call(this)
+-   优点: 可以再子类型构造函数中向超类型构造函数传递参数
+-   缺点: 方法都在构造函数中定义，因此函数无法复用
 
 ```JavaScript
 function SuperType(){
@@ -104,7 +106,7 @@ function object(obj){
 
 ## 寄生式继承
 
-- 缺点：不能做到函数复用
+-   缺点：不能做到函数复用
 
 ```JavaScript
 function createAnother(origin){
