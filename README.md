@@ -142,6 +142,9 @@
 -   [ReactJS 是什么以及它是如何工作的？](./notes/react/daily/2024-04-03.md)
 -   [state 如同一张快照](./notes/react/18x/state.md)
 -   [React 渲染和提交](./notes/react/18x/renderAndCommit.md)
+-   [lanes (车道模型)类型任务的位掩码优先级体系](./notes/react/17x/lanes.md)
+-   [React 15、16、17、18 各版本的区别（特点）](./notes/react/diff-react-version.md)
+-   [React 17.x 为什么要废弃 ComponentWillMount、ReceiveProps 和 Update 这三个生命周期](./notes/react/17x/why-abandon-ComponentWillMount-ReceiveProps-Update.md)
 
 ## Security
 
