@@ -43,3 +43,33 @@ fuser -k [端口]/tcp
 
 查看本机 ip
 curl icanhazip.com
+
+## 负载均衡
+
+```Nginx
+http {
+    # upstream 模块来配置后端服务器群组
+    # 使用 server 指令指定对应的地址和参数
+    # 在 server 配置 proxy_pass 指令将请求转发到定义好的服务器群组
+    # weight 参数，用于指定更高的权重，意味着在负载均衡中将更倾向于分配更多的请求给它
+    upstream backend {
+        server backend1.example.com;
+        server backend2.example.com;
+        server backend3.example.com;
+        # 可以设置权重
+        server backend4.example.com weight=2;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+}
+```

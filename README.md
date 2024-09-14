@@ -112,6 +112,14 @@
 
 -   [当 QPS 达到峰值时 该如何处理](./notes/optimization/QPS.md)
 
+## SEO
+
+-   [对于已有 SPA 项目进行 SEO 优化，可以采用几种方法以最小代价提升 SEO 效果](./notes/seo/spa-simple-seo.md)
+
+## SSH
+
+-   [Mac 上生成以及查看 ssh-key](./notes/ssh/keygen.md)
+
 ## TS
 
 -   [基本类型](./notes/ts/basicTypes.md)
@@ -157,7 +165,7 @@
 ## Tech
 
 -   [Docker](./tech/docker.md)
--   [Nginx](./tech/nginx.md)
+-   [Nginx 基础和负载均衡简单配置](./tech/nginx.md)
 -   [Prisma](./tech/prisma.md)
 -   [SSG](./tech/ssg.md)
 -   [SSR](./tech/ssr.md)
