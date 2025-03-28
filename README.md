@@ -10,6 +10,8 @@
 
 > description: studying notes about front-end technology, mainly javascript, secondary unlimited.
 
+> 我是一个怎样的人？我又能做些什么?
+
 ---
 
 ## AJAX
@@ -19,7 +21,7 @@
 ## Library
 
 -   [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
--   [HTTP 权威指南](./library/TheDefinitiveGuideOfHTTP/README.md)
+-   [HTTP 权威指南](./library/HTTPTheDefinitiveGuide/README.md)
 -   [深入浅出 Webpack](./library/Webpack/README.md)
 -   [算法图解](./library/AlgorithmDiagram/README.md)
 -   [CSS 权威指南（第三版）](./library/CSSTheDefinitiveGuide/README.md)
@@ -189,6 +191,7 @@
 -   [JS 数据类型](./notes/questions/jsBasicDataTypes.md)
 -   [同一个链接，PC 打开的是 web 应用，手机打开的是 h5 应用](./notes/questions/judge-web-or-h5.md)
 -   [设计一套全站请求耗时统计工具](./notes/questions/stats-request-time-tool.md)
+-   [script 标签放在 header 里和放在 body 底部有什么区别](./notes/questions/script-position.md.md)
 
 ### 编程题
 
