@@ -23,11 +23,13 @@
 -   [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
 -   [HTTP 权威指南](./library/HTTPTheDefinitiveGuide/README.md)
 -   [深入浅出 Webpack](./library/Webpack/README.md)
--   [算法图解](./library/AlgorithmDiagram/README.md)
+<!-- -   [算法图解](./library/AlgorithmDiagram/README.md) -->
 -   [CSS 权威指南（第三版）](./library/CSSTheDefinitiveGuide/README.md)
 -   [底层逻辑 2：理解商业世界的本质](./library/UnderlyingLogic2/README.md)
 -   [SaaS 创业路线图](./library/SaaSEntrepreneurialRoadmap/README.md)
 -   [从零开始做运营](./library/StartOperationsFromScratch/README.md)
+-   [MEA 轻松读：市场营销](./library/MBA/README.md)
+-   [微信小程序开发](./library/WeiXinMiniProgram/README.md)
 
 ## Algorithm
 
