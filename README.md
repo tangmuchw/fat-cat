@@ -29,7 +29,7 @@
 -   [SaaS 创业路线图](./library/SaaSEntrepreneurialRoadmap/README.md)
 -   [从零开始做运营](./library/StartOperationsFromScratch/README.md)
 -   [MEA 轻松读：市场营销](./library/MBA/README.md)
--   [微信小程序开发](./library/WeiXinMiniProgram/README.md)
+-   [微信小程序开发入门与实践](./library/WeiXinMiniProgram/README.md)
 
 ## Algorithm
 
