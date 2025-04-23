@@ -61,3 +61,11 @@
 
 <img src="./images/03.jpg" width="100%" height="auto" style="border-radius:4px;border: 1px solid #333;">
 <p style="color:#00adb5;text-align:center;">图 3 划分通知或者推送的渠道</p>
+
+
+## 用户研究
+- 内容消费者是谁？
+- 他们通常在什么地方活跃？
+- 他们的习惯是怎么样的？
+- 最近他们在关注什么热点？
+- 我需要提供什么内容才能让他们注意到我、爱上我？
