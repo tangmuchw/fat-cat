@@ -10,4 +10,5 @@
 | IaaS     | Infrastructure as a Service，即基础设施即服务                                                                                                                                                                      |
 | MROC     | Market Research Online Community，在线调研社区。将一群特定的人招募到一个独立的线上互动社区，通过长期、有计划的组织实施研究活动，获取调研信息，用以帮助企业随时随地做调查，深入挖掘消费者需求，快速了解消费者动态。 |
 | SNS      | Social Network Service，社交网络                                                                                                                                                                                   |
+| ROA      | Return on assets，资产收益率，=利润/资产                                                                                                                                                                           |
 | -        | -                                                                                                                                                                                                                  |

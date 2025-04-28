@@ -1,5 +1,7 @@
 # React 15、16、17、18 各版本的区别（特点）
 
+[toc]
+
 > 参考[React 各版本性能优化方案原理分析](https://www.jianshu.com/p/25e0c17d43e9)
 > 总结：
 > react16：提出 fiber，hooks
@@ -441,3 +443,50 @@ onClick() {
 > 为什么不用 setTimeout？
 > startTransition 的处理逻辑和 setTimeout 有一个很重要的区别，setTimeout 是异步延时执行，而 startTransition 的回调函数是同步执行的。在 startTransition 之中任何更新，都会标记上 transition，React 将在更新的时候，判断这个标记来决定是否完成此次更新 所以 Transition 可以理解成比 setTimeout 更早的更新
 > 对于渲染并发的场景下，setTimeout 仍然会使页面卡顿。因为超时后，还会执行 setTimeout 的任务，它们与用户交互同样属于宏任务，所以仍然会阻止页面的交互。那么 transition 就不同了，在 conCurrent mode 下，startTransition 是可以中断渲染的 ，所以它不会让页面卡顿，React 让这些任务，在浏览器空闲时间执行，所以上述输入 input 内容时，startTransition 会优先处理 input 值的更新，之后才是列表的渲染
+
+## 19.x
+
+### 支持 Actions
+
+什么是 Actions
+使用 async 转换（Transitions）的函数称为 Actions，其会自动处理以下操作：
+
+-   待处理状态 (Pending state)：请求开始前状态设置为 pending ，在提交最终状态更新时重置。
+-   乐观更新：支持新的 useOptimistic Hooks，开发者可以在提交请求时向用户显示乐观的即时反馈。
+-   错误处理：开发者可以在请求失败时显示错误边界，并自动将乐观更新恢复为原始值。
+-   表单：form 元素支持将函数传递给 action 和 formAction 属性，将函数传递给 action 属性默认启用 Actions，并在提交后自动重置表单。
+
+```JavaScript
+ const [isPending, setIsPending] = useState(false);
+ const [error, setError] = useState(null);
+ const handleSubmit = async () => {
+    setIsPending(true);
+    const error = await updateName(name);
+    setIsPending(false);
+    if (error) {
+      setError(error);
+      return;
+    }
+    // Do something
+};
+```
+
+React 19.x 添加了在转换中使用 async 函数的支持以自动处理 pending 状态、错误、表单和乐观更新。
+
+```Javascript
+
+const [isPending, startTransition] = useTransition();
+
+const handleSubmit = () => {
+  startTransition(async () => {
+    const error = await updateName(name);
+    if (error) {
+        setError(error);
+        return;
+    }
+
+    // Do something
+  })
+};
+
+```
