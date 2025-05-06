@@ -30,6 +30,9 @@
 -   [从零开始做运营](./library/StartOperationsFromScratch/README.md)
 -   [MEA 轻松读：市场营销](./library/MBA/README.md)
 -   [微信小程序开发入门与实践](./library/WeiXinMiniProgram/README.md)
+-   [定价即经营](./library/PricingAsManagement/README.md)
+-   [Python3 网络爬虫宝典](./library/Python3/README.md)
+-   [JavaScript 高级程序设计（第 4 版）](./library/JS4/README.md)
 
 ## Algorithm
 
