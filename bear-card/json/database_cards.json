@@ -1,0 +1,126 @@
+{
+    "id": "202505191212120001",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "thanks",
+    "typeName": "感谢卡",
+    "templateCode": "thanks0001",
+    "templateName": "改PPT之恩",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "深夜改PPT之恩，没齿难忘！",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120002",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "thanks",
+    "typeName": "感谢卡",
+    "templateCode": "thanks0002",
+    "templateName": "人间充电器",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "你随口说的‘需要随时找我’，成了我低谷时最大的底气 —— 谢啦，人间充电器🔌",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120003",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "sorry",
+    "typeName": "道歉卡",
+    "templateCode": "sorry0001",
+    "templateName": "鸽了饭局",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "鸽了饭局，欠你一顿火锅+奶茶。",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120004",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "encourage",
+    "typeName": "鼓励卡",
+    "templateCode": "encourage0001",
+    "templateName": "反焦虑",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "怕什么？最坏的结果，不过是大器晚成。",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120005",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "encourage",
+    "typeName": "鼓励卡",
+    "templateCode": "encourage0002",
+    "templateName": "生活碎片",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "你看，连快递都会抵达，何况是你。",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120006",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "reject",
+    "typeName": "拒绝卡",
+    "templateCode": "reject0001",
+    "templateName": "生活碎片",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "你超优秀，但我怕耽误你发展。",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120007",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "reject",
+    "typeName": "拒绝卡",
+    "templateCode": "reject0002",
+    "templateName": "职场/社交请求",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "抱歉，手头项目饱和，实在抽不出精力啦。",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "202505191212120008",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "praise",
+    "typeName": "夸夸卡",
+    "templateCode": "praise0001",
+    "templateName": "万能彩虹屁",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "你认真搞事业的样子，自带主角光环！",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
+{
+    "id": "20250519121212000",
+    "categoryType": "emotionalPurpose",
+    "categoryTypeName": "情感目的",
+    "type": "praise",
+    "typeName": "夸夸卡",
+    "templateCode": "praise0002",
+    "templateName": "外貌/气质夸",
+    "cover": null,
+    "salePrice": null,
+    "blessingWords": "你笑起来时，眼睛像碎了一汪银河✨",
+    "createAt": { "$date": "2025-05-19T12:12:12.221Z" },
+    "updatedAt": null
+}
