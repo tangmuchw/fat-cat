@@ -178,6 +178,7 @@ const souvenirs = [
         salePrice: null,
         blessingWords: "用一张车票换走学生证，从此故乡只有冬夏",
         updatedAt: null,
+        status: "offline",
     },
 ];
 
@@ -193,6 +194,7 @@ const selfMockery = [
         salePrice: null,
         blessingWords: "工资三千八，拿命往里搭",
         updatedAt: null,
+        status: "offline",
     },
 ];
 
@@ -210,7 +212,7 @@ const cards = [
         type: "thanks",
         typeName: "感谢卡",
         templateCode: "thanks0000",
-        templateName: "通用版",
+        templateName: "万笺集",
         cover: null,
         salePrice: null,
         blessingWords: "千言万语汇成一句：谢谢！❤️",
@@ -222,7 +224,7 @@ const cards = [
         type: "sorry",
         typeName: "道歉卡",
         templateCode: "sorry0000",
-        templateName: "通用版",
+        templateName: "万笺集",
         cover: null,
         salePrice: null,
         blessingWords: "为我的不当言行向您郑重道歉！🙏",
@@ -234,7 +236,7 @@ const cards = [
         type: "encourage",
         typeName: "鼓励卡",
         templateCode: "encourage0000",
-        templateName: "通用版",
+        templateName: "万笺集",
         cover: null,
         salePrice: null,
         blessingWords: "关关难过关关过，前路漫漫亦灿灿！🔥",
@@ -246,7 +248,7 @@ const cards = [
         type: "reject",
         typeName: "拒绝卡",
         templateCode: "reject0000",
-        templateName: " 通用版",
+        templateName: " 万笺集",
         cover: null,
         salePrice: null,
         blessingWords: "很抱歉这次帮不上忙，但真心祝愿一切顺利！🙏",
@@ -258,7 +260,7 @@ const cards = [
         type: "praise",
         typeName: "夸夸卡",
         templateCode: "praise0000",
-        templateName: "通用版",
+        templateName: "万笺集",
         cover: null,
         salePrice: null,
         blessingWords: "救命！这是什么神仙操作！慕了慕了～",
@@ -289,10 +291,16 @@ const nowAt = new Date();
 
 const cloudUrlConfig = {
     dev: "cloud://cloud1-1gte9qf85ff03da4.636c-cloud1-1gte9qf85ff03da4-1358849543/images/cover/",
-    prod: "",
+    prod: "cloud://cloud1-4gcgkweic0306525.636c-cloud1-4gcgkweic0306525-1360400413/images/cover/",
+};
+
+const fileNameConfig = {
+    dev: "dev_database_cards",
+    prod: "prod_database_cards",
 };
 
 const cloudUrl = cloudUrlConfig[env];
+const fileName = fileNameConfig[env];
 
 const updatedCards = cards.map((v, idx) => {
     const id = v.templateCode;
@@ -301,7 +309,7 @@ const updatedCards = cards.map((v, idx) => {
         _id: id,
         id,
         ...v,
-        status: "online",
+        status: v.status || "online",
         // createAt: { $date: "2025-05-19T12:12:12.221Z" },
         createAt: null,
         cover: v.cover ? `${cloudUrl}${v.cover}` : null,
@@ -310,7 +318,7 @@ const updatedCards = cards.map((v, idx) => {
 
 try {
     console.log("database_cards 开始处理...");
-    const filePath = path.join(__dirname, "database_cards.json");
+    const filePath = path.join(__dirname, `${fileName}.json`);
     const writeStream = fs.createWriteStream(filePath);
 
     updatedCards.forEach((item) => {
