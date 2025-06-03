@@ -18,7 +18,7 @@ const thanks = [
         type: "thanks",
         typeName: "感谢卡",
         templateName: "改PPT之恩",
-        cover: null,
+        cover: "thanks0001.png",
         salePrice: null,
         blessingWords: "深夜改PPT之恩，没齿难忘！",
         updatedAt: null,
@@ -29,7 +29,7 @@ const thanks = [
         type: "thanks",
         typeName: "感谢卡",
         templateName: "带饭之恩",
-        cover: null,
+        cover: "thanks0002.png",
         salePrice: null,
         blessingWords:
             "从今以后，你的备注是【再生父母·食堂在逃天使·饿鬼拯救者】！请受我一拜！ORZ",
@@ -41,7 +41,7 @@ const thanks = [
         type: "thanks",
         typeName: "感谢卡",
         templateName: "职场新人致谢导师",
-        cover: null,
+        cover: "thanks0003.png",
         salePrice: null,
         blessingWords:
             "新手村遇名师，何其有幸！您说的‘[导师金句]’已刻进职场DNA🧬",
@@ -52,8 +52,8 @@ const thanks = [
         categoryTypeName: "情感目的",
         type: "thanks",
         typeName: "感谢卡",
-        templateName: "致自己疲惫时刻",
-        cover: null,
+        templateName: "致疲惫时刻",
+        cover: "thanks0004.png",
         salePrice: null,
         blessingWords: "连续肝了3天pre，没猝死就是胜利！奖励一顿炸鸡！",
         updatedAt: null,
@@ -68,7 +68,7 @@ const encourages = [
         type: "encourage",
         typeName: "鼓励卡",
         templateName: "反焦虑",
-        cover: null,
+        cover: "encourage0001.png",
         salePrice: null,
         blessingWords: "怕什么？最坏的结果，不过是大器晚成。",
         updatedAt: null,
@@ -79,7 +79,7 @@ const encourages = [
         type: "encourage",
         typeName: "鼓励卡",
         templateName: "备考打气",
-        cover: null,
+        cover: "encourage0002.png",
         salePrice: null,
         blessingWords: "凌晨的台灯和咖啡渍，都是未来讲给学弟妹的勋章故事✨",
         updatedAt: null,
@@ -94,7 +94,7 @@ const praises = [
         type: "praise",
         typeName: "夸夸卡",
         templateName: "认证搞事业",
-        cover: null,
+        cover: "praise0001.png",
         salePrice: null,
         blessingWords: "你认真搞事业的样子，自带主角光环！",
         updatedAt: null,
@@ -121,7 +121,7 @@ const sorrys = [
         type: "sorry",
         typeName: "道歉卡",
         templateName: "鸽了饭局",
-        cover: null,
+        cover: "sorry0001.png",
         salePrice: null,
         blessingWords: "鸽了饭局，欠你一顿火锅+奶茶。",
         updatedAt: null,
@@ -132,7 +132,7 @@ const sorrys = [
         type: "sorry",
         typeName: "道歉卡",
         templateName: "吵架和解",
-        cover: null,
+        cover: "sorry0002.png",
         salePrice: null,
         blessingWords: "吵架时说反话的我，其实超怕你转身走掉…",
         updatedAt: null,
@@ -147,7 +147,7 @@ const rejects = [
         type: "reject",
         typeName: "拒绝卡",
         templateName: "你超优秀",
-        cover: null,
+        cover: "reject0001.png",
         salePrice: null,
         blessingWords: "你超优秀，但我怕耽误你发展。",
         updatedAt: null,
@@ -158,7 +158,7 @@ const rejects = [
         type: "reject",
         typeName: "拒绝卡",
         templateName: "拒绝借钱",
-        cover: null,
+        cover: "reject0002.png",
         salePrice: null,
         blessingWords:
             "我现在的经济状况：苍蝇飞过都得留下买路钱，实在薅不出羊毛了🐑",
@@ -173,12 +173,26 @@ const souvenirs = [
         categoryTypeName: "情感目的",
         type: "souvenir",
         typeName: "纪念卡",
-        templateName: "致校园青春",
-        cover: null,
+        templateName: "往返车票",
+        cover: "souvenir0001.png",
         salePrice: null,
         blessingWords: "用一张车票换走学生证，从此故乡只有冬夏",
         updatedAt: null,
         status: "offline",
+    },
+    {
+        categoryType: "emotionalPurpose",
+        categoryTypeName: "情感目的",
+        type: "souvenir",
+        typeName: "纪念卡",
+        templateName: "致青春",
+        cover: "souvenir0002.png",
+        salePrice: null,
+        blessingWords:
+            "愿你此去前程似锦，再无风雨兼程，归来仍是少年，眼中满是星辰。",
+        updatedAt: null,
+        status: "online",
+        isHot: 1,
     },
 ];
 
@@ -195,6 +209,35 @@ const selfMockery = [
         blessingWords: "工资三千八，拿命往里搭",
         updatedAt: null,
         status: "offline",
+    },
+    {
+        categoryType: "emotionalPurpose",
+        categoryTypeName: "情感目的",
+        type: "selfMockery",
+        typeName: "自嘲卡",
+        templateName: "天选打工人凌晨篇",
+        cover: "selfMockery0002.png",
+        salePrice: null,
+        blessingWords: "凌晨四点，看到海棠花未眠",
+        updatedAt: null,
+        status: "online",
+        isHot: 1,
+    },
+];
+
+const embrace = [
+    {
+        categoryType: "emotionalPurpose",
+        categoryTypeName: "情感目的",
+        type: "embrace",
+        typeName: "抱抱卡",
+        templateName: "抱紧我",
+        cover: "embrace0001.png",
+        salePrice: null,
+        blessingWords: "抱紧我，让心跳缝补风的缺口。",
+        updatedAt: null,
+        status: "online",
+        isHot: 1,
     },
 ];
 
@@ -274,6 +317,7 @@ const cards = [
     ...generateTemplateCode(rejects),
     ...generateTemplateCode(souvenirs),
     ...generateTemplateCode(selfMockery),
+    ...generateTemplateCode(embrace),
 ];
 
 // const formatDate = (date) => {
@@ -313,11 +357,24 @@ const updatedCards = cards.map((v, idx) => {
         // createAt: { $date: "2025-05-19T12:12:12.221Z" },
         createAt: null,
         cover: v.cover ? `${cloudUrl}${v.cover}` : null,
+        isHot: v.isHot || 0,
     };
 });
 
+const hotCards = updatedCards
+    .filter(({ isHot }) => isHot === 1)
+    .map(
+        ({ typeName, templateName, blessingWords }) =>
+            `${typeName}·${templateName}·${blessingWords}`
+    );
+// .join("\n");
+
+console.log("=== 热门推荐 ===");
+console.table(hotCards);
+console.log("=== 热门推荐 ===");
+
 try {
-    console.log("database_cards 开始处理...");
+    console.log("=== database_cards 开始处理 ===");
     const filePath = path.join(__dirname, `${fileName}.json`);
     const writeStream = fs.createWriteStream(filePath);
 
@@ -325,9 +382,10 @@ try {
         writeStream.write(JSON.stringify(item) + "\n");
     });
     writeStream.end();
-    console.log("写入成功...");
+    console.log(`=== 写入成功-环境 ${argv["env"]} ===`);
 } catch (err) {
-    console.log("写入失败 =>", err);
+    console.log(`=== 写入失败-环境 ${argv["env"]} ===`);
 }
 
 // 执行: node ./bear-card/json/database_cards.js
+// 执行: node ./bear-card/json/database_cards.js --env=prod
