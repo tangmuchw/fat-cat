@@ -4,6 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+        "moment": "^2.30.1",
         "yargs": "^17.7.2"
     }
 }
