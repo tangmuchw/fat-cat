@@ -14,4 +14,5 @@
 | MAU      | Monthly Active User，月活跃用户人数，是一个用户数量统计名词，指网站、app 等月活跃用户数量（去除重复用户数）                                                                                                        |
 | ARPU     | Average Revenue Per User，月活跃用户人数，是指每用户平均收入，即在一个特定时间段内（通常为一个月或一年），电信运营企业平均每个用户贡献的通信业务收入，单位为元/户 ‌                                                |
 | UV       | Unique Visitor，独立访客                                                                                                                                                                                           |
+| LTV      | Life time value，生命周期总价值                                                                                                                                                                                    |
 | -        | -                                                                                                                                                                                                                  |

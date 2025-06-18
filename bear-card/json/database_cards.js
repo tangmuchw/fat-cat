@@ -3,22 +3,24 @@ const fs = require("fs");
 const yargs = require("yargs/yargs");
 const moment = require("moment");
 const { hideBin } = require("yargs/helpers");
+const { createDirSync } = require("./utils");
+const { CARD_CATEGORY_TYPES, CARD_TYPES_DICTIONARIES } = require("./constants");
 
 // --env=dev|prod
 const argv = yargs(hideBin(process.argv)).argv;
-console.log("argv", argv);
 const env = argv["env"] || "dev";
-console.log("argv env=>", env); // 例如：node script.js --name=John --age=
+console.log(`=== database_cards.js argv env: ${env} ===`); // 例如：node script.js --name=John --age=
+
+console.log(`=== 卡片类型: ${CARD_TYPES_DICTIONARIES.length + 1} 种 ===`);
+console.table(CARD_TYPES_DICTIONARIES);
 
 // 记得先创建 data 目录
 
 const thanks = [
     // 感谢卡
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "ResilienceHive",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "改PPT之恩",
         cover: "thanks0001.png",
         salePrice: null,
@@ -26,10 +28,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "StarlightAtlas",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "带饭之恩",
         cover: "thanks0002.png",
         salePrice: null,
@@ -38,10 +38,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "ResilienceHive",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "职场新人致谢导师",
         cover: "thanks0003.png",
         salePrice: null,
@@ -50,10 +48,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "AmygdalaCourt",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "致疲惫时刻",
         cover: "thanks0004.png",
         salePrice: null,
@@ -61,10 +57,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "谢谢你像蜂蜜一样",
         cover: "thanks0005.png",
         salePrice: null,
@@ -72,10 +66,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "超级幸运日",
         cover: "thanks0006.png",
         salePrice: null,
@@ -83,10 +75,8 @@ const thanks = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "thanks",
-        typeName: "感谢卡",
         templateName: "转动引力",
         cover: "thanks0007.png",
         salePrice: null,
@@ -98,10 +88,8 @@ const thanks = [
 // 鼓励卡
 const encourages = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "encourage",
-        typeName: "鼓励卡",
         templateName: "反焦虑",
         cover: "encourage0001.png",
         salePrice: null,
@@ -109,10 +97,8 @@ const encourages = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "StarlightAtlas",
         type: "encourage",
-        typeName: "鼓励卡",
         templateName: "备考打气",
         cover: "encourage0002.png",
         salePrice: null,
@@ -120,10 +106,8 @@ const encourages = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "encourage",
-        typeName: "鼓励卡",
         templateName: "勇敢熊熊不怕困难",
         cover: "encourage0003.png",
         salePrice: null,
@@ -131,10 +115,8 @@ const encourages = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "encourage",
-        typeName: "鼓励卡",
         templateName: "蜂蜜罐罐哲理",
         cover: "encourage0004.png",
         salePrice: null,
@@ -142,10 +124,8 @@ const encourages = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "CouragePawFolios",
         type: "encourage",
-        typeName: "鼓励卡",
         templateName: "进步小天才认证",
         cover: "encourage0005.png",
         salePrice: null,
@@ -157,21 +137,17 @@ const encourages = [
 // 夸夸卡
 const praises = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "praise",
-        typeName: "夸夸卡",
-        templateName: "认证搞事业",
+        templateName: "认真搞事业",
         cover: "praise0001.png",
         salePrice: null,
         blessingWords: "你认真搞事业的样子，自带主角光环！",
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "praise",
-        typeName: "夸夸卡",
         templateName: "朋友彩虹屁",
         cover: "praise0002.png",
         salePrice: null,
@@ -180,10 +156,8 @@ const praises = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "praise",
-        typeName: "夸夸卡",
         templateName: "笑容甜度超标",
         cover: "praise0003.png",
         salePrice: null,
@@ -191,10 +165,8 @@ const praises = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "CouragePawFolios",
         type: "praise",
-        typeName: "夸夸卡",
         templateName: "熊熊认证：超厉害勋章",
         cover: "praise0004.png",
         salePrice: null,
@@ -202,10 +174,8 @@ const praises = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "NeuroBlossom",
         type: "praise",
-        typeName: "夸夸卡",
         templateName: "温柔击中",
         cover: "praise0005.png",
         salePrice: null,
@@ -217,10 +187,8 @@ const praises = [
 // 道歉卡
 const sorrys = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "sorry",
-        typeName: "道歉卡",
         templateName: "鸽了饭局",
         cover: "sorry0001.png",
         salePrice: null,
@@ -228,10 +196,8 @@ const sorrys = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "AmygdalaCourt",
         type: "sorry",
-        typeName: "道歉卡",
         templateName: "吵架和解",
         cover: "sorry0002.png",
         salePrice: null,
@@ -239,10 +205,8 @@ const sorrys = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "AmygdalaCourt",
         type: "sorry",
-        typeName: "道歉卡",
         templateName: "帮你贴好难过",
         cover: "sorry0003.png",
         salePrice: null,
@@ -250,10 +214,8 @@ const sorrys = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "sorry",
-        typeName: "道歉卡",
         templateName: "我的粗心",
         cover: "sorry0004.png",
         salePrice: null,
@@ -261,10 +223,8 @@ const sorrys = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "sorry",
-        typeName: "道歉卡",
         templateName: "爪印认罪书",
         cover: "sorry0005.png",
         salePrice: null,
@@ -276,10 +236,8 @@ const sorrys = [
 // 拒绝卡
 const rejects = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "reject",
-        typeName: "拒绝卡",
         templateName: "你超优秀",
         cover: "reject0001.png",
         salePrice: null,
@@ -287,10 +245,8 @@ const rejects = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "AmygdalaCourt",
         type: "reject",
-        typeName: "拒绝卡",
         templateName: "拒绝借钱",
         cover: "reject0002.png",
         salePrice: null,
@@ -299,10 +255,8 @@ const rejects = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "ResilienceHive",
         type: "reject",
-        typeName: "拒绝卡",
         templateName: "紧急会议中",
         cover: "reject0003.png",
         salePrice: null,
@@ -311,10 +265,8 @@ const rejects = [
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "AmygdalaCourt",
         type: "reject",
-        typeName: "拒绝卡",
         templateName: "守卫蜂蜜罐边界",
         cover: "reject0004.png",
         salePrice: null,
@@ -322,15 +274,23 @@ const rejects = [
             "再好的朋友也要尊重对方的蜂蜜罐边界！🍯❌ 这次请原谅我守卫小罐子的爪爪～ (๑•́ ₃ •̀๑)",
         updatedAt: null,
     },
+    {
+        categoryType: "ResilienceHive",
+        type: "reject",
+        templateName: "爪爪满啦~拒接新任务",
+        cover: "reject0005.png",
+        salePrice: null,
+        blessingWords:
+            "熊熊爪爪已堆满松果啦！为保证每颗果子都香甜，新任务 D 可能要先放树洞排队哦~ 我们一起看看哪颗最急？",
+        updatedAt: null,
+    },
 ];
 
 // 纪念卡
 const souvenirs = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "souvenir",
-        typeName: "纪念卡",
         templateName: "往返车票",
         cover: "souvenir0001.png",
         salePrice: null,
@@ -339,10 +299,8 @@ const souvenirs = [
         status: "offline",
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "souvenir",
-        typeName: "纪念卡",
         templateName: "致青春",
         cover: "souvenir0002.png",
         salePrice: null,
@@ -357,10 +315,8 @@ const souvenirs = [
 // 自嘲卡
 const selfMockery = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "selfMockery",
-        typeName: "自嘲卡",
         templateName: "天选打工人工资篇",
         cover: "selfMockery0001.png",
         salePrice: null,
@@ -369,10 +325,8 @@ const selfMockery = [
         status: "offline",
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "selfMockery",
-        typeName: "自嘲卡",
         templateName: "天选打工人凌晨篇",
         cover: "selfMockery0002.png",
         salePrice: null,
@@ -385,10 +339,8 @@ const selfMockery = [
 
 const embrace = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "embrace",
-        typeName: "抱抱卡",
         templateName: "抱紧我",
         cover: "embrace0001.png",
         salePrice: null,
@@ -396,6 +348,17 @@ const embrace = [
         updatedAt: null,
         status: "online",
         isHot: 1,
+    },
+    {
+        categoryType: "HoneyPocket",
+        type: "embrace",
+        templateName: "「无声胜有声」安慰术",
+        cover: "embrace0002.png",
+        salePrice: null,
+        blessingWords: "熊熊不说大道理，陪你安静看月亮升起…",
+        updatedAt: null,
+        status: "online",
+        isHot: 0,
     },
 ];
 
@@ -408,61 +371,51 @@ const generateTemplateCode = (list) => {
 
 const cards = [
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "thanks",
-        typeName: "感谢卡",
         templateCode: "thanks0000",
         templateName: "万笺集",
-        cover: null,
+        cover: "thanks0000.png",
         salePrice: null,
         blessingWords: "千言万语汇成一句：谢谢！❤️",
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "sorry",
-        typeName: "道歉卡",
         templateCode: "sorry0000",
         templateName: "万笺集",
-        cover: null,
+        cover: "sorry0000.png",
         salePrice: null,
         blessingWords: "为我的不当言行向您郑重道歉！🙏",
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "encourage",
-        typeName: "鼓励卡",
         templateCode: "encourage0000",
         templateName: "万笺集",
-        cover: null,
+        cover: "encourage0000.png",
         salePrice: null,
         blessingWords: "关关难过关关过，前路漫漫亦灿灿！🔥",
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "reject",
-        typeName: "拒绝卡",
         templateCode: "reject0000",
         templateName: " 万笺集",
-        cover: null,
+        cover: "reject0000.png",
         salePrice: null,
         blessingWords: "很抱歉这次帮不上忙，但真心祝愿一切顺利！🙏",
         updatedAt: null,
     },
     {
-        categoryType: "emotionalPurpose",
-        categoryTypeName: "情感目的",
+        categoryType: "HoneyPocket",
         type: "praise",
-        typeName: "夸夸卡",
         templateCode: "praise0000",
         templateName: "万笺集",
-        cover: null,
+        cover: "praise0000.png",
         salePrice: null,
         blessingWords: "救命！这是什么神仙操作！慕了慕了～",
         updatedAt: null,
@@ -490,9 +443,9 @@ const cards = [
 // };
 
 const cloudUrlConfig = {
-    dev: "cloud://cloud1-1gte9qf85ff03da4.636c-cloud1-1gte9qf85ff03da4-1358849543/images/cover/",
-    preprod:
-        "cloud://cloud1-4gcgkweic0306525.636c-cloud1-4gcgkweic0306525-1360400413/images/cover/",
+    dev: "http://192.168.31.250:9000/cover/",
+    // preprod:
+    //     "cloud://cloud1-4gcgkweic0306525.636c-cloud1-4gcgkweic0306525-1360400413/images/cover/",
     prod: "cloud://prod-env-3gb9vy5c3ca5a90c.7072-prod-env-3gb9vy5c3ca5a90c-1360400413/images/cover/",
 };
 
@@ -509,15 +462,26 @@ const nowAt = moment();
 const dateStr = nowAt.format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 const updatedAt = { $date: dateStr };
 
-console.log("updatedAt =>", updatedAt);
+console.log(`=== 更新时间: ${updatedAt.$date} ===`);
+console.log(`=== 卡片分类类型: ${CARD_CATEGORY_TYPES.length + 1} 种 ===`);
+console.table(CARD_CATEGORY_TYPES);
 
 const updatedCards = cards.map((v, idx) => {
     const id = v.templateCode;
+
+    const { categoryTypeName } =
+        CARD_CATEGORY_TYPES.find(
+            ({ categoryType }) => categoryType === v.categoryType
+        ) || {};
+    const { name: typeName } =
+        CARD_TYPES_DICTIONARIES.find(({ value }) => value === v.type) || {};
     return {
         // id: "202505191212120002",
         _id: id,
         id,
         ...v,
+        typeName,
+        categoryTypeName,
         status: v.status || "online",
         createAt: null,
         updatedAt,
@@ -532,15 +496,36 @@ const hotCards = updatedCards
         ({ typeName, templateName, blessingWords }) =>
             `${typeName}·${templateName}·${blessingWords}`
     );
+
+const initialCardCategoryCount = CARD_CATEGORY_TYPES.reduce(
+    (a, { categoryType }) => {
+        return {
+            ...a,
+            [categoryType]: 0,
+        };
+    },
+    {}
+);
+
+// 统计各个大主题下卡片的数量
+const statsCardCategoryCount = updatedCards.reduce((a, { categoryType }) => {
+    return {
+        ...a,
+        [categoryType]: a[categoryType] + 1,
+    };
+}, initialCardCategoryCount);
 // .join("\n");
+console.log("=== 各个大主题下卡片的数量 ===");
+console.table(statsCardCategoryCount);
 
 console.log("=== 热门推荐 ===");
 console.table(hotCards);
-console.log("=== 热门推荐 ===");
 
-try {
+const DIR_PATH = path.join(__dirname, `cards`);
+
+const createCardsJson = () => {
     console.log("=== database_cards 开始处理 ===");
-    const filePath = path.join(__dirname, `${fileName}.json`);
+    const filePath = `${DIR_PATH}/${fileName}.json`;
     const writeStream = fs.createWriteStream(filePath);
 
     updatedCards.forEach((item) => {
@@ -548,9 +533,16 @@ try {
     });
     writeStream.end();
     console.log(`=== 写入成功-环境 ${env}, 共 ${updatedCards.length} 条 ===`);
+};
+
+try {
+    createDirSync(DIR_PATH);
+
+    createCardsJson();
 } catch (err) {
     console.log(`=== 写入失败-环境 ${env} ===`);
 }
 
+// 执行: node ./bear-card/json/database_cards.js --env=dev
 // 执行: node ./bear-card/json/database_cards.js --env=preprod
 // 执行: node ./bear-card/json/database_cards.js --env=prod
