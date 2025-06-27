@@ -2,7 +2,7 @@
  * 卡片分类类型
  */
 const CARD_CATEGORY_TYPES = [
-    // 常用
+    // 推荐
     {
         categoryType: "HoneyPocket",
         categoryName: "蜂蜜小口袋 🍯",
@@ -75,6 +75,18 @@ const CARD_TYPES_DICTIONARIES = [
     {
         name: "抱抱卡",
         value: "embrace",
+    },
+    {
+        name: "充能卡",
+        value: "recharge",
+    },
+    {
+        name: "轻效卡",
+        value: "efficiency",
+    },
+    {
+        name: "任务卡",
+        value: "task",
     },
 ];
 

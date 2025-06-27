@@ -3,7 +3,7 @@ const fs = require("fs");
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 const { createDirSync } = require("./utils");
-const { CARD_CATEGORY_TYPES } = require("./constants");
+const { CARD_CATEGORY_TYPES, CARD_TYPES_DICTIONARIES } = require("./constants");
 
 // --env=dev|prod
 const argv = yargs(hideBin(process.argv)).argv;
@@ -37,6 +37,7 @@ const createConfigsJson = () => {
     const filePath = `${DIR_PATH}/${fileName}`;
     const writeStream = fs.createWriteStream(filePath);
 
+    console.table(CARD_TYPES_DICTIONARIES.map(({ name }) => name));
     writeStream.write(JSON.stringify(configs) + "\n");
     writeStream.end();
     console.log(`=== 写入成功-环境 ${env} ===`);

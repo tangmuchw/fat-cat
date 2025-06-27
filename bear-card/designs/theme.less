@@ -1,0 +1,222 @@
+// ======================
+// 基础颜色变量
+// ======================
+@white:     #ffffff;
+@black:     #000000;
+@gray-50:   #fafafa;
+@gray-100:  #f5f5f5;
+@gray-200:  #eeeeee;
+@gray-300:  #e0e0e0;
+@gray-400:  #bdbdbd;
+@gray-500:  #9e9e9e;
+@gray-600:  #757575;
+@gray-700:  #616161;
+@gray-800:  #424242;
+@gray-900:  #212121;
+
+// ======================
+// 主题色系
+// ======================
+@primary-color:         #1890ff;  // 主色
+@primary-hover:         #40a9ff;  // 主色悬停
+@primary-active:        #096dd9;  // 主色激活
+
+@success-color:         #52c41a;  // 成功色
+@warning-color:         #faad14;  // 警告色
+@error-color:           #ff4d4f;  // 错误色
+@info-color:            #1890ff;  // 信息色
+
+@link-color:            #1890ff;  // 链接色
+@link-hover-color:      #40a9ff;  // 链接悬停
+
+// ======================
+// 浅色主题变量
+// ======================
+@theme-light: {
+  // 背景色
+  @bg-body:            @white;
+  @bg-container:       @gray-50;
+  @bg-card:            @white;
+  @bg-header:          @white;
+  @bg-footer:          @gray-100;
+  
+  // 文字色
+  @text-title:         rgba(0, 0, 0, 0.85);
+  @text-primary:       rgba(0, 0, 0, 0.75);
+  @text-secondary:     rgba(0, 0, 0, 0.45);
+  @text-disabled:      rgba(0, 0, 0, 0.25);
+  
+  // 边框色
+  @border-base:        #d9d9d9;
+  @border-split:       #f0f0f0;
+  
+  // 功能色
+  @disabled-bg:        @gray-100;
+  @mask-bg:            rgba(0, 0, 0, 0.45);
+};
+
+// ======================
+// 深色主题变量
+// ======================
+@theme-dark: {
+  // 背景色
+  @bg-body:            #141414;
+  @bg-container:       #1d1d1d;
+  @bg-card:            #1f1f1f;
+  @bg-header:          #171717;
+  @bg-footer:          #1a1a1a;
+  
+  // 文字色
+  @text-title:         rgba(255, 255, 255, 0.85);
+  @text-primary:       rgba(255, 255, 255, 0.75);
+  @text-secondary:     rgba(255, 255, 255, 0.55);
+  @text-disabled:      rgba(255, 255, 255, 0.35);
+  
+  // 边框色
+  @border-base:        #424242;
+  @border-split:       #303030;
+  
+  // 功能色
+  @disabled-bg:        #2a2a2a;
+  @mask-bg:            rgba(0, 0, 0, 0.65);
+};
+
+// ======================
+// 尺寸与间距
+// ======================
+// 基础单位
+@base-unit: 8px;
+
+// 间距系统 (基于8px倍数)
+@spacing-xxs: @base-unit * 0.5;  // 4px
+@spacing-xs:  @base-unit * 1;    // 8px
+@spacing-sm:  @base-unit * 2;    // 16px
+@spacing-md:  @base-unit * 3;    // 24px
+@spacing-lg:  @base-unit * 4;    // 32px
+@spacing-xl:  @base-unit * 6;    // 48px
+@spacing-xxl: @base-unit * 8;    // 64px
+
+// 尺寸系统
+@size-xs:  24px;
+@size-sm:  32px;
+@size-md:  40px;
+@size-lg:  48px;
+@size-xl:  56px;
+
+// ======================
+// 边框与圆角
+// ======================
+@border-width-base: 1px;
+@border-style-base: solid;
+
+@radius-xs: 2px;
+@radius-sm: 4px;
+@radius-md: 6px;
+@radius-lg: 8px;
+@radius-xl: 12px;
+@radius-circle: 50%;
+
+// ======================
+// 阴影系统
+// ======================
+@shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+@shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+@shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+@shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+@shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// ======================
+// 动画与过渡
+// ======================
+@ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
+@ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
+@animation-duration-base: 0.2s;
+@animation-duration-fast: 0.1s;
+
+// ======================
+// 主题应用混入
+// ======================
+.theme(@theme) {
+  @colors: @@theme;
+  
+  // 背景色
+  --bg-body: @colors[@bg-body];
+  --bg-container: @colors[@bg-container];
+  --bg-card: @colors[@bg-card];
+  --bg-header: @colors[@bg-header];
+  --bg-footer: @colors[@bg-footer];
+  
+  // 文字色
+  --text-title: @colors[@text-title];
+  --text-primary: @colors[@text-primary];
+  --text-secondary: @colors[@text-secondary];
+  --text-disabled: @colors[@text-disabled];
+  
+  // 边框色
+  --border-base: @colors[@border-base];
+  --border-split: @colors[@border-split];
+  
+  // 功能色
+  --disabled-bg: @colors[@disabled-bg];
+  --mask-bg: @colors[@mask-bg];
+}
+
+// ======================
+// 应用默认主题 (CSS变量)
+// ======================
+:root {
+  // 主题色
+  --primary-color: @primary-color;
+  --primary-hover: @primary-hover;
+  --primary-active: @primary-active;
+  
+  --success-color: @success-color;
+  --warning-color: @warning-color;
+  --error-color: @error-color;
+  --info-color: @info-color;
+  
+  --link-color: @link-color;
+  --link-hover-color: @link-hover-color;
+  
+  // 尺寸与间距
+  --spacing-xxs: @spacing-xxs;
+  --spacing-xs: @spacing-xs;
+  --spacing-sm: @spacing-sm;
+  --spacing-md: @spacing-md;
+  --spacing-lg: @spacing-lg;
+  --spacing-xl: @spacing-xl;
+  --spacing-xxl: @spacing-xxl;
+  
+  // 边框
+  --border-width-base: @border-width-base;
+  --border-style-base: @border-style-base;
+  
+  // 圆角
+  --radius-xs: @radius-xs;
+  --radius-sm: @radius-sm;
+  --radius-md: @radius-md;
+  --radius-lg: @radius-lg;
+  --radius-xl: @radius-xl;
+  --radius-circle: @radius-circle;
+  
+  // 阴影
+  --shadow-sm: @shadow-sm;
+  --shadow-base: @shadow-base;
+  --shadow-md: @shadow-md;
+  --shadow-lg: @shadow-lg;
+  --shadow-xl: @shadow-xl;
+  
+  // 应用浅色主题变量
+  .theme(theme-light);
+}
+
+// ======================
+// 深色主题覆盖
+// ======================
+[data-theme='dark'] {
+  .theme(theme-dark);
+  
+  // 深色主题下调整阴影
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+}

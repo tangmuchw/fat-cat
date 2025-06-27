@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef4eb 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        /* 顶部用户信息区域 - 全新设计 */
+        .user-header {
+            height: 260px;
+            background: linear-gradient(135deg, #ffb88c 0%, #ff8d6b 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 30px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 6px 25px rgba(190, 130, 90, 0.3);
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+        }
+
+        .user-header.logged-in {
+            background: linear-gradient(135deg, #ff9e6d 0%, #ff7048 100%);
+            height: 280px;
+        }
+
+        /* 熊爪印形状的容器 */
+        .avatar-container {
+            margin-top: 20px;
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 5;
+        }
+
+        .avatar-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        /* 熊爪印背景 */
+        .paw-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fef4eb;
+            border-radius: 50%;
+            box-shadow:
+                0 8px 25px rgba(139, 69, 19, 0.3),
+                inset 0 0 15px rgba(255, 220, 200, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* 熊爪印细节 */
+        .paw-toes {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ffb88c;
+            border-radius: 50%;
+        }
+
+        .paw-toe1 {
+            top: 10px;
+            left: 30px;
+        }
+
+        .paw-toe2 {
+            top: 10px;
+            left: 60px;
+        }
+
+        .paw-toe3 {
+            top: 10px;
+            left: 90px;
+        }
+
+        .paw-palm {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #ffb88c;
+            border-radius: 50%;
+            bottom: 15px;
+            left: 25px;
+        }
+
+        /* 头像区域 */
+        .avatar-content {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+        }
+
+        /* 默认熊头轮廓 */
+        .default-bear {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: #ff8d6b;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bear-ears {
+            position: absolute;
+            top: -10px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .bear-ear {
+            width: 20px;
+            height: 20px;
+            background: #ff8d6b;
+            border-radius: 50%;
+        }
+
+        .bear-face {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: #fef4eb;
+            border-radius: 50%;
+            margin-top: 15px;
+        }
+
+        .bear-eyes {
+            position: absolute;
+            top: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .bear-eye {
+            width: 8px;
+            height: 8px;
+            background: #8B4513;
+            border-radius: 50%;
+        }
+
+        .bear-nose {
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: #8B4513;
+            border-radius: 50%;
+            top: 25px;
+            left: 18px;
+        }
+
+        /* 用户头像 */
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+        }
+
+        /* 用户信息 */
+        .user-info {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .user-name {
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .user-status {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .action-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .login-btn {
+            background: white;
+            color: #ff7048;
+            border: none;
+            padding: 12px 30px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: white;
+            display: none;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        /* 已登录状态额外信息 */
+        .user-details {
+            display: none;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 14px;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 核心功能区 */
+        .func-section {
+            margin: 0 20px 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 18px;
+            background: #FF8C00;
+            border-radius: 3px;
+        }
+
+        .func-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .func-card {
+            background: #FEF4EB;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow:
+                0 10px 25px rgba(190, 130, 90, 0.15),
+                inset 0 -2px 10px rgba(255, 255, 255, 0.7),
+                inset 0 2px 10px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 220, 200, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .func-card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 15px 35px rgba(190, 130, 90, 0.25),
+                inset 0 -2px 10px rgba(255, 255, 255, 0.7),
+                inset 0 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .func-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffb88c 0%, #ff8d6b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.3);
+            flex-shrink: 0;
+        }
+
+        .func-content {
+            flex: 1;
+        }
+
+        .func-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 8px;
+        }
+
+        .func-desc {
+            font-size: 14px;
+            color: #A0522D;
+            line-height: 1.5;
+        }
+
+        /* 熊主题装饰 */
+        .honeycomb {
+            position: absolute;
+            font-size: 30px;
+            color: rgba(255, 255, 255, 0.3);
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .honeycomb-1 {
+            top: 20px;
+            left: 20px;
+            animation-delay: 0s;
+        }
+
+        .honeycomb-2 {
+            top: 20px;
+            right: 20px;
+            animation-delay: 1s;
+        }
+
+        .honeycomb-3 {
+            bottom: 20px;
+            left: 20px;
+            animation-delay: 2s;
+        }
+
+        /* 熊爪装饰 */
+        .paw-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .paw-1 {
+            top: 40%;
+            left: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .paw-2 {
+            top: 30%;
+            right: 12%;
+            animation-delay: 1.5s;
+        }
+
+        .paw-3 {
+            bottom: 30%;
+            left: 18%;
+            animation-delay: 2.5s;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            padding: 12px 0;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 20px 20px 0 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            color: #A0522D;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #FF8C00;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+        }
+
+        /* 导航栏用户头像 */
+        .nav-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .user-header {
+                height: 240px;
+            }
+
+            .user-header.logged-in {
+                height: 260px;
+            }
+
+            .avatar-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .avatar-content {
+                width: 80px;
+                height: 80px;
+            }
+
+            .default-bear {
+                width: 60px;
+                height: 60px;
+            }
+
+            .bear-face {
+                width: 40px;
+                height: 40px;
+            }
+
+            .bear-ears {
+                gap: 20px;
+                top: -8px;
+            }
+
+            .bear-ear {
+                width: 15px;
+                height: 15px;
+            }
+
+            .user-name {
+                font-size: 22px;
+            }
+
+            .action-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .user-status {
+                font-size: 14px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .rotating {
+            animation: rotate 20s linear infinite;
+        }
+
+        /* 主题装饰区 */
+        .theme-decoration {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .theme-text {
+            color: #A0522D;
+            font-size: 16px;
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 245, 230, 0.7);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        .theme-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 182, 112, 0.1);
+            z-index: 1;
+        }
+
+        /* 熊爪装饰线 */
+        .paw-line {
+            position: absolute;
+            height: 2px;
+            background: rgba(139, 69, 19, 0.1);
+            z-index: 0;
+        }
+
+        .paw-line::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 50%;
+            top: -7px;
+        }
+
+        .line-1 {
+            width: 100px;
+            top: 30%;
+            left: -10%;
+            transform: rotate(20deg);
+        }
+
+        .line-2 {
+            width: 80px;
+            top: 70%;
+            right: -5%;
+            transform: rotate(-15deg);
+        }
+
+        .line-1::before {
+            left: 0;
+        }
+
+        .line-2::before {
+            right: 0;
+        }
+
+        /* 新增熊爪装饰 */
+        .paw-print {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .paw-print::before,
+        .paw-print::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            top: -6px;
+        }
+
+        .paw-print::before {
+            left: 3px;
+        }
+
+        .paw-print::after {
+            right: 3px;
+        }
+
+        .paw-print.bottom {
+            width: 20px;
+            height: 20px;
+            top: 15px;
+        }
+
+        .paw-print-1 {
+            top: 20%;
+            left: 15%;
+            animation: float 4s ease-in-out infinite;
+            animation-delay: 0.2s;
+        }
+
+        .paw-print-2 {
+            top: 65%;
+            right: 20%;
+            animation: float 4s ease-in-out infinite;
+            animation-delay: 1.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 用户信息区域 - 重新设计 -->
+        <div class="user-header" id="userHeader">
+            <!-- 背景装饰 -->
+            <div class="honeycomb honeycomb-1">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+            <div class="honeycomb honeycomb-2">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+            <div class="honeycomb honeycomb-3">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+
+            <!-- 新增熊爪装饰 -->
+            <div class="paw-print paw-print-1"></div>
+            <div class="paw-print paw-print-2"></div>
+
+            <!-- 熊爪印头像容器 -->
+            <div class="avatar-container" id="avatarContainer">
+
+                <div class="avatar-content">
+                    <!-- 默认熊头轮廓 -->
+                    <div class="default-bear" id="defaultBear">
+                        <div class="bear-ears">
+                            <div class="bear-ear"></div>
+                            <div class="bear-ear"></div>
+                        </div>
+                        <div class="bear-face">
+                            <div class="bear-eyes">
+                                <div class="bear-eye"></div>
+                                <div class="bear-eye"></div>
+                            </div>
+                            <div class="bear-nose"></div>
+                        </div>
+                    </div>
+
+                    <!-- 用户头像 -->
+                    <img src="" alt="" id="userAvatar" class="user-avatar">
+                </div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-name" id="userName">游客</div>
+                <div class="user-status" id="userStatus">点击登录体验完整功能</div>
+                <div class="user-actions">
+                    <button class="action-btn login-btn" id="loginButton">登录/注册</button>
+                    <button class="action-btn logout-btn" id="logoutButton">退出登录</button>
+                </div>
+
+                <!-- 已登录状态额外信息 -->
+                <div class="user-details" id="userDetails">
+                    <div class="detail-item">
+                        <span class="detail-label">会员等级</span>
+                        <span class="detail-value">金爪会员</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">爪印积分</span>
+                        <span class="detail-value">1,250</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">邮箱</span>
+                        <span class="detail-value">warmbear@example.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心功能区 -->
+        <div class="func-section">
+            <div class="section-title">核心功能</div>
+            <div class="func-cards">
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">爪印邮局</div>
+                        <div class="func-desc">查看和管理您发送与接收的卡片，追踪卡片状态</div>
+                    </div>
+                    <div class="paw-decoration paw-1"></div>
+                </div>
+
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">个人档案</div>
+                        <div class="func-desc">编辑个人信息、设置头像和个性化签名</div>
+                    </div>
+                    <div class="paw-decoration paw-2"></div>
+                </div>
+
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">意见反馈</div>
+                        <div class="func-desc">向我们提出宝贵建议或报告遇到的问题</div>
+                    </div>
+                    <div class="paw-decoration paw-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 熊主题装饰区 -->
+        <div class="theme-decoration">
+            <div class="theme-background rotating"></div>
+            <p class="theme-text">用温暖的话语，传递真挚的情感</p>
+            <div class="paw-line line-1"></div>
+            <div class="paw-line line-2"></div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
+            <div>创建</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-inbox"></i></div>
+            <div>收件箱</div>
+        </div>
+        <div class="nav-item active" id="myTab">
+            <div class="nav-icon">
+                <i class="fas fa-user" id="navUserIcon"></i>
+                <img src="" alt="" id="navUserAvatar" class="nav-avatar">
+            </div>
+            <div>我的</div>
+        </div>
+    </div>
+
+    <script>
+        // 用户登录状态管理
+        const userHeader = document.getElementById('userHeader');
+        const userName = document.getElementById('userName');
+        const userStatus = document.getElementById('userStatus');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const defaultBear = document.getElementById('defaultBear');
+        const userAvatar = document.getElementById('userAvatar');
+        const avatarContainer = document.getElementById('avatarContainer');
+        const navUserIcon = document.getElementById('navUserIcon');
+        const navUserAvatar = document.getElementById('navUserAvatar');
+        const userDetails = document.getElementById('userDetails');
+
+        // 默认未登录状态
+        let loggedIn = false;
+
+        // 登录按钮功能
+        loginButton.addEventListener('click', function () {
+            if (!loggedIn) {
+                loggedIn = true;
+                updateLoginState();
+                showNotification('欢迎回来，暖暖熊！');
+            }
+        });
+
+        // 退出登录按钮功能
+        logoutButton.addEventListener('click', function () {
+            loggedIn = false;
+            updateLoginState();
+            showNotification('您已成功退出登录');
+        });
+
+        // 头像容器点击事件
+        avatarContainer.addEventListener('click', function () {
+            if (loggedIn) {
+                showNotification('进入个人档案设置');
+            } else {
+                loginButton.click();
+            }
+        });
+
+        function updateLoginState() {
+            if (loggedIn) {
+                // 更新为登录状态
+                userHeader.classList.add('logged-in');
+                userName.textContent = '暖暖熊';
+                userStatus.textContent = '金爪会员 · 在线';
+                loginButton.style.display = 'none';
+                logoutButton.style.display = 'block';
+                userDetails.style.display = 'block';
+
+                // 显示用户头像
+                defaultBear.style.display = 'none';
+                userAvatar.style.display = 'block';
+                userAvatar.src = 'https://randomuser.me/api/portraits/women/68.jpg';
+
+                // 更新导航栏头像
+                navUserIcon.style.display = 'none';
+                navUserAvatar.style.display = 'block';
+                navUserAvatar.src = 'https://randomuser.me/api/portraits/women/68.jpg';
+            } else {
+                // 更新为未登录状态
+                userHeader.classList.remove('logged-in');
+                userName.textContent = '游客';
+                userStatus.textContent = '点击登录体验完整功能';
+                loginButton.style.display = 'block';
+                logoutButton.style.display = 'none';
+                userDetails.style.display = 'none';
+
+                // 显示默认熊头
+                defaultBear.style.display = 'flex';
+                userAvatar.style.display = 'none';
+
+                // 恢复导航栏默认图标
+                navUserIcon.style.display = 'block';
+                navUserAvatar.style.display = 'none';
+            }
+        }
+
+        // 功能卡片点击效果
+        const funcCards = document.querySelectorAll('.func-card');
+        funcCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const cardName = this.querySelector('.func-name').textContent;
+                showNotification(`进入${cardName}功能`);
+            });
+        });
+
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '100px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.backgroundColor = '#FF8C00';
+            notification.style.color = 'white';
+            notification.style.padding = '12px 25px';
+            notification.style.borderRadius = '30px';
+            notification.style.boxShadow = '0 4px 15px rgba(190, 130, 90, 0.4)';
+            notification.style.zIndex = '1000';
+            notification.style.fontWeight = 'bold';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.style.transform = 'translate(-50%, 20px)';
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // 显示通知
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translate(-50%, 0)';
+            }, 10);
+
+            // 隐藏通知
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translate(-50%, -10px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 2000);
+        }
+
+        // 添加随机装饰元素
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector('.user-header');
+
+            // 添加蜂蜜罐装饰
+            for (let i = 0; i < 4; i++) {
+                const honey = document.createElement('div');
+                honey.className = 'honeycomb';
+                honey.style.position = 'absolute';
+                honey.style.left = Math.random() * 90 + 5 + '%';
+                honey.style.top = Math.random() * 80 + 10 + '%';
+                honey.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                honey.style.opacity = Math.random() * 0.2 + 0.1;
+                honey.style.animationDelay = (Math.random() * 2) + 's';
+                honey.innerHTML = '<i class="fas fa-honey-pot"></i>';
+                header.appendChild(honey);
+            }
+
+            // 添加熊爪印装饰
+            for (let i = 0; i < 6; i++) {
+                const paw = document.createElement('div');
+                paw.className = 'paw-print';
+                paw.style.position = 'absolute';
+                paw.style.left = Math.random() * 90 + 5 + '%';
+                paw.style.top = Math.random() * 80 + 10 + '%';
+                paw.style.transform = `rotate(${Math.random() * 360}deg)`;
+                paw.style.opacity = Math.random() * 0.15 + 0.05;
+                paw.style.animationDelay = (Math.random() * 3) + 's';
+                header.appendChild(paw);
+            }
+        });
+
+        // 初始化
+        updateLoginState();
+    </script>
+</body>
+
+</html>

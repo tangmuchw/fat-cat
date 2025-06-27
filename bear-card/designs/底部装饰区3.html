@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熊熊卡 - 情感表达卡片平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef4eb 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        /* 顶部用户信息区域 */
+        .user-header {
+            height: 260px;
+            background: linear-gradient(135deg, #ffb88c 0%, #ff8d6b 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 30px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 6px 25px rgba(190, 130, 90, 0.3);
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+        }
+
+        /* 核心功能区 */
+        .func-section {
+            margin: 0 20px 30px;
+        }
+
+        /* 熊熊卡主题装饰区 */
+        .theme-decoration {
+            position: relative;
+            height: 300px;
+            margin: 40px 20px;
+            border-radius: 25px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f0e5 0%, #fff5e9 100%);
+            box-shadow: 0 15px 35px rgba(190, 130, 90, 0.15);
+            border: 1px solid rgba(255, 220, 200, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 卡片创作场景 */
+        .card-scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* 书桌 */
+        .desk {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to top, #8B4513, #A0522D);
+            border-top: 3px solid #704214;
+            z-index: 3;
+        }
+
+        /* 台灯 */
+        .lamp {
+            position: absolute;
+            bottom: 50px;
+            left: 20%;
+            width: 60px;
+            height: 80px;
+            z-index: 4;
+        }
+
+        .lamp-base {
+            position: absolute;
+            bottom: 0;
+            left: 25px;
+            width: 10px;
+            height: 30px;
+            background: #c0c0c0;
+        }
+
+        .lamp-arm {
+            position: absolute;
+            bottom: 30px;
+            left: 25px;
+            width: 50px;
+            height: 5px;
+            background: #c0c0c0;
+            transform-origin: left center;
+            transform: rotate(-20deg);
+        }
+
+        .lamp-shade {
+            position: absolute;
+            bottom: 30px;
+            left: 65px;
+            width: 40px;
+            height: 25px;
+            background: #ffd700;
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* 卡片 */
+        .card {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 90px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        .card-inner {
+            width: 90%;
+            height: 85%;
+            background: #fffaf0;
+            border: 1px dashed #ffb88c;
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .heart-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #ff6b6b;
+            font-size: 12px;
+        }
+
+        .card-content {
+            font-size: 10px;
+            color: #8B4513;
+            text-align: center;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+
+        /* 小熊 */
+        .writing-bear {
+            position: absolute;
+            bottom: 50px;
+            right: 25%;
+            width: 60px;
+            height: 70px;
+            z-index: 4;
+            animation: bearWrite 5s ease-in-out infinite;
+        }
+
+        .bear-body {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: #8B4513;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .bear-head {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 50%;
+            z-index: 3;
+        }
+
+        .bear-ear {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #8B4513;
+            border-radius: 50%;
+            top: -5px;
+        }
+
+        .bear-ear.left { left: 5px; }
+        .bear-ear.right { right: 5px; }
+
+        .bear-eye {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            top: 15px;
+        }
+
+        .bear-eye.left { left: 10px; }
+        .bear-eye.right { right: 10px; }
+
+        .bear-nose {
+            position: absolute;
+            width: 8px;
+            height: 6px;
+            background: #5d4037;
+            border-radius: 50%;
+            top: 22px;
+            left: 16px;
+        }
+
+        .bear-arm {
+            position: absolute;
+            width: 25px;
+            height: 8px;
+            background: #8B4513;
+            border-radius: 4px;
+            top: 25px;
+            left: -15px;
+            transform: rotate(-30deg);
+            transform-origin: right center;
+            animation: armWrite 1s ease-in-out infinite alternate;
+        }
+
+        /* 信封 */
+        .envelope {
+            position: absolute;
+            bottom: 65px;
+            left: 20%;
+            width: 70px;
+            height: 45px;
+            background: #f9e076;
+            border-radius: 5px;
+            z-index: 4;
+            transform: rotate(-10deg);
+            animation: envelopeFloat 6s ease-in-out infinite;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 70px;
+            height: 25px;
+            background: #f9d54e;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .envelope-heart {
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            color: #ff6b6b;
+            font-size: 18px;
+        }
+
+        /* 漂浮的短语气泡 */
+        .phrase-bubble {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 12px;
+            color: #8B4513;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            z-index: 6;
+            animation: phraseAppear 10s infinite ease-in-out;
+        }
+
+        .bubble1 {
+            top: 30%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        .bubble2 {
+            top: 20%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+
+        .bubble3 {
+            top: 40%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        /* 主题文字 */
+        .theme-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.15);
+            border: 1px solid rgba(255, 220, 200, 0.6);
+            max-width: 85%;
+        }
+
+        .slogan {
+            color: #8B4513;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .sub-slogan {
+            color: #A0522D;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 动画定义 */
+        @keyframes cardFloat {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -10px); }
+        }
+
+        @keyframes bearWrite {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes armWrite {
+            0% { transform: rotate(-30deg); }
+            100% { transform: rotate(-20deg); }
+        }
+
+        @keyframes envelopeFloat {
+            0%, 100% { transform: rotate(-10deg) translateY(0); }
+            50% { transform: rotate(-8deg) translateY(-8px); }
+        }
+
+        @keyframes phraseAppear {
+            0% { opacity: 0; transform: translateY(10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            20% { opacity: 1; transform: translateY(0); }
+            30% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            padding: 12px 0;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 20px 20px 0 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 用户信息区域 -->
+        <div class="user-header" id="userHeader">
+            <!-- 背景装饰 -->
+            <div class="honeycomb honeycomb-1">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+            <div class="honeycomb honeycomb-2">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+            <div class="honeycomb honeycomb-3">
+                <i class="fas fa-honey-pot"></i>
+            </div>
+
+            <!-- 熊爪印头像容器 -->
+            <div class="avatar-container" id="avatarContainer">
+                <div class="avatar-content">
+                    <!-- 默认熊头轮廓 -->
+                    <div class="default-bear" id="defaultBear">
+                        <div class="bear-ears">
+                            <div class="bear-ear"></div>
+                            <div class="bear-ear"></div>
+                        </div>
+                        <div class="bear-face">
+                            <div class="bear-eyes">
+                                <div class="bear-eye"></div>
+                                <div class="bear-eye"></div>
+                            </div>
+                            <div class="bear-nose"></div>
+                        </div>
+                    </div>
+                    <!-- 用户头像 -->
+                    <img src="" alt="" id="userAvatar" class="user-avatar">
+                </div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-name" id="userName">熊熊卡用户</div>
+                <div class="user-status" id="userStatus">传递那些难以开口的话语</div>
+                <div class="user-actions">
+                    <button class="action-btn login-btn" id="loginButton">登录/注册</button>
+                    <button class="action-btn logout-btn" id="logoutButton">退出登录</button>
+                </div>
+
+                <!-- 已登录状态额外信息 -->
+                <div class="user-details" id="userDetails">
+                    <div class="detail-item">
+                        <span class="detail-label">已发送卡片</span>
+                        <span class="detail-value">28 张</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">收到卡片</span>
+                        <span class="detail-value">16 张</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">收藏模板</span>
+                        <span class="detail-value">9 个</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心功能区 -->
+        <div class="func-section">
+            <div class="section-title">卡片功能</div>
+            <div class="func-cards">
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">创建卡片</div>
+                        <div class="func-desc">使用精美模板创建个性化卡片</div>
+                    </div>
+                </div>
+
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">我的收件箱</div>
+                        <div class="func-desc">查看收到的暖心卡片</div>
+                    </div>
+                </div>
+
+                <div class="func-card">
+                    <div class="func-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="func-content">
+                        <div class="func-name">收藏模板</div>
+                        <div class="func-desc">保存喜欢的卡片模板</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 熊熊卡主题装饰区 -->
+        <div class="theme-decoration">
+            <div class="card-scene">
+                <!-- 书桌 -->
+                <div class="desk"></div>
+                
+                <!-- 台灯 -->
+                <div class="lamp">
+                    <div class="lamp-base"></div>
+                    <div class="lamp-arm"></div>
+                    <div class="lamp-shade"></div>
+                </div>
+                
+                <!-- 卡片 -->
+                <div class="card">
+                    <div class="card-inner">
+                        <i class="fas fa-heart heart-icon"></i>
+                        <div class="card-content">谢谢你一直以来的包容，有些话我总说不出口...</div>
+                    </div>
+                </div>
+                
+                <!-- 写信的小熊 -->
+                <div class="writing-bear">
+                    <div class="bear-body"></div>
+                    <div class="bear-head">
+                        <div class="bear-ear left"></div>
+                        <div class="bear-ear right"></div>
+                        <div class="bear-eye left"></div>
+                        <div class="bear-eye right"></div>
+                        <div class="bear-nose"></div>
+                    </div>
+                    <div class="bear-arm"></div>
+                </div>
+                
+                <!-- 信封 -->
+                <div class="envelope">
+                    <div class="envelope-flap"></div>
+                    <i class="fas fa-heart envelope-heart"></i>
+                </div>
+                
+                <!-- 短语气泡 -->
+                <div class="phrase-bubble bubble1">有些话，当面说不出口</div>
+                <div class="phrase-bubble bubble2">用卡片表达真心</div>
+                <div class="phrase-bubble bubble3">温暖的话语，治愈心灵</div>
+            </div>
+            
+            <!-- 主题文字 -->
+            <div class="theme-text">
+                <div class="slogan">用卡片说出那些难以启齿的话语</div>
+                <div class="sub-slogan">熊熊卡，传递最真挚的情感</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
+            <div>创建</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-inbox"></i></div>
+            <div>收件箱</div>
+        </div>
+        <div class="nav-item active" id="myTab">
+            <div class="nav-icon">
+                <i class="fas fa-user" id="navUserIcon"></i>
+                <img src="" alt="" id="navUserAvatar" class="nav-avatar">
+            </div>
+            <div>我的</div>
+        </div>
+    </div>
+
+    <script>
+        // 用户登录状态管理
+        const userHeader = document.getElementById('userHeader');
+        const userName = document.getElementById('userName');
+        const userStatus = document.getElementById('userStatus');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const defaultBear = document.getElementById('defaultBear');
+        const userAvatar = document.getElementById('userAvatar');
+        const avatarContainer = document.getElementById('avatarContainer');
+        const navUserIcon = document.getElementById('navUserIcon');
+        const navUserAvatar = document.getElementById('navUserAvatar');
+        const userDetails = document.getElementById('userDetails');
+
+        // 默认未登录状态
+        let loggedIn = false;
+
+        // 登录按钮功能
+        loginButton.addEventListener('click', function () {
+            if (!loggedIn) {
+                loggedIn = true;
+                updateLoginState();
+                showNotification('欢迎使用熊熊卡，传递真挚情感');
+            }
+        });
+
+        // 退出登录按钮功能
+        logoutButton.addEventListener('click', function () {
+            loggedIn = false;
+            updateLoginState();
+            showNotification('您已退出登录，情感表达不中断');
+        });
+
+        // 头像容器点击事件
+        avatarContainer.addEventListener('click', function () {
+            if (loggedIn) {
+                showNotification('进入个人档案设置');
+            } else {
+                loginButton.click();
+            }
+        });
+
+        function updateLoginState() {
+            if (loggedIn) {
+                // 更新为登录状态
+                userHeader.classList.add('logged-in');
+                userName.textContent = '暖暖熊';
+                userStatus.textContent = '情感传递大使 · 在线';
+                loginButton.style.display = 'none';
+                logoutButton.style.display = 'block';
+                userDetails.style.display = 'block';
+
+                // 显示用户头像
+                defaultBear.style.display = 'none';
+                userAvatar.style.display = 'block';
+                userAvatar.src = 'https://randomuser.me/api/portraits/women/68.jpg';
+
+                // 更新导航栏头像
+                navUserIcon.style.display = 'none';
+                navUserAvatar.style.display = 'block';
+                navUserAvatar.src = 'https://randomuser.me/api/portraits/women/68.jpg';
+            } else {
+                // 更新为未登录状态
+                userHeader.classList.remove('logged-in');
+                userName.textContent = '熊熊卡用户';
+                userStatus.textContent = '传递那些难以开口的话语';
+                loginButton.style.display = 'block';
+                logoutButton.style.display = 'none';
+                userDetails.style.display = 'none';
+
+                // 显示默认熊头
+                defaultBear.style.display = 'flex';
+                userAvatar.style.display = 'none';
+
+                // 恢复导航栏默认图标
+                navUserIcon.style.display = 'block';
+                navUserAvatar.style.display = 'none';
+            }
+        }
+
+        // 功能卡片点击效果
+        const funcCards = document.querySelectorAll('.func-card');
+        funcCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const cardName = this.querySelector('.func-name').textContent;
+                showNotification(`进入${cardName}功能`);
+            });
+        });
+
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '100px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.backgroundColor = '#ff8d6b';
+            notification.style.color = 'white';
+            notification.style.padding = '12px 25px';
+            notification.style.borderRadius = '30px';
+            notification.style.boxShadow = '0 4px 15px rgba(190, 130, 90, 0.4)';
+            notification.style.zIndex = '1000';
+            notification.style.fontWeight = 'bold';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.style.transform = 'translate(-50%, 20px)';
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // 显示通知
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translate(-50%, 0)';
+            }, 10);
+
+            // 隐藏通知
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translate(-50%, -10px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 2000);
+        }
+
+        // 初始化
+        updateLoginState();
+    </script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡片已被撤回 - 签收页面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin: 30px 0 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            color: #FF8E3C;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #7a4a12;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 卡片预览容器 */
+        .card-preview {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(230, 122, 0, 0.12);
+            min-height: 500px;
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed rgba(255, 142, 60, 0.3);
+            padding: 40px 20px;
+        }
+
+        /* 空数据提示组件 */
+        .empty-state {
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+            box-shadow: 0 10px 30px rgba(230, 122, 0, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+            position: relative;
+        }
+
+        .empty-state::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, #ff8e3c, #ffb56b);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* 图标容器 */
+        .empty-icon {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .icon-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(255, 142, 60, 0.25);
+            border: 4px solid #fff;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .icon-circle i {
+            font-size: 60px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 文本内容 */
+        .empty-content h2 {
+            color: #e67a00;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .empty-content p {
+            color: #5a3a1e;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        .highlight {
+            background: linear-gradient(to right, #fff0d6, #ffe6c2);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* 操作按钮 */
+        .empty-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .empty-btn {
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .empty-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+
+        .empty-btn:hover::after {
+            left: 120%;
+        }
+
+        .empty-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(230, 122, 0, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            color: #7a4a12;
+            border: 1px solid #ffb56b;
+        }
+
+        .empty-btn i {
+            margin-right: 10px;
+        }
+
+        /* 装饰元素 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 142, 60, 0.08);
+            border-radius: 50%;
+            z-index: 1;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-duration: 15s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            bottom: 15%;
+            right: 12%;
+            animation-duration: 12s;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 25%;
+            right: 15%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            bottom: 25%;
+            left: 15%;
+            animation-duration: 14s;
+            animation-delay: 3s;
+        }
+
+        /* 动画定义 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-20px) translateX(15px);
+            }
+
+            50% {
+                transform: translateY(-10px) translateX(-15px);
+            }
+
+            75% {
+                transform: translateY(10px) translateX(20px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            color: #7a4a12;
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 卡片撤回标签 */
+        .withdrawn-tag {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(230, 122, 0, 0.3);
+            z-index: 20;
+            animation: pulse 2s infinite;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .empty-icon {
+                width: 120px;
+                height: 120px;
+            }
+
+            .empty-content h2 {
+                font-size: 1.7rem;
+            }
+
+            .empty-content p {
+                font-size: 1rem;
+            }
+
+            .empty-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .empty-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .withdrawn-tag {
+                top: -12px;
+                font-size: 1rem;
+                padding: 6px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .empty-state {
+                padding: 40px 20px;
+            }
+
+            .empty-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .icon-circle i {
+                font-size: 45px;
+            }
+
+            .empty-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 装饰气泡 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>卡片签收页面</h1>
+            <p>查看您收到的卡片内容与详情</p>
+        </div>
+
+        <!-- 卡片预览容器 -->
+        <div class="card-preview">
+            <!-- 撤回状态标签 -->
+            <div class="withdrawn-tag">
+                <i class="fas fa-exclamation-circle"></i> 卡片已被撤回
+            </div>
+
+            <!-- 空数据提示组件 -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <div class="icon-circle">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                </div>
+
+                <div class="empty-content">
+                    <h2>卡片已被发送者撤回</h2>
+                    <p>您要查看的卡片已被发送者<span class="highlight">主动撤回</span>，因此无法显示卡片内容。</p>
+                    <p>卡片撤回后，所有接收者都将无法查看该卡片。<br>如有疑问，请联系卡片发送者获取更多信息。</p>
+                </div>
+
+                <div class="empty-actions">
+                    <button class="empty-btn btn-primary">
+                        <i class="fas fa-home"></i> 返回首页
+                    </button>
+                    <button class="empty-btn btn-secondary">
+                        <i class="fas fa-history"></i> 查看其他卡片
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>设计灵感来源于熊熊卡 • 橙色/米白色主题 | 已撤回卡片提示</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加按钮点击效果
+        document.querySelectorAll('.empty-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                // 添加点击动画
+                this.style.transform = 'scale(0.95)';
+
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+
+                if (this.classList.contains('btn-primary')) {
+                    alert('正在返回首页...');
+                } else {
+                    alert('正在加载其他卡片...');
+                }
+            });
+        });
+
+        // 添加悬浮效果
+        const cardPreview = document.querySelector('.card-preview');
+        cardPreview.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            cardPreview.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        cardPreview.addEventListener('mouseenter', () => {
+            cardPreview.style.transition = 'none';
+        });
+
+        cardPreview.addEventListener('mouseleave', () => {
+            cardPreview.style.transition = 'transform 0.5s ease';
+            cardPreview.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+    </script>
+</body>
+
+</html>

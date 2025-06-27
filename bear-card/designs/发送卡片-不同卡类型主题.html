@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>熊熊卡 - 高情商表达小帮手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            position: relative;
+            overflow: auto;
+            width: 375px;
+            height: 667px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: background 0.5s ease;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+        }
+
+        /* 顶部导航栏 */
+        .navbar {
+            width: 100%;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .navbar-title {
+            flex: 1;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transition: color 0.5s ease;
+        }
+
+        /* 装饰元素 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 142, 60, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+            animation: float 10s infinite ease-in-out;
+            transition: background 0.5s ease;
+        }
+
+        /* 卡片容器 */
+        .card-container {
+            width: 100%;
+            max-width: 340px;
+            perspective: 1000px;
+            z-index: 10;
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* 卡片主体 */
+        .bear-card {
+            background: linear-gradient(145deg, #ffffff, #fff5e9);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow:
+                0 12px 30px rgba(230, 122, 0, 0.2),
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 0 15px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+
+        /* 发卡人信息 */
+        .sender-info {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 214, 165, 0.5);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.5s ease;
+        }
+
+        .avatar i {
+            font-size: 22px;
+            color: white;
+        }
+
+        .sender-details {
+            flex: 1;
+        }
+
+        .sender-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #5a3a1e;
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            padding: 18px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease;
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+        }
+
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(-2deg);
+        }
+
+        .card-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 4px;
+            transition: color 0.5s ease;
+        }
+
+        .card-subtitle {
+            color: #fff9e6;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+            transition: color 0.5s ease;
+        }
+
+        /* 卡片封面 - 默认设计 */
+        .card-cover {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 214, 165, 0.5);
+            transition: background 0.5s ease;
+        }
+
+        .card-cover::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        }
+
+        /* 默认封面内容 */
+        .default-cover {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+            transition: color 0.5s ease;
+        }
+
+        .cover-title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: color 0.5s ease;
+        }
+
+        .cover-subtitle {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.9;
+            transition: color 0.5s ease;
+        }
+
+        /* 装饰元素 */
+        .cover-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .decoration-item {
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: white;
+            transition: background 0.5s ease;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 18px;
+            animation: floatHeart 8s infinite linear;
+            transition: color 0.5s ease;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 16px;
+            animation: twinkle 3s infinite;
+            transition: color 0.5s ease;
+        }
+
+        .diamond {
+            color: #1E90FF;
+            font-size: 18px;
+            animation: spin 12s infinite linear;
+            transition: color 0.5s ease;
+        }
+
+        /* 卡片内容 */
+        .card-content {
+            padding: 20px 15px;
+            color: #5a3a1e;
+            position: relative;
+        }
+
+        .card-content::before {
+            content: "";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            height: 8px;
+            background: #ffd6a5;
+            border-radius: 50%;
+            filter: blur(4px);
+            transition: background 0.5s ease;
+        }
+
+        .content-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #e67a00;
+            font-weight: 600;
+            text-align: center;
+            transition: color 0.5s ease;
+        }
+
+        /* 新增：卡片内容标题 */
+        .card-main-title {
+            font-size: 19px;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+            line-height: 1.3;
+            transition: color 0.5s ease;
+        }
+
+        .card-main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #FFA07A;
+            border-radius: 3px;
+            transition: background 0.5s ease;
+        }
+
+        .content-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: rgba(255, 214, 165, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid #ff8e3c;
+            transition: all 0.5s ease;
+        }
+
+        /* 卡片底部 - 优化卡号展示 */
+        .card-footer {
+            padding: 15px;
+            text-align: center;
+            color: #7a4a12;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+        }
+
+        .card-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 卡号展示区域 */
+        .card-number-display {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: #5a3a1e;
+            font-family: 'Courier New', monospace;
+            border: 2px dashed rgba(122, 74, 18, 0.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 280px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+            transition: all 0.5s ease;
+        }
+
+        .card-number-display::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, #ff8e3c, #ffb56b);
+            transition: background 0.5s ease;
+        }
+
+        .card-number-display i {
+            margin-right: 8px;
+            color: #ff8e3c;
+            transition: color 0.5s ease;
+        }
+
+        /* 承诺说明 - 优化设计 */
+        .promise-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 20px;
+            width: 100%;
+            max-width: 280px;
+            transition: background 0.5s ease;
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: center;
+            margin: 0 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #7a4a12;
+            transition: color 0.5s ease;
+        }
+
+        .promise-item i {
+            margin-right: 5px;
+            color: #ff8e3c;
+            font-size: 14px;
+            transition: color 0.5s ease;
+        }
+
+        .promise-divider {
+            width: 1px;
+            height: 20px;
+            background: rgba(122, 74, 18, 0.3);
+            margin: 0 5px;
+            transition: background 0.5s ease;
+        }
+
+        /* 操作区域 */
+        .action-section {
+            width: 100%;
+            max-width: 340px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+
+        /* 卡片类型选择器 */
+        .card-type-selector {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 214, 165, 0.2);
+            border-radius: 12px;
+            transition: background 0.5s ease;
+        }
+
+        .selector-title {
+            font-size: 14px;
+            color: #5a3a1e;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            transition: color 0.5s ease;
+        }
+
+        .selector-title i {
+            margin-right: 8px;
+            color: #ff8e3c;
+            transition: color 0.5s ease;
+        }
+
+        .card-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .type-option {
+            flex: 1;
+            min-width: 60px;
+            padding: 8px 5px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #7a4a12;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 182, 107, 0.3);
+        }
+
+        .type-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .type-option.active {
+            color: white;
+            border-color: #ff6a00;
+            font-weight: 600;
+        }
+
+        /* 通知选项 */
+        .notification-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 214, 165, 0.2);
+            border-radius: 12px;
+            transition: background 0.5s ease;
+        }
+
+        .checkbox-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #fff;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border: 2px solid #ff8e3c;
+        }
+
+        .checkbox-container input:checked~.checkmark {
+            background-color: #ff8e3c;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .option-label {
+            font-size: 14px;
+            color: #5a3a1e;
+            flex: 1;
+            transition: color 0.5s ease;
+        }
+
+        /* 操作按钮 */
+        .actions {
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 14px 0;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+
+        .btn:hover::after {
+            left: 120%;
+        }
+
+        .btn-primary {
+            color: white;
+            transition: background 0.5s ease;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+        }
+
+        .btn-secondary {
+            color: #7a4a12;
+            border: 1px solid #ffb56b;
+            transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(230, 122, 0, 0.3);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* 动画定义 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-8px) translateX(8px);
+            }
+
+            50% {
+                transform: translateY(-4px) translateX(-8px);
+            }
+
+            75% {
+                transform: translateY(4px) translateX(12px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 卡片类型特定样式 */
+        /* 感谢卡 */
+        .card-cover.thanks {
+            background: linear-gradient(135deg, #ffb56b, #ff8e3c);
+        }
+
+        /* 鼓励卡 */
+        .card-cover.encourage {
+            background: linear-gradient(135deg, #4facfe, #00c5f2);
+            /* 青色更亮 */
+        }
+
+        /* 夸夸卡 */
+        .card-cover.praise {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        /* 道歉卡 */
+        .card-cover.apology {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+        }
+
+        /* 拒绝卡 */
+        .card-cover.refuse {
+            background: linear-gradient(135deg, #ff5858, #f09819);
+        }
+
+        /* 纪念卡 */
+        .card-cover.memory {
+            background: linear-gradient(135deg, #ffd26f, #ff7b54);
+        }
+
+        /* 自嘲卡 */
+        .card-cover.self-deprecating {
+            background: linear-gradient(135deg, #6a85b6, #bac8e0);
+        }
+
+        /* 抱抱卡 */
+        .card-cover.hug {
+            background: linear-gradient(135deg, #ff5858, #ffc8c8);
+        }
+
+        /* 充能卡 */
+        .card-cover.energy {
+            background: linear-gradient(135deg, #0fd850, #f9f047);
+        }
+
+        /* 轻效卡 - 改为紫罗兰色调 */
+        .card-cover.light {
+            background: linear-gradient(135deg, #8e2de2, #aa6aff);
+            /* 更明亮的紫色 */
+        }
+
+        /* 任务卡 - 改为更深的绿色 */
+        .card-cover.task {
+            background: linear-gradient(135deg, #11998e, #4aef9d);
+        }
+
+        /* 学习卡 - 改为深蓝/天蓝渐变 */
+        .card-cover.learning {
+            background: linear-gradient(135deg, #0b4b7c, #1c9bef);
+            /* 深蓝到天蓝 */
+        }
+
+        /* 疗愈卡 - 改为粉紫色 */
+        .card-cover.healing {
+            background: linear-gradient(135deg, #9d50bb, #6e48aa);
+            /* 粉紫色调 */
+        }
+
+        /* 建议卡 - 改为珊瑚色 */
+        .card-cover.suggestion {
+            background: linear-gradient(135deg, #d66d75, #f7b5a6);
+            /* 珊瑚色调 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="navbar">
+        <a href="#" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="navbar-title">熊熊卡详情</div>
+    </div>
+
+    <!-- 气泡装饰 -->
+    <div class="bubble" style="width: 80px; height: 80px; top: 200px; left: 10%;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; top: 400px; right: 10%;"></div>
+
+    <!-- 卡片容器 -->
+    <div class="card-container">
+        <div class="bear-card">
+            <!-- 发卡人信息 -->
+            <div class="sender-info">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="sender-details">
+                    <div class="sender-name">暖暖熊</div>
+                </div>
+            </div>
+
+            <div class="card-header">
+                <h2 class="card-title" id="cardTypeTitle">感谢卡</h2>
+                <div class="card-subtitle" id="cardSubtitle">改 PPT 之恩</div>
+            </div>
+
+            <!-- 卡片封面 - 默认设计 -->
+            <div class="card-cover thanks" id="cardCover">
+                <div class="cover-decoration">
+                    <!-- 装饰元素 -->
+                    <div class="decoration-item circle" style="width: 40px; height: 40px; top: 20px; left: 30px;"></div>
+                    <div class="decoration-item circle" style="width: 30px; height: 30px; bottom: 30px; right: 40px;">
+                    </div>
+                    <div class="decoration-item circle" style="width: 25px; height: 25px; top: 50px; right: 30px;">
+                    </div>
+                    <div class="decoration-item heart" style="top: 30px; right: 30px;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="decoration-item heart" style="top: 100px; left: 40px;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="decoration-item heart" style="bottom: 20px; left: 30px;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+
+                <div class="default-cover">
+                    <i class="fas fa-hands-helping card-icon" id="cardIcon"></i>
+                    <div class="cover-title" id="coverTitle">感谢有你</div>
+                    <div class="cover-subtitle" id="coverSubtitle">你的帮助温暖我心</div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3 class="content-title">致：亲爱的同事</h3>
+
+                <!-- 新增的卡片内容标题 -->
+                <div class="card-main-title">真心感谢你在项目最后阶段帮我修改PPT！</div>
+
+                <p class="content-text">
+                    真心感谢你在项目最后阶段帮我修改PPT！你的专业建议让整个展示焕然一新。加班到深夜帮我调整排版和设计，这份付出我铭记于心。PPT最终获得了领导高度评价，这完全归功于你的帮助！
+                </p>
+            </div>
+
+            <!-- 优化的卡号与承诺说明 -->
+            <div class="card-footer">
+                <!-- 卡号展示 -->
+                <div class="card-number-display">
+                    <i class="fas fa-hashtag"></i> XK-2023-0621-8888
+                </div>
+
+                <!-- 承诺说明 -->
+                <div class="promise-container">
+                    <div class="promise-item">
+                        <i class="fas fa-infinity"></i> 永久有效
+                    </div>
+                    <div class="promise-divider"></div>
+                    <div class="promise-item">
+                        <i class="fas fa-fingerprint"></i> 编号唯一
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作区域 -->
+    <div class="action-section">
+        <!-- 卡片类型选择器 -->
+        <div class="card-type-selector">
+            <div class="selector-title">
+                <i class="fas fa-palette"></i> 选择卡片类型
+            </div>
+            <div class="card-types">
+                <div class="type-option active" data-type="thanks">感谢卡</div>
+                <div class="type-option" data-type="encourage">鼓励卡</div>
+                <div class="type-option" data-type="praise">夸夸卡</div>
+                <div class="type-option" data-type="apology">道歉卡</div>
+                <div class="type-option" data-type="refuse">拒绝卡</div>
+                <div class="type-option" data-type="memory">纪念卡</div>
+                <div class="type-option" data-type="self-deprecating">自嘲卡</div>
+                <div class="type-option" data-type="hug">抱抱卡</div>
+                <div class="type-option" data-type="energy">充能卡</div>
+                <div class="type-option" data-type="light">轻效卡</div>
+                <div class="type-option" data-type="task">任务卡</div>
+                <div class="type-option" data-type="learning">学习卡</div>
+                <div class="type-option" data-type="healing">疗愈卡</div>
+                <div class="type-option" data-type="suggestion">建议卡</div>
+            </div>
+        </div>
+
+        <!-- 签收通知选项 -->
+        <div class="notification-option">
+            <label class="checkbox-container">
+                <input type="checkbox" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <span class="option-label">卡片签收后通知我</span>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="actions">
+            <button class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> 发送卡片
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-lock-open"></i> 亲自解锁
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 卡片类型配置
+        const cardTypes = {
+            thanks: {
+                title: "感谢卡",
+                subtitle: "改 PPT 之恩",
+                icon: "fa-hands-helping",
+                coverTitle: "感谢有你",
+                coverSubtitle: "你的帮助温暖我心",
+                gradient: "thanks",
+                primaryColor: "#FF8E3C",
+                darkColor: "#D96527",
+                lightColor: "#FFB56B",
+                textColor: "#5a3a1e",
+                secondaryLight: "#FFD6A5",
+                secondaryDark: "#FFB56B",
+                contentTitle: "真心感谢你在项目最后阶段帮我修改PPT！",
+                contentText: "真心感谢你在项目最后阶段帮我修改PPT！你的专业建议让整个展示焕然一新。加班到深夜帮我调整排版和设计，这份付出我铭记于心。PPT最终获得了领导高度评价，这完全归功于你的帮助！"
+            },
+            encourage: {
+                title: "鼓励卡",
+                subtitle: "你是最棒的",
+                icon: "fa-trophy",
+                coverTitle: "加油向前",
+                coverSubtitle: "相信你能做到最好",
+                gradient: "encourage",
+                primaryColor: "#4facfe",
+                darkColor: "#3a8bc7",
+                lightColor: "#00c5f2",  // 更亮的青色
+                textColor: "#1a3d5c",
+                secondaryLight: "#9cd9fc",
+                secondaryDark: "#4facfe",
+                contentTitle: "我相信你的能力，继续加油！",
+                contentText: "看到你最近为项目付出的努力，我真的很感动。你的坚持和专注是成功的关键，即使遇到困难也从未放弃。请记住，每一次挑战都是成长的机会，我坚信你能突破自我，取得更大的成就！"
+            },
+            praise: {
+                title: "夸夸卡",
+                subtitle: "闪耀的你",
+                icon: "fa-star",
+                coverTitle: "你真优秀",
+                coverSubtitle: "你的光芒无法忽视",
+                gradient: "praise",
+                primaryColor: "#ff9a9e",
+                darkColor: "#d97b7e",
+                lightColor: "#fad0c4",
+                textColor: "#6b3a3d",
+                secondaryLight: "#ffd0d1",
+                secondaryDark: "#ff9a9e",
+                contentTitle: "你真是太棒了！",
+                contentText: "今天的演讲实在太精彩了！你的表达清晰流畅，逻辑严谨，台风稳健大方。更难得的是你那份从容不迫的气质，让整个会场都为之折服。这样的表现力，绝对是团队中的佼佼者！"
+            },
+            apology: {
+                title: "道歉卡",
+                subtitle: "真诚的歉意",
+                icon: "fa-dove",
+                coverTitle: "深感抱歉",
+                coverSubtitle: "希望你能原谅我",
+                gradient: "apology",
+                primaryColor: "#a18cd1",
+                darkColor: "#7c6ca1",
+                lightColor: "#fbc2eb",
+                textColor: "#4a3f6e",
+                secondaryLight: "#c7b9e7",
+                secondaryDark: "#a18cd1",
+                contentTitle: "真诚地向你道歉",
+                contentText: "对于昨天的会议迟到，我感到非常抱歉。我的疏忽打乱了大家的计划，浪费了宝贵的时间。这完全是我的责任，没有任何借口。我会更加注意时间管理，确保不再发生类似情况。"
+            },
+            refuse: {
+                title: "拒绝卡",
+                subtitle: "委婉的表达",
+                icon: "fa-hand-paper",
+                coverTitle: "感谢理解",
+                coverSubtitle: "下次一定帮忙",
+                gradient: "refuse",
+                primaryColor: "#ff5858",
+                darkColor: "#d14343",
+                lightColor: "#f09819",
+                textColor: "#6b2a2a",
+                secondaryLight: "#ff9d9d",
+                secondaryDark: "#ff5858",
+                contentTitle: "感谢你的邀请",
+                contentText: "很感谢你邀请我参加这次活动，能收到你的邀请让我感到非常荣幸。由于近期工作安排紧张，我不得不婉拒这次机会。希望下次有更合适的时间，我一定积极参与。"
+            },
+            memory: {
+                title: "纪念卡",
+                subtitle: "美好时光",
+                icon: "fa-camera-retro",
+                coverTitle: "难忘时刻",
+                coverSubtitle: "珍藏这份回忆",
+                gradient: "memory",
+                primaryColor: "#ffd26f",
+                darkColor: "#d9ad56",
+                lightColor: "#ff7b54",
+                textColor: "#6b4a1e",
+                secondaryLight: "#ffe5b1",
+                secondaryDark: "#ffd26f",
+                contentTitle: "难忘我们共同经历的时光",
+                contentText: "还记得去年团队建设时我们一起爬山的情景吗？那天的阳光、山风和我们的欢声笑语都深深印在我的记忆里。感谢你在我体力不支时伸出的援手，这份情谊我会永远珍惜。"
+            },
+            "self-deprecating": {
+                title: "自嘲卡",
+                subtitle: "轻松一笑",
+                icon: "fa-theater-masks",
+                coverTitle: "自我调侃",
+                coverSubtitle: "生活需要幽默感",
+                gradient: "self-deprecating",
+                primaryColor: "#6a85b6",
+                darkColor: "#556a93",
+                lightColor: "#bac8e0",
+                textColor: "#3a4764",
+                secondaryLight: "#a7b7d8",
+                secondaryDark: "#6a85b6",
+                contentTitle: "又犯了个低级错误，哈哈！",
+                contentText: "今天居然把咖啡洒在键盘上，还差点把重要文件删除了！我这笨手笨脚的样子真是没救了。不过没关系，我已经学会了自我解嘲，生活嘛，总要有点小插曲才有趣。"
+            },
+            hug: {
+                title: "抱抱卡",
+                subtitle: "温暖的拥抱",
+                icon: "fa-hands",
+                coverTitle: "给你抱抱",
+                coverSubtitle: "一切都会好起来",
+                gradient: "hug",
+                primaryColor: "#ff5858",
+                darkColor: "#d14343",
+                lightColor: "#ffc8c8",
+                textColor: "#6b2a2a",
+                secondaryLight: "#ffc8c8",
+                secondaryDark: "#ff5858",
+                contentTitle: "给你一个大大的拥抱",
+                contentText: "知道你最近压力很大，很想给你一个温暖的拥抱。生活中的困难都是暂时的，你有足够的力量去克服它们。记住，你并不孤单，我们都在你身边支持着你。"
+            },
+            energy: {
+                title: "充能卡",
+                subtitle: "能量满满",
+                icon: "fa-bolt",
+                coverTitle: "能量补充",
+                coverSubtitle: "满血复活再出发",
+                gradient: "energy",
+                primaryColor: "#0fd850",
+                darkColor: "#0cac41",
+                lightColor: "#f9f047",
+                textColor: "#1e5c2c",
+                secondaryLight: "#a7f09d",
+                secondaryDark: "#0fd850",
+                contentTitle: "为你补充满满能量！",
+                contentText: "知道你最近连续加班很辛苦，这张充能卡希望能为你注入新的活力！记得照顾好自己，适当休息才能保持最佳状态。你已经做得很棒了，继续加油！"
+            },
+            light: {
+                title: "轻效卡",
+                subtitle: "轻松高效",
+                icon: "fa-feather",
+                coverTitle: "轻装上阵",
+                coverSubtitle: "高效轻松完成任务",
+                gradient: "light",
+                primaryColor: "#8e2de2",
+                darkColor: "#6e1cb0",
+                lightColor: "#aa6aff",  // 更明亮的紫色
+                textColor: "#3c1a6e",
+                secondaryLight: "#b189e6",
+                secondaryDark: "#8e2de2",
+                contentTitle: "轻松高效完成任务",
+                contentText: "这个任务看似复杂，其实可以拆分成几个小步骤轻松完成。试试番茄工作法：专注25分钟，休息5分钟。你会发现，高效工作也可以很轻松！"
+            },
+            task: {
+                title: "任务卡",
+                subtitle: "协作完成",
+                icon: "fa-tasks",
+                coverTitle: "任务协作",
+                coverSubtitle: "一起完成这个项目",
+                gradient: "task",
+                primaryColor: "#11998e",
+                darkColor: "#0c736a",
+                lightColor: "#4aef9d",  // 更亮的绿色
+                textColor: "#0c4a42",
+                secondaryLight: "#5de0b0",
+                secondaryDark: "#11998e",
+                contentTitle: "一起完成这个重要任务吧！",
+                contentText: "市场分析报告需要在本周五前完成，我知道你在这个领域有独到见解。期待你提供的数据分析和市场趋势预测部分，这将对我们决策至关重要！"
+            },
+            learning: {
+                title: "学习卡",
+                subtitle: "共同进步",
+                icon: "fa-graduation-cap",
+                coverTitle: "学无止境",
+                coverSubtitle: "一起探索知识的海洋",
+                gradient: "learning",
+                primaryColor: "#0b4b7c",  // 深蓝色
+                darkColor: "#083054",    // 更深的蓝色
+                lightColor: "#1c9bef",   // 天蓝色
+                textColor: "#1c3e5c",
+                secondaryLight: "#a8d1ff",
+                secondaryDark: "#0b4b7c",
+                contentTitle: "一起学习新技能吧！",
+                contentText: "发现了一个很棒的数据分析在线课程，特别适合我们目前的工作需求。要不要一起报名学习？我们可以互相督促，每周讨论学习心得，共同进步！"
+            },
+            healing: {
+                title: "疗愈卡",
+                subtitle: "心灵的抚慰",
+                icon: "fa-spa",
+                coverTitle: "心灵疗愈",
+                coverSubtitle: "让疲惫的心得到休息",
+                gradient: "healing",
+                primaryColor: "#9d50bb",  // 粉紫色
+                darkColor: "#7d3f99",    // 深紫色
+                lightColor: "#6e48aa",   // 紫罗兰色
+                textColor: "#4a2c5f",
+                secondaryLight: "#d3b1e0",
+                secondaryDark: "#9d50bb",
+                contentTitle: "给自己一些疗愈时光",
+                contentText: "忙碌的生活中别忘了照顾自己的心灵。推荐你试试冥想APP，每天只需10分钟就能让心灵得到休息。周末要不要一起去公园散步？大自然是最好的疗愈师。"
+            },
+            suggestion: {
+                title: "建议卡",
+                subtitle: "真诚的建议",
+                icon: "fa-lightbulb",
+                coverTitle: "小小建议",
+                coverSubtitle: "希望对你有所帮助",
+                gradient: "suggestion",
+                primaryColor: "#d66d75",
+                darkColor: "#b04a52",
+                lightColor: "#f7b5a6",  // 珊瑚色
+                textColor: "#6b2a2f",
+                secondaryLight: "#f0b9bc",
+                secondaryDark: "#d66d75",
+                contentTitle: "关于项目的一些小建议",
+                contentText: "非常欣赏你在项目中的创新思维！关于用户界面部分，我有个小建议：简化导航层级可能会提升用户体验。另外，主色调可以考虑更温暖一些，让用户感觉更亲切。"
+            }
+        };
+
+        // 添加卡片悬停效果
+        const card = document.querySelector('.bear-card');
+
+        // 模拟移动端悬停效果
+        card.addEventListener('touchstart', function () {
+            this.classList.add('hover');
+        });
+
+        card.addEventListener('touchend', function () {
+            this.classList.remove('hover');
+        });
+
+        // 添加按钮交互效果
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+
+                if (this.classList.contains('btn-primary')) {
+                    alert('熊熊卡已成功发送！您的心意已送达❤️');
+                } else {
+                    alert('卡片内容已解锁并保存到您的账户！');
+                }
+            });
+        });
+
+        // 添加装饰元素动画
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => {
+            const size = Math.random() * 30 + 40;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+
+            // 随机动画
+            const duration = Math.random() * 10 + 10;
+            bubble.style.animation = `float ${duration}s infinite ease-in-out`;
+        });
+
+        // 添加复选框交互
+        const checkbox = document.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                console.log('已开启签收通知');
+            } else {
+                console.log('已关闭签收通知');
+            }
+        });
+
+        // 返回按钮功能
+        document.querySelector('.back-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            alert('返回首页');
+        });
+
+        // 卡号展示动画
+        const cardNumber = document.querySelector('.card-number-display');
+        cardNumber.addEventListener('click', function () {
+            this.classList.add('copied');
+            setTimeout(() => {
+                this.classList.remove('copied');
+            }, 2000);
+            alert('卡号已复制到剪贴板');
+        });
+
+        // 为封面装饰元素添加随机位置
+        const hearts = document.querySelectorAll('.decoration-item.heart');
+        hearts.forEach(heart => {
+            const left = Math.random() * 80 + 10;
+            const top = Math.random() * 130 + 10;
+            heart.style.left = `${left}%`;
+            heart.style.top = `${top}px`;
+
+            // 随机动画延迟
+            const delay = Math.random() * 5;
+            heart.style.animationDelay = `${delay}s`;
+        });
+
+        // 卡片类型选择功能
+        const typeOptions = document.querySelectorAll('.type-option');
+        const cardCover = document.getElementById('cardCover');
+        const cardIcon = document.getElementById('cardIcon');
+        const coverTitle = document.getElementById('coverTitle');
+        const coverSubtitle = document.getElementById('coverSubtitle');
+        const cardTypeTitle = document.getElementById('cardTypeTitle');
+        const cardSubtitle = document.getElementById('cardSubtitle');
+        const cardMainTitle = document.querySelector('.card-main-title');
+        const contentText = document.querySelector('.content-text');
+
+        // 更新页面主题色
+        function updateThemeColors(cardType) {
+            const colors = cardTypes[cardType];
+
+            // 页面背景
+            document.body.style.background = `linear-gradient(135deg, ${colors.secondaryLight}, ${colors.lightColor})`;
+
+            // 顶部导航栏
+            const navbar = document.querySelector('.navbar');
+            navbar.style.background = `linear-gradient(to right, ${colors.primaryColor}, ${colors.darkColor})`;
+
+            // 气泡装饰
+            document.querySelectorAll('.bubble').forEach(bubble => {
+                bubble.style.background = `rgba(${hexToRgb(colors.primaryColor)}, 0.1)`;
+            });
+
+            // 卡片头部
+            const cardHeader = document.querySelector('.card-header');
+            cardHeader.style.background = `linear-gradient(to right, ${colors.primaryColor}, ${colors.darkColor})`;
+
+            // 卡片底部
+            const cardFooter = document.querySelector('.card-footer');
+            cardFooter.style.background = `linear-gradient(to right, ${colors.secondaryLight}, ${colors.secondaryDark})`;
+
+            // 主按钮
+            const primaryBtn = document.querySelector('.btn-primary');
+            primaryBtn.style.background = `linear-gradient(to right, ${colors.primaryColor}, ${colors.darkColor})`;
+
+            // 次按钮
+            const secondaryBtn = document.querySelector('.btn-secondary');
+            secondaryBtn.style.background = `linear-gradient(to right, ${colors.secondaryLight}, ${colors.secondaryDark})`;
+            secondaryBtn.style.borderColor = colors.secondaryDark;
+
+            // 操作区域
+            const actionSection = document.querySelector('.action-section');
+            actionSection.style.background = `rgba(${hexToRgb(colors.secondaryLight)}, 0.7)`;
+            actionSection.style.borderColor = `rgba(${hexToRgb(colors.secondaryDark)}, 0.5)`;
+
+            // 卡片类型选择器
+            const selector = document.querySelector('.card-type-selector');
+            selector.style.background = `rgba(${hexToRgb(colors.primaryColor)}, 0.1)`;
+
+            // 选择器标题
+            const selectorTitle = document.querySelector('.selector-title');
+            selectorTitle.style.color = colors.textColor;
+
+            // 选择器图标
+            const selectorIcon = document.querySelector('.selector-title i');
+            selectorIcon.style.color = colors.primaryColor;
+
+            // 通知选项
+            const notificationOption = document.querySelector('.notification-option');
+            notificationOption.style.background = `rgba(${hexToRgb(colors.primaryColor)}, 0.1)`;
+
+            // 复选框边框颜色
+            const checkmark = document.querySelector('.checkmark');
+            checkmark.style.borderColor = colors.primaryColor;
+
+            // 复选框选中状态背景色
+            if (checkbox.checked) {
+                checkmark.style.backgroundColor = colors.primaryColor;
+            }
+
+            // 选项标签
+            const optionLabel = document.querySelector('.option-label');
+            optionLabel.style.color = colors.textColor;
+
+            // 卡片内容标题
+            cardMainTitle.style.color = colors.textColor;
+
+            // 卡片内容文本
+            contentText.style.background = `rgba(${hexToRgb(colors.secondaryLight)}, 0.2)`;
+            contentText.style.borderLeftColor = colors.primaryColor;
+
+            // 卡片内容标题下划线
+            const cardMainTitleAfter = document.querySelector('.card-main-title::after');
+            if (cardMainTitleAfter) {
+                cardMainTitleAfter.style.background = colors.lightColor;
+            }
+
+            // 承诺容器
+            const promiseContainer = document.querySelector('.promise-container');
+            promiseContainer.style.background = `rgba(255, 255, 255, 0.3)`;
+
+            // 承诺项
+            const promiseItems = document.querySelectorAll('.promise-item');
+            promiseItems.forEach(item => {
+                item.style.color = colors.textColor;
+            });
+
+            // 承诺图标
+            const promiseIcons = document.querySelectorAll('.promise-item i');
+            promiseIcons.forEach(icon => {
+                icon.style.color = colors.primaryColor;
+            });
+
+            // 承诺分隔线
+            const promiseDivider = document.querySelector('.promise-divider');
+            promiseDivider.style.background = `rgba(${hexToRgb(colors.textColor)}, 0.3)`;
+
+            // 激活的卡片类型选项
+            const activeOption = document.querySelector('.type-option.active');
+            activeOption.style.background = `linear-gradient(to right, ${colors.primaryColor}, ${colors.darkColor})`;
+        }
+
+        // 将十六进制颜色转换为RGB格式
+        function hexToRgb(hex) {
+            // 移除#号
+            hex = hex.replace('#', '');
+
+            // 解析RGB值
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+
+            return `${r}, ${g}, ${b}`;
+        }
+
+        // 初始化默认主题
+        updateThemeColors('thanks');
+
+        typeOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                // 移除所有激活状态
+                typeOptions.forEach(opt => opt.classList.remove('active'));
+
+                // 添加当前激活状态
+                this.classList.add('active');
+
+                // 获取卡片类型
+                const type = this.dataset.type;
+                const cardType = cardTypes[type];
+
+                // 更新卡片封面
+                cardCover.className = 'card-cover ' + cardType.gradient;
+                cardIcon.className = 'fas ' + cardType.icon + ' card-icon';
+                coverTitle.textContent = cardType.coverTitle;
+                coverSubtitle.textContent = cardType.coverSubtitle;
+
+                // 更新卡片标题
+                cardTypeTitle.textContent = cardType.title;
+                cardSubtitle.textContent = cardType.subtitle;
+
+                // 更新卡片内容
+                cardMainTitle.textContent = cardType.contentTitle;
+                contentText.textContent = cardType.contentText;
+
+                // 更新页面主题色
+                updateThemeColors(type);
+            });
+        });
+
+        // 复选框状态变化时更新颜色
+        checkbox.addEventListener('change', function () {
+            const activeType = document.querySelector('.type-option.active').dataset.type;
+            const colors = cardTypes[activeType];
+            const checkmark = document.querySelector('.checkmark');
+
+            if (this.checked) {
+                checkmark.style.backgroundColor = colors.primaryColor;
+            } else {
+                checkmark.style.backgroundColor = '#fff';
+            }
+        });
+    </script>
+</body>
+
+</html>

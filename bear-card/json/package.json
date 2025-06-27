@@ -4,7 +4,11 @@
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+        "exceljs": "^4.4.0",
+        "json2csv": "^6.0.0-alpha.2",
+        "lodash": "^4.17.21",
         "moment": "^2.30.1",
+        "xxhashjs": "^0.2.2",
         "yargs": "^17.7.2"
     }
 }

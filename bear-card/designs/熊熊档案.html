@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熊熊卡 - 个人档案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef4eb 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .back-btn i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .top-nav h1 {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            flex: 1;
+        }
+
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: rotate(30deg);
+        }
+
+        .settings-btn i {
+            color: white;
+            font-size: 18px;
+        }
+
+        /* 熊熊档案区域 */
+        .bear-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(190, 130, 90, 0.15);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bear-header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .bear-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 2px;
+        }
+
+        .bear-header h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #ff8d6b, #ffb88c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bear-header p {
+            font-size: 16px;
+            color: #A0522D;
+            line-height: 1.5;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* 熊熊引导提示 */
+        .bear-hint {
+            background: rgba(255, 248, 242, 0.95);
+            border: 2px dashed #ff8d6b;
+            border-radius: 18px;
+            padding: 15px;
+            margin: 0 auto 25px;
+            text-align: center;
+            font-size: 15px;
+            color: #8B4513;
+            max-width: 380px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.1);
+            animation: floatHint 3s ease-in-out infinite;
+        }
+        
+        @keyframes floatHint {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .bear-hint:before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 24px;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border: 2px solid #ff8d6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            content: '\f1b0'; /* 熊头图标 */
+            color: #ff8d6b;
+        }
+
+        /* 熊熊头像区域 */
+        .bear-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .bear-avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 10px;
+        }
+
+        .bear-avatar-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffb88c, #ff8d6b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 4px solid #FFE4B5;
+            box-shadow: 0 8px 20px rgba(190, 130, 90, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .bear-avatar-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(190, 130, 90, 0.4);
+        }
+
+        .bear-avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .bear-avatar-preview .default-avatar {
+            font-size: 60px;
+            color: white;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .bear-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .bear-avatar-edit:hover {
+            transform: scale(1.1);
+            background: #ff8d6b;
+        }
+
+        .bear-avatar-edit i {
+            color: #ff8d6b;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .bear-avatar-edit:hover i {
+            color: white;
+        }
+
+        .bear-avatar-section .avatar-label {
+            text-align: center;
+            font-size: 14px;
+            color: #ff8d6b;
+            margin-top: 8px;
+        }
+
+        .bear-avatar-section .user-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 8px;
+            text-align: center;
+            max-width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bear-avatar-section .user-bio {
+            font-size: 16px;
+            color: #A0522D;
+            text-align: center;
+            max-width: 280px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* 熊熊信息卡片 */
+        .bear-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bear-card {
+            background: rgba(255, 248, 242, 0.8);
+            border-radius: 18px;
+            padding: 20px;
+            border: 2px solid #FFE4B5;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bear-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(190, 130, 90, 0.2);
+        }
+
+        .bear-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffb88c, #ff8d6b);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-header i {
+            font-size: 22px;
+            color: #ff8d6b;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 182, 193, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            color: #8B4513;
+            font-weight: 600;
+        }
+
+        /* 熊熊表单样式 */
+        .bear-form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .bear-form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #8B4513;
+            font-size: 16px;
+            padding-left: 8px;
+            position: relative;
+        }
+
+        .bear-form-group label:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 2px;
+        }
+
+        .bear-form-group input,
+        .bear-form-group textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #FFE4B5;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            color: #8B4513;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bear-form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .bear-form-group input:focus,
+        .bear-form-group textarea:focus {
+            border-color: #ffb88c;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 184, 140, 0.3),
+                inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bear-form-group input::placeholder,
+        .bear-form-group textarea::placeholder {
+            color: #CD853F;
+            opacity: 0.7;
+        }
+
+        /* 熊熊可见性标签 */
+        .bear-visibility-tag {
+            display: inline-block;
+            background: rgba(255, 141, 107, 0.15);
+            color: #ff8d6b;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* 熊熊提交按钮 */
+        .bear-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.3);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bear-submit-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .bear-submit-btn:hover:before {
+            left: 100%;
+        }
+
+        .bear-submit-btn i {
+            font-size: 22px;
+            margin-right: 12px;
+        }
+
+        .bear-submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        /* 熊熊底部装饰 */
+        .bear-bottom {
+            height: 35px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 -4px 10px rgba(190, 130, 90, 0.2);
+        }
+
+        /* 熊熊装饰元素 */
+        .bear-decoration {
+            position: absolute;
+            font-size: 40px;
+            color: rgba(255, 160, 122, 0.15);
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .bear-1 {
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .bear-2 {
+            top: 15%;
+            right: 7%;
+            transform: rotate(30deg);
+            animation-delay: 1s;
+        }
+
+        .bear-3 {
+            bottom: 25%;
+            left: 12%;
+            transform: rotate(-15deg);
+            animation-delay: 2s;
+        }
+
+        .bear-4 {
+            bottom: 15%;
+            right: 10%;
+            transform: rotate(45deg);
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        /* 熊熊成功消息 */
+        .bear-success {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            max-width: 320px;
+            width: 90%;
+            border: 2px solid #ffb88c;
+        }
+
+        .bear-success.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .bear-success i {
+            font-size: 60px;
+            color: #07c160;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .bear-success h3 {
+            font-size: 24px;
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+
+        .bear-success p {
+            font-size: 16px;
+            color: #A0522D;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .bear-success .close-btn {
+            padding: 12px 30px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bear-success .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        /* 熊熊响应式调整 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .bear-container {
+                padding: 25px 20px;
+                border-radius: 22px;
+                margin-top: 65px;
+            }
+
+            .bear-header h2 {
+                font-size: 24px;
+            }
+
+            .bear-header p {
+                font-size: 15px;
+            }
+
+            .bear-form-group input,
+            .bear-form-group textarea {
+                padding: 14px 16px;
+                font-size: 15px;
+                border-radius: 16px;
+            }
+
+            .bear-submit-btn {
+                padding: 15px;
+                font-size: 17px;
+                border-radius: 16px;
+            }
+
+            .bear-avatar-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .bear-avatar-preview .default-avatar {
+                font-size: 50px;
+            }
+            
+            .bear-hint {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <h1>熊熊档案</h1>
+        <div class="settings-btn">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 熊熊档案区域 -->
+        <div class="bear-container">
+            <!-- 熊熊装饰元素 -->
+            <div class="bear-decoration bear-1"><i class="fas fa-heart"></i></div>
+            <div class="bear-decoration bear-2"><i class="fas fa-star"></i></div>
+            <div class="bear-decoration bear-3"><i class="fas fa-heart"></i></div>
+            <div class="bear-decoration bear-4"><i class="fas fa-star"></i></div>
+
+            <div class="bear-header">
+                <h2>熊熊档案</h2>
+                <p>留下你的专属印记，传递温暖心意</p>
+            </div>
+
+            <!-- 熊熊引导提示 -->
+            <div class="bear-hint">
+                填写你的专属熊熊标识，收件人就知道是谁送的暖心卡片啦~
+            </div>
+
+            <!-- 熊熊头像区域 -->
+            <div class="bear-avatar-section">
+                <div class="bear-avatar-container">
+                    <div class="bear-avatar-preview">
+                        <div class="default-avatar">
+                            <i class="fas fa-bear"></i>
+                        </div>
+                        <img id="avatarPreview" src="" alt="用户头像">
+                    </div>
+                    <div class="bear-avatar-edit" id="avatarEditBtn">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="avatar-label">
+                    <i class="fas fa-info-circle"></i> 上传你的熊熊头像
+                </div>
+                <div class="user-name" id="displayName">暖暖熊</div>
+                <div class="user-bio" id="displayBio">用心传递每一份温暖</div>
+            </div>
+
+            <form id="profileForm">
+                <!-- 熊熊信息卡片 -->
+                <div class="bear-cards">
+                    <div class="bear-card">
+                        <div class="card-header">
+                            <i class="fas fa-bear"></i>
+                            <h3>熊熊身份</h3>
+                        </div>
+
+                        <div class="bear-form-group">
+                            <label for="nickname">
+                                熊熊昵称
+                                <span class="bear-visibility-tag">收件人可见</span>
+                            </label>
+                            <input type="text" id="nickname" placeholder="设置你的熊熊昵称" value="暖暖熊">
+                        </div>
+
+                        <div class="bear-form-group">
+                            <label for="bio">给收件人的熊熊留言</label>
+                            <input type="text" id="bio" placeholder="写一句让收件人暖心的话" value="用心传递每一份温暖">
+                        </div>
+                    </div>
+
+                    <div class="bear-card">
+                        <div class="card-header">
+                            <i class="fas fa-envelope"></i>
+                            <h3>熊熊联系</h3>
+                        </div>
+
+                        <div class="bear-form-group">
+                            <label for="email">联系邮箱</label>
+                            <input type="email" id="email" placeholder="你的联系邮箱" value="warmbear@example.com">
+                        </div>
+
+                        <div class="bear-form-group">
+                            <label for="phone">联系电话</label>
+                            <input type="tel" id="phone" placeholder="你的联系电话" value="13800138000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 熊熊提交按钮 -->
+                <button type="submit" class="bear-submit-btn">
+                    <i class="fas fa-heart"></i> 更新熊熊档案
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 熊熊底部装饰 -->
+    <div class="bear-bottom"></div>
+
+    <!-- 熊熊成功消息弹窗 -->
+    <div class="bear-success" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <h3>熊熊档案更新成功！</h3>
+        <p>你的熊熊信息已保存</p>
+        <button class="close-btn">继续传递温暖</button>
+    </div>
+
+    <!-- 隐藏的文件输入 -->
+    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+
+    <script>
+        // 返回按钮功能
+        document.querySelector('.back-btn').addEventListener('click', function() {
+            alert('返回上一页');
+        });
+
+        // 设置按钮功能
+        document.querySelector('.settings-btn').addEventListener('click', function() {
+            alert('打开熊熊设置');
+        });
+
+        // 头像编辑功能
+        const avatarEditBtn = document.getElementById('avatarEditBtn');
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarPreview = document.getElementById('avatarPreview');
+        const defaultAvatar = document.querySelector('.default-avatar');
+
+        avatarEditBtn.addEventListener('click', function() {
+            avatarInput.click();
+        });
+
+        avatarInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    avatarPreview.src = event.target.result;
+                    avatarPreview.style.display = 'block';
+                    defaultAvatar.style.display = 'none';
+                    
+                    // 显示成功提示
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.querySelector('h3').textContent = '熊熊头像更新成功！';
+                    successMessage.querySelector('p').textContent = '收件人将看到你的新形象';
+                    successMessage.classList.add('active');
+                    
+                    setTimeout(() => {
+                        successMessage.classList.remove('active');
+                    }, 2000);
+                }
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // 表单提交功能
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nickname = document.getElementById('nickname').value;
+            const bio = document.getElementById('bio').value;
+
+            if (!nickname) {
+                alert('请填写熊熊昵称');
+                return;
+            }
+
+            // 更新显示的名称和签名
+            document.getElementById('displayName').textContent = nickname;
+            document.getElementById('displayBio').textContent = bio || '用心传递温暖的小熊';
+
+            const submitBtn = this.querySelector('.bear-submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-heart"></i> 更新中...';
+            submitBtn.disabled = true;
+
+            // 模拟提交过程
+            setTimeout(() => {
+                // 显示成功消息
+                const successMessage = document.getElementById('successMessage');
+                successMessage.querySelector('h3').textContent = '熊熊档案更新成功！';
+                successMessage.querySelector('p').textContent = '你的熊熊信息已保存';
+                successMessage.classList.add('active');
+
+                // 重置按钮
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 1000);
+            }, 1500);
+        });
+
+        // 关闭成功消息
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.getElementById('successMessage').classList.remove('active');
+        });
+
+        // 添加装饰动画效果
+        const decorations = document.querySelectorAll('.bear-decoration');
+        decorations.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+                this.style.color = 'rgba(255, 160, 122, 0.25)';
+            });
+
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.color = 'rgba(255, 160, 122, 0.15)';
+            });
+        });
+    </script>
+</body>
+</html>

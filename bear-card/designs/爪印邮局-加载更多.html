@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爪印邮局-加载更多</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef4eb 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .back-btn i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .top-nav h1 {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 顶部标题栏 */
+        .header {
+            text-align: center;
+            padding: 20px 0 15px;
+            position: relative;
+            background: linear-gradient(to bottom, #fff9f2, #fef4eb);
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffb88c 0%, #ff8d6b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.3);
+        }
+
+        .logo-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8B4513;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: #A0522D;
+            margin-top: 5px;
+        }
+
+        /* 选项卡 */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            margin: 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.15);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #FFA07A;
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 160, 122, 0.5);
+        }
+
+        /* 卡片容器 */
+        .cards-container {
+            margin: 0 20px;
+        }
+
+        .card {
+            background: #FEF4EB;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 15px 35px rgba(190, 130, 90, 0.25),
+                0 5px 15px rgba(190, 130, 90, 0.22),
+                inset 0 -2px 10px rgba(255, 255, 255, 0.7),
+                inset 0 2px 10px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 220, 200, 0.5);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding-bottom: 15px;
+            border-bottom: 2px dashed rgba(190, 130, 90, 0.2);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-type {
+            font-size: 14px;
+            background: #FFE4B5;
+            color: #8B4513;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .card-theme {
+            font-size: 14px;
+            color: #A0522D;
+            background: rgba(255, 228, 196, 0.6);
+            padding: 4px 12px;
+            border-radius: 20px;
+            max-width: 60%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-create-time {
+            font-size: 13px;
+            color: #A0522D;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-create-time i {
+            margin-right: 5px;
+        }
+
+        .sender-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .sender-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffb88c 0%, #ff8d6b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.3);
+            border: 3px solid white;
+        }
+
+        .sender-details {
+            margin-left: 15px;
+        }
+
+        .sender-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 3px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #A0522D;
+            background: rgba(255, 228, 196, 0.6);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .card-content {
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #ffd8b5 0%, #ffc19a 100%);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(190, 130, 90, 0.2);
+        }
+
+        .cover-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .cover-bear {
+            position: absolute;
+            font-size: 120px;
+            color: rgba(139, 69, 19, 0.1);
+            z-index: 1;
+        }
+
+        .card-title-main {
+            font-size: 22px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .card-title-main:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #FFA07A;
+            border-radius: 3px;
+        }
+
+        .card-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #654321;
+            background: rgba(255, 250, 240, 0.7);
+            padding: 18px;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(210, 180, 140, 0.2);
+            border: 1px solid rgba(210, 180, 140, 0.3);
+            max-height: 100px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .card-text.expanded {
+            max-height: 500px;
+        }
+
+        .toggle-btn {
+            display: block;
+            text-align: center;
+            color: #FF8C00;
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .toggle-btn i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(190, 130, 90, 0.2);
+        }
+
+        .card-expire {
+            font-size: 13px;
+            color: #A0522D;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-expire i {
+            margin-right: 5px;
+        }
+
+        .card-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-created {
+            background: #FFE4B5;
+            color: #8B4513;
+        }
+
+        .status-sent {
+            background: #87CEEB;
+            color: white;
+        }
+
+        .status-received {
+            background: #8FBC8F;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .status-expired {
+            background: #CD853F;
+            color: white;
+        }
+
+        /* 签收人/拒绝人区域 */
+        .recipient-section {
+            background: linear-gradient(to right, #f8e8d5, #fef4eb);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            border: 2px solid #e6d0b8;
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.1);
+        }
+
+        .recipient-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid white;
+            font-size: 18px;
+        }
+
+        .recipient-info {
+            margin-left: 15px;
+            flex: 1;
+        }
+
+        .recipient-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 3px;
+        }
+
+        .recipient-time {
+            font-size: 13px;
+            color: #A0522D;
+        }
+
+        .recipient-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .recipient-status i {
+            margin-right: 5px;
+        }
+
+        /* 熊熊装饰元素 */
+        .bear-ear {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: #F4A460;
+            border-radius: 50%;
+            top: -17px;
+            z-index: -1;
+        }
+
+        .bear-ear.left {
+            left: 30px;
+        }
+
+        .bear-ear.right {
+            right: 30px;
+        }
+
+        .bear-paw {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #F4A460;
+            border-radius: 50%;
+            z-index: -1;
+            bottom: 15px;
+        }
+
+        .bear-paw.left {
+            left: -20px;
+        }
+
+        .bear-paw.right {
+            right: -20px;
+        }
+
+        .heart {
+            position: absolute;
+            color: #FF6B6B;
+            font-size: 18px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .heart-1 {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .heart-2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .heart-3 {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            padding: 12px 0;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            color: #A0522D;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #FF8C00;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        /* 下拉刷新指示器 */
+        .refresh-indicator {
+            position: fixed;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #ffb88c, #ff8d6b);
+            color: white;
+            font-weight: bold;
+            transition: top 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.3);
+        }
+
+        .refresh-indicator.refreshing {
+            top: 0;
+        }
+
+        .refresh-indicator i {
+            margin-right: 10px;
+            font-size: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 底部提示 */
+        .end-message {
+            text-align: center;
+            padding: 20px;
+            color: #A0522D;
+            font-size: 14px;
+            background: rgba(255, 228, 196, 0.5);
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 3px 10px rgba(190, 130, 90, 0.1);
+        }
+
+        /* 加载更多按钮 */
+        .load-more-container {
+            text-align: center;
+            margin: 20px 0 30px;
+        }
+
+        .load-more-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.3);
+            transition: all 0.3s ease;
+            font-size: 15px;
+            border: none;
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(190, 130, 90, 0.4);
+        }
+
+        .load-more-btn:active {
+            transform: translateY(1px);
+        }
+
+        .load-more-btn:disabled {
+            background: #d3d3d3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 加载中提示 */
+        .loading-message {
+            text-align: center;
+            padding: 20px;
+            color: #A0522D;
+            font-size: 16px;
+            background: rgba(255, 228, 196, 0.5);
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 3px 10px rgba(190, 130, 90, 0.1);
+        }
+
+        .loading-message i {
+            margin-right: 10px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0;
+            }
+
+            .header h2 {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card-title-main {
+                font-size: 20px;
+            }
+
+            .card-cover {
+                height: 140px;
+            }
+
+            .load-more-btn {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 下拉刷新指示器 -->
+    <div class="refresh-indicator" id="refreshIndicator">
+        <i class="fas fa-spinner"></i> 加载数据中...
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <h1>爪印邮局</h1>
+    </div>
+
+    <div class="container">
+        <!-- 顶部标题栏 -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <h2>熊熊卡</h2>
+            </div>
+            <p>投递/签收生活中"难以开口"表达的模板文</p>
+        </div>
+
+        <!-- 状态选项卡 -->
+        <div class="tabs">
+            <div class="tab active">全部卡片</div>
+            <div class="tab">已签收</div>
+            <div class="tab">已拒绝</div>
+        </div>
+
+        <!-- 卡片列表 -->
+        <div class="cards-container" id="cardsContainer">
+            <!-- 待签收卡片 -->
+            <div class="card">
+                <div class="bear-ear left"></div>
+                <div class="bear-ear right"></div>
+                <div class="heart heart-1"><i class="fas fa-heart"></i></div>
+
+                <div class="card-header">
+                    <div class="card-meta">
+                        <div class="card-type">感谢卡</div>
+                        <div class="card-theme">改PPT之恩</div>
+                        <div class="card-create-time">
+                            <i class="far fa-calendar"></i> 2023-10-20
+                        </div>
+                    </div>
+                    <div class="sender-info">
+                        <div class="sender-avatar">熊</div>
+                        <div class="sender-details">
+                            <div class="sender-name">暖暖熊</div>
+                            <div class="card-title">高情商表达小帮手</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-cover">
+                        <div class="cover-bear"><i class="fas fa-paw"></i></div>
+                        <div class="cover-text">致：亲爱的同事</div>
+                    </div>
+
+                    <h2 class="card-title-main">真心感谢你在项目最后阶段帮我修改PPT！</h2>
+
+                    <div class="card-text" id="card1-text">
+                        昨天项目汇报前，当我看到你熬夜帮我修改的PPT，真的特别感动！你不仅帮我优化了结构，还增加了那些精美的图表，让整个汇报显得专业又流畅。
+
+                        我知道你自己的工作也很忙，还抽出宝贵时间帮我，这份情谊我会永远记在心里。你的专业能力和乐于助人的精神都值得我学习。
+
+                        为了表达我的感谢，这周末想请你吃顿饭，不知道你是否有时间？期待你的回复！
+                    </div>
+                    <div class="toggle-btn" onclick="toggleText('card1-text')">
+                        展开内容 <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-expire">
+                        <i class="fas fa-hourglass-end"></i> 2023-10-27 过期
+                    </div>
+                    <div class="card-status status-created">
+                        <i class="fas fa-edit"></i> 已创建
+                    </div>
+                </div>
+
+                <div class="bear-paw left"></div>
+                <div class="bear-paw right"></div>
+            </div>
+
+            <!-- 已签收卡片 -->
+            <div class="card">
+                <div class="bear-ear left"></div>
+                <div class="bear-ear right"></div>
+                <div class="heart heart-2"><i class="fas fa-heart"></i></div>
+
+                <div class="card-header">
+                    <div class="card-meta">
+                        <div class="card-type">道歉卡</div>
+                        <div class="card-theme">会议迟到道歉</div>
+                        <div class="card-create-time">
+                            <i class="far fa-calendar"></i> 2023-10-18
+                        </div>
+                    </div>
+                    <div class="sender-info">
+                        <div class="sender-avatar">友</div>
+                        <div class="sender-details">
+                            <div class="sender-name">贴心小熊友</div>
+                            <div class="card-title">高情商表达小帮手</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-cover">
+                        <div class="cover-bear"><i class="fas fa-paw"></i></div>
+                        <div class="cover-text">致：项目经理</div>
+                    </div>
+
+                    <h2 class="card-title-main">为今早会议迟到真诚道歉</h2>
+
+                    <div class="card-text" id="card2-text">
+                        王经理，对于今天早上的周会迟到，我深感抱歉。我知道准时参加会议是对团队最基本的尊重，今天因为交通原因迟到确实是我的失误。
+
+                        我明白这打乱了会议节奏，也影响了大家的效率。为了避免类似情况再次发生，我已经调整了通勤方案，确保以后会提前到达。
+
+                        再次为我的迟到表示诚挚的歉意，感谢您的理解！
+                    </div>
+                    <div class="toggle-btn" onclick="toggleText('card2-text')">
+                        展开内容 <i class="fas fa-chevron-down"></i>
+                    </div>
+
+                    <!-- 签收人区域 -->
+                    <div class="recipient-section">
+                        <div class="recipient-avatar"
+                            style="background: linear-gradient(135deg, #87CEEB 0%, #6495ED 100%);">王</div>
+                        <div class="recipient-info">
+                            <div class="recipient-name">王经理</div>
+                            <div class="recipient-time">2023-10-18 15:30 签收</div>
+                        </div>
+                        <div class="recipient-status" style="background: #8FBC8F;">
+                            <i class="fas fa-check"></i> 已签收
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-expire">
+                        <i class="fas fa-hourglass-end"></i> 2023-10-25 过期
+                    </div>
+                    <div class="card-status status-received">
+                        <i class="fas fa-check-circle"></i> 已签收
+                    </div>
+                </div>
+
+                <div class="bear-paw left"></div>
+                <div class="bear-paw right"></div>
+            </div>
+
+            <!-- 已拒绝卡片 -->
+            <div class="card">
+                <div class="bear-ear left"></div>
+                <div class="bear-ear right"></div>
+                <div class="heart heart-3"><i class="fas fa-heart"></i></div>
+
+                <div class="card-header">
+                    <div class="card-meta">
+                        <div class="card-type">祝福卡</div>
+                        <div class="card-theme">生日祝福</div>
+                        <div class="card-create-time">
+                            <i class="far fa-calendar"></i> 2023-10-15
+                        </div>
+                    </div>
+                    <div class="sender-info">
+                        <div class="sender-avatar">心</div>
+                        <div class="sender-details">
+                            <div class="sender-name">心意熊</div>
+                            <div class="card-title">高情商表达小帮手</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-cover">
+                        <div class="cover-bear"><i class="fas fa-paw"></i></div>
+                        <div class="cover-text">致：亲爱的朋友</div>
+                    </div>
+
+                    <h2 class="card-title-main">生日快乐！愿你每天开心！</h2>
+
+                    <div class="card-text" id="card3-text">
+                        亲爱的朋友，在这个特别的日子里，愿你像熊熊一样充满能量，生活像蜂蜜一样甜蜜！生日快乐！
+
+                        感谢你一直以来的陪伴和支持，希望新的一岁你能实现所有梦想，收获更多快乐和成功！
+
+                        期待下次见面一起庆祝！
+                    </div>
+                    <div class="toggle-btn" onclick="toggleText('card3-text')">
+                        展开内容 <i class="fas fa-chevron-down"></i>
+                    </div>
+
+                    <!-- 拒绝人区域 -->
+                    <div class="recipient-section">
+                        <div class="recipient-avatar"
+                            style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8C00 100%);">李</div>
+                        <div class="recipient-info">
+                            <div class="recipient-name">小李</div>
+                            <div class="recipient-time">2023-10-16 10:45 拒绝</div>
+                        </div>
+                        <div class="recipient-status" style="background: #FF6B6B;">
+                            <i class="fas fa-times"></i> 已拒绝
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-expire">
+                        <i class="fas fa-hourglass-end"></i> 2023-10-22 过期
+                    </div>
+                    <div class="card-status status-rejected">
+                        <i class="fas fa-times-circle"></i> 已拒绝
+                    </div>
+                </div>
+
+                <div class="bear-paw left"></div>
+                <div class="bear-paw right"></div>
+            </div>
+        </div>
+
+        <!-- 加载更多按钮 -->
+        <div class="load-more-container">
+            <button class="load-more-btn">
+                <i class="fas fa-paw"></i> 加载更多卡片
+            </button>
+        </div>
+
+        <!-- 加载中提示 -->
+        <div class="loading-message">
+            <i class="fas fa-spinner"></i> 正在加载更多卡片...
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="end-message">
+            <i class="fas fa-paw"></i> 已经到底了，没有更多卡片了
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
+            <div>创建</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-inbox"></i></div>
+            <div>收件箱</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>我的</div>
+        </div>
+    </div>
+
+    <script>
+        // 展开/折叠功能
+        function toggleText(cardId) {
+            const textElement = document.getElementById(cardId);
+            const toggleBtn = textElement.nextElementSibling;
+
+            textElement.classList.toggle('expanded');
+
+            if (textElement.classList.contains('expanded')) {
+                toggleBtn.innerHTML = '折叠内容 <i class="fas fa-chevron-up"></i>';
+            } else {
+                toggleBtn.innerHTML = '展开内容 <i class="fas fa-chevron-down"></i>';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>意见反馈</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff9f2 0%, #fef4eb 100%);
+            color: #8B4513;
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(190, 130, 90, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .back-btn i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .top-nav h1 {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            flex: 1;
+        }
+
+        /* 反馈区域容器 */
+        .feedback-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(190, 130, 90, 0.15);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .feedback-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 2px;
+        }
+
+        .feedback-header h2 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .feedback-header p {
+            font-size: 16px;
+            color: #A0522D;
+            line-height: 1.5;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* 反馈类型选择 */
+        .feedback-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .feedback-type {
+            flex: 1;
+            min-width: 100px;
+            padding: 14px 10px;
+            text-align: center;
+            background: rgba(255, 248, 242, 0.8);
+            border-radius: 16px;
+            border: 2px solid #FFE4B5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(190, 130, 90, 0.1);
+        }
+
+        .feedback-type:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(190, 130, 90, 0.2);
+            border-color: #ffb88c;
+        }
+
+        .feedback-type.active {
+            background: linear-gradient(to right, rgba(255, 184, 140, 0.2), rgba(255, 141, 107, 0.2));
+            border-color: #ff8d6b;
+            box-shadow: 0 5px 15px rgba(255, 141, 107, 0.25);
+        }
+
+        .feedback-type i {
+            font-size: 28px;
+            color: #ff8d6b;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .feedback-type span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8B4513;
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #8B4513;
+            font-size: 16px;
+            padding-left: 8px;
+            position: relative;
+        }
+
+        .form-group label:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 2px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #FFE4B5;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            color: #8B4513;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #ffb88c;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 184, 140, 0.3),
+                inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #CD853F;
+            opacity: 0.7;
+        }
+
+        /* 图片上传区域 */
+        .upload-area {
+            border: 2px dashed #FFE4B5;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            background: rgba(255, 248, 242, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #ffb88c;
+            background: rgba(255, 248, 242, 0.8);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: #ff8d6b;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            color: #8B4513;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .upload-area span {
+            color: #A0522D;
+            font-size: 14px;
+        }
+
+        .preview-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .preview-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .remove-image i {
+            font-size: 12px;
+            color: #ff6b6b;
+        }
+
+        /* 提交按钮 */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.3);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover:before {
+            left: 100%;
+        }
+
+        .submit-btn i {
+            font-size: 22px;
+            margin-right: 12px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        /* 底部装饰 */
+        .bottom-decoration {
+            height: 35px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 -4px 10px rgba(190, 130, 90, 0.2);
+        }
+
+        /* 熊熊装饰元素 */
+        .paw-print {
+            position: absolute;
+            font-size: 40px;
+            color: rgba(255, 160, 122, 0.15);
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .paw-1 {
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .paw-2 {
+            top: 15%;
+            right: 7%;
+            transform: rotate(30deg);
+            animation-delay: 1s;
+        }
+
+        .paw-3 {
+            bottom: 25%;
+            left: 12%;
+            transform: rotate(-15deg);
+            animation-delay: 2s;
+        }
+
+        .paw-4 {
+            bottom: 15%;
+            right: 10%;
+            transform: rotate(45deg);
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        /* 成功消息 */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            max-width: 320px;
+            width: 90%;
+            border: 2px solid #ffb88c;
+        }
+
+        .success-message.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .success-message i {
+            font-size: 60px;
+            color: #07c160;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .success-message h3 {
+            font-size: 24px;
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            font-size: 16px;
+            color: #A0522D;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .success-message .close-btn {
+            padding: 12px 30px;
+            background: linear-gradient(to right, #ffb88c, #ff8d6b);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-message .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .feedback-container {
+                padding: 25px 20px;
+                border-radius: 22px;
+                margin-top: 65px;
+            }
+
+            .feedback-header h2 {
+                font-size: 24px;
+            }
+
+            .feedback-header p {
+                font-size: 15px;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 14px 16px;
+                font-size: 15px;
+                border-radius: 16px;
+            }
+
+            .submit-btn {
+                padding: 15px;
+                font-size: 17px;
+                border-radius: 16px;
+            }
+
+            .feedback-type {
+                min-width: 80px;
+                padding: 12px 8px;
+            }
+
+            .feedback-type i {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <h1>意见反馈</h1>
+    </div>
+
+    <div class="container">
+        <!-- 反馈区域 -->
+        <div class="feedback-container">
+            <!-- 装饰爪印 -->
+            <div class="paw-print paw-1"><i class="fas fa-paw"></i></div>
+            <div class="paw-print paw-2"><i class="fas fa-paw"></i></div>
+            <div class="paw-print paw-3"><i class="fas fa-paw"></i></div>
+            <div class="paw-print paw-4"><i class="fas fa-paw"></i></div>
+
+            <div class="feedback-header">
+                <h2>您的意见很重要</h2>
+                <p>请告诉我们您的想法，帮助我们做得更好</p>
+            </div>
+
+            <form id="feedbackForm">
+                <!-- 反馈类型 -->
+                <div class="feedback-types">
+                    <div class="feedback-type active" data-type="suggestion">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>功能建议</span>
+                    </div>
+                    <div class="feedback-type" data-type="bug">
+                        <i class="fas fa-bug"></i>
+                        <span>问题反馈</span>
+                    </div>
+                    <div class="feedback-type" data-type="design">
+                        <i class="fas fa-palette"></i>
+                        <span>界面优化</span>
+                    </div>
+                    <div class="feedback-type" data-type="other">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>其他</span>
+                    </div>
+                </div>
+
+                <!-- 反馈内容 -->
+                <div class="form-group">
+                    <label for="feedbackContent">反馈内容</label>
+                    <textarea id="feedbackContent" placeholder="请详细描述您的意见或建议..."></textarea>
+                </div>
+
+                <!-- 联系方式 -->
+                <div class="form-group">
+                    <label for="contact">联系方式（可选）</label>
+                    <input type="text" id="contact" placeholder="邮箱/手机号/微信号">
+                </div>
+
+                <!-- 图片上传 -->
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>上传问题截图</p>
+                    <span>支持 JPG、PNG 格式，最大 5MB</span>
+                    <div class="preview-images" id="previewImages"></div>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+
+                <!-- 提交按钮 -->
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> 提交反馈
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 底部装饰 -->
+    <div class="bottom-decoration"></div>
+
+    <!-- 成功消息弹窗 -->
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <h3>反馈提交成功！</h3>
+        <p>感谢您的宝贵意见，我们会认真处理</p>
+        <button class="close-btn">确定</button>
+    </div>
+
+    <script>
+        // 返回按钮功能
+        document.querySelector('.back-btn').addEventListener('click', function () {
+            history.back();
+        });
+
+        // 反馈类型选择
+        const feedbackTypes = document.querySelectorAll('.feedback-type');
+        feedbackTypes.forEach(type => {
+            type.addEventListener('click', function() {
+                feedbackTypes.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 图片上传功能
+        const uploadArea = document.getElementById('uploadArea');
+        const imageInput = document.getElementById('imageInput');
+        const previewImages = document.getElementById('previewImages');
+        
+        uploadArea.addEventListener('click', function() {
+            imageInput.click();
+        });
+        
+        imageInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files.length > 0) {
+                previewImages.style.display = 'flex';
+                
+                for (let i = 0; i < e.target.files.length; i++) {
+                    const file = e.target.files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const previewImage = document.createElement('div');
+                        previewImage.className = 'preview-image';
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        
+                        const removeBtn = document.createElement('div');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        
+                        removeBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            previewImage.remove();
+                            
+                            if (previewImages.children.length === 0) {
+                                previewImages.style.display = 'none';
+                            }
+                        });
+                        
+                        previewImage.appendChild(img);
+                        previewImage.appendChild(removeBtn);
+                        previewImages.appendChild(previewImage);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // 表单提交功能
+        document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const feedbackContent = document.getElementById('feedbackContent').value;
+            if (!feedbackContent) {
+                alert('请填写反馈内容');
+                return;
+            }
+
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
+            submitBtn.disabled = true;
+
+            // 模拟提交过程
+            setTimeout(() => {
+                // 显示成功消息
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('active');
+
+                // 重置按钮
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 1000);
+            }, 1500);
+        });
+
+        // 关闭成功消息
+        document.querySelector('.close-btn').addEventListener('click', function () {
+            document.getElementById('successMessage').classList.remove('active');
+            // 重置表单
+            document.getElementById('feedbackForm').reset();
+            previewImages.innerHTML = '';
+            previewImages.style.display = 'none';
+        });
+
+        // 添加爪印动画效果
+        const paws = document.querySelectorAll('.paw-print');
+        paws.forEach(paw => {
+            paw.addEventListener('mouseenter', function () {
+                this.style.transform = 'scale(1.2)';
+                this.style.color = 'rgba(255, 160, 122, 0.25)';
+            });
+
+            paw.addEventListener('mouseleave', function () {
+                this.style.transform = '';
+                this.style.color = 'rgba(255, 160, 122, 0.15)';
+            });
+        });
+    </script>
+</body>
+</html>

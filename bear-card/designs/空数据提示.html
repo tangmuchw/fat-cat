@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>橙色/米白色主题空数据提示</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .header h1 {
+            color: #FF8E3C;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #7a4a12;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 卡片列表容器 */
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(230, 122, 0, 0.08);
+            min-height: 400px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        /* 空数据提示组件 */
+        .empty-state {
+            background: transparent;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        /* 图标容器 */
+        .empty-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .icon-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(255, 142, 60, 0.2);
+            border: 3px solid #fff;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .icon-circle i {
+            font-size: 50px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 文本内容 */
+        .empty-content h2 {
+            color: #e67a00;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .empty-content p {
+            color: #5a3a1e;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto 25px;
+        }
+
+        /* 操作按钮 */
+        .empty-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .empty-btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .empty-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+
+        .empty-btn:hover::after {
+            left: 120%;
+        }
+
+        .empty-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(230, 122, 0, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            color: #7a4a12;
+            border: 1px solid #ffb56b;
+        }
+
+        .empty-btn i {
+            margin-right: 8px;
+        }
+
+        /* 装饰元素 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 142, 60, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        /* 动画定义 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-8px) translateX(8px);
+            }
+
+            50% {
+                transform: translateY(-4px) translateX(-8px);
+            }
+
+            75% {
+                transform: translateY(4px) translateX(12px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* 卡片示例 */
+        .card {
+            background: linear-gradient(145deg, #ffffff, #fff5e9);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(230, 122, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 280px;
+            position: relative;
+            border: 1px solid rgba(255, 214, 165, 0.4);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(230, 122, 0, 0.18);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .card-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 15px;
+            color: #5a3a1e;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            padding: 10px 15px;
+            text-align: center;
+            color: #7a4a12;
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            color: #7a4a12;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>卡片列表空数据提示</h1>
+            <p>基于熊熊卡设计的无边框空数据提示组件，适用于卡片列表为空场景</p>
+        </div>
+
+        <!-- 卡片列表容器 -->
+        <div class="card-list">
+            <!-- 空数据提示组件 -->
+            <div class="empty-state">
+                <!-- 装饰气泡 -->
+                <div class="bubble" style="width: 60px; height: 60px; top: 20px; left: 20px;"></div>
+                <div class="bubble" style="width: 45px; height: 45px; bottom: 30px; right: 25px;"></div>
+
+                <div class="empty-icon">
+                    <div class="icon-circle">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                </div>
+
+                <div class="empty-content">
+                    <h2>您的卡片列表是空的</h2>
+                    <p>目前没有找到任何卡片，您可以创建新卡片或导入已有卡片</p>
+                </div>
+
+
+            </div>
+
+            <!-- 这里是卡片列表（正常情况下显示） -->
+            <!-- 为了演示，这里注释掉卡片 -->
+            <!-- 
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">感谢卡</div>
+                </div>
+                <div class="card-body">
+                    <p>真心感谢你在项目最后阶段帮我修改PPT！你的专业建议让整个展示焕然一新。</p>
+                </div>
+                <div class="card-footer">
+                    有效期：永久有效
+                </div>
+            </div>
+            -->
+        </div>
+
+        <div class="footer">
+            <p>设计灵感来源于熊熊卡 • 橙色/米白色主题</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加装饰气泡
+        function createBubbles() {
+            const container = document.querySelector('.card-list');
+            for (let i = 0; i < 6; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+
+                const size = Math.random() * 40 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                bubble.style.top = `${top}%`;
+                bubble.style.left = `${left}%`;
+
+                const duration = Math.random() * 10 + 10;
+                bubble.style.animation = `float ${duration}s infinite ease-in-out`;
+
+                container.appendChild(bubble);
+            }
+        }
+
+        // 添加按钮点击效果
+        document.querySelectorAll('.empty-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+
+                if (this.classList.contains('btn-primary')) {
+                    alert('开始创建新卡片！');
+                } else {
+                    alert('导入卡片功能已开启');
+                }
+            });
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', createBubbles);
+    </script>
+</body>
+
+</html>
