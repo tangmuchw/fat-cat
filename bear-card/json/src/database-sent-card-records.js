@@ -31,7 +31,7 @@ const record = {
 
 const DIR_PATH = path.join(__dirname, `sent-card-records`);
 
-const fileName = `${env}_sent-card-records.json`;
+const fileName = `${env}-sent-card-records.json`;
 
 const createConfigsJson = () => {
     console.log("=== database_sent_card_records 开始处理 ===");

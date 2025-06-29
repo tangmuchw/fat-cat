@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -216,8 +217,13 @@
             top: -5px;
         }
 
-        .bear-ear.left { left: 5px; }
-        .bear-ear.right { right: 5px; }
+        .bear-ear.left {
+            left: 5px;
+        }
+
+        .bear-ear.right {
+            right: 5px;
+        }
 
         .bear-eye {
             position: absolute;
@@ -228,8 +234,13 @@
             top: 15px;
         }
 
-        .bear-eye.left { left: 10px; }
-        .bear-eye.right { right: 10px; }
+        .bear-eye.left {
+            left: 10px;
+        }
+
+        .bear-eye.right {
+            right: 10px;
+        }
 
         .bear-nose {
             position: absolute;
@@ -349,31 +360,76 @@
 
         /* 动画定义 */
         @keyframes cardFloat {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -10px); }
+
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            50% {
+                transform: translate(-50%, -10px);
+            }
         }
 
         @keyframes bearWrite {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         @keyframes armWrite {
-            0% { transform: rotate(-30deg); }
-            100% { transform: rotate(-20deg); }
+            0% {
+                transform: rotate(-30deg);
+            }
+
+            100% {
+                transform: rotate(-20deg);
+            }
         }
 
         @keyframes envelopeFloat {
-            0%, 100% { transform: rotate(-10deg) translateY(0); }
-            50% { transform: rotate(-8deg) translateY(-8px); }
+
+            0%,
+            100% {
+                transform: rotate(-10deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(-8deg) translateY(-8px);
+            }
         }
 
         @keyframes phraseAppear {
-            0% { opacity: 0; transform: translateY(10px); }
-            10% { opacity: 1; transform: translateY(0); }
-            20% { opacity: 1; transform: translateY(0); }
-            30% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 0; transform: translateY(-10px); }
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
         }
 
         /* 底部导航 */
@@ -393,118 +449,22 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <!-- 用户信息区域 -->
-        <div class="user-header" id="userHeader">
-            <!-- 背景装饰 -->
-            <div class="honeycomb honeycomb-1">
-                <i class="fas fa-honey-pot"></i>
-            </div>
-            <div class="honeycomb honeycomb-2">
-                <i class="fas fa-honey-pot"></i>
-            </div>
-            <div class="honeycomb honeycomb-3">
-                <i class="fas fa-honey-pot"></i>
-            </div>
-
-            <!-- 熊爪印头像容器 -->
-            <div class="avatar-container" id="avatarContainer">
-                <div class="avatar-content">
-                    <!-- 默认熊头轮廓 -->
-                    <div class="default-bear" id="defaultBear">
-                        <div class="bear-ears">
-                            <div class="bear-ear"></div>
-                            <div class="bear-ear"></div>
-                        </div>
-                        <div class="bear-face">
-                            <div class="bear-eyes">
-                                <div class="bear-eye"></div>
-                                <div class="bear-eye"></div>
-                            </div>
-                            <div class="bear-nose"></div>
-                        </div>
-                    </div>
-                    <!-- 用户头像 -->
-                    <img src="" alt="" id="userAvatar" class="user-avatar">
-                </div>
-            </div>
-
-            <div class="user-info">
-                <div class="user-name" id="userName">熊熊卡用户</div>
-                <div class="user-status" id="userStatus">传递那些难以开口的话语</div>
-                <div class="user-actions">
-                    <button class="action-btn login-btn" id="loginButton">登录/注册</button>
-                    <button class="action-btn logout-btn" id="logoutButton">退出登录</button>
-                </div>
-
-                <!-- 已登录状态额外信息 -->
-                <div class="user-details" id="userDetails">
-                    <div class="detail-item">
-                        <span class="detail-label">已发送卡片</span>
-                        <span class="detail-value">28 张</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">收到卡片</span>
-                        <span class="detail-value">16 张</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">收藏模板</span>
-                        <span class="detail-value">9 个</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 核心功能区 -->
-        <div class="func-section">
-            <div class="section-title">卡片功能</div>
-            <div class="func-cards">
-                <div class="func-card">
-                    <div class="func-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="func-content">
-                        <div class="func-name">创建卡片</div>
-                        <div class="func-desc">使用精美模板创建个性化卡片</div>
-                    </div>
-                </div>
-
-                <div class="func-card">
-                    <div class="func-icon">
-                        <i class="fas fa-inbox"></i>
-                    </div>
-                    <div class="func-content">
-                        <div class="func-name">我的收件箱</div>
-                        <div class="func-desc">查看收到的暖心卡片</div>
-                    </div>
-                </div>
-
-                <div class="func-card">
-                    <div class="func-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="func-content">
-                        <div class="func-name">收藏模板</div>
-                        <div class="func-desc">保存喜欢的卡片模板</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- 熊熊卡主题装饰区 -->
         <div class="theme-decoration">
             <div class="card-scene">
                 <!-- 书桌 -->
                 <div class="desk"></div>
-                
+
                 <!-- 台灯 -->
                 <div class="lamp">
                     <div class="lamp-base"></div>
                     <div class="lamp-arm"></div>
                     <div class="lamp-shade"></div>
                 </div>
-                
+
                 <!-- 卡片 -->
                 <div class="card">
                     <div class="card-inner">
@@ -512,7 +472,7 @@
                         <div class="card-content">谢谢你一直以来的包容，有些话我总说不出口...</div>
                     </div>
                 </div>
-                
+
                 <!-- 写信的小熊 -->
                 <div class="writing-bear">
                     <div class="bear-body"></div>
@@ -525,47 +485,24 @@
                     </div>
                     <div class="bear-arm"></div>
                 </div>
-                
+
                 <!-- 信封 -->
                 <div class="envelope">
                     <div class="envelope-flap"></div>
                     <i class="fas fa-heart envelope-heart"></i>
                 </div>
-                
+
                 <!-- 短语气泡 -->
                 <div class="phrase-bubble bubble1">有些话，当面说不出口</div>
                 <div class="phrase-bubble bubble2">用卡片表达真心</div>
                 <div class="phrase-bubble bubble3">温暖的话语，治愈心灵</div>
             </div>
-            
+
             <!-- 主题文字 -->
             <div class="theme-text">
                 <div class="slogan">用卡片说出那些难以启齿的话语</div>
                 <div class="sub-slogan">熊熊卡，传递最真挚的情感</div>
             </div>
-        </div>
-    </div>
-
-    <!-- 底部导航 -->
-    <div class="bottom-nav">
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-home"></i></div>
-            <div>首页</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
-            <div>创建</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-inbox"></i></div>
-            <div>收件箱</div>
-        </div>
-        <div class="nav-item active" id="myTab">
-            <div class="nav-icon">
-                <i class="fas fa-user" id="navUserIcon"></i>
-                <img src="" alt="" id="navUserAvatar" class="nav-avatar">
-            </div>
-            <div>我的</div>
         </div>
     </div>
 
@@ -699,4 +636,5 @@
         updateLoginState();
     </script>
 </body>
+
 </html>

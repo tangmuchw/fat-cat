@@ -1,21 +1,23 @@
-const ExcelJS = require("exceljs");
-const path = require("path");
-const { generateID } = require("./utils");
-const _ = require("lodash");
+/// <reference path="./types/bbear-schema.d.ts" />
 
-const getSheetData = (worksheet, rowNums) => {
+import ExcelJS from "exceljs";
+import path from "path";
+import { log, generateID } from "./utils";
+import _ from "lodash";
+
+const getSheetData = (worksheet: ExcelJS.Worksheet, rowNums?: number) => {
     if (!worksheet) {
         throw new Error("工作表对象为空");
     }
 
-    const data = [];
+    const data: any[] = [];
 
     // 读取前两行
 
     if (rowNums) {
         for (let rowNum = 1; rowNum <= rowNums; rowNum++) {
             const row = worksheet.getRow(rowNum);
-            const rowData = [];
+            const rowData: any[] = [];
 
             // 获取所有单元格数据
             row.eachCell({ includeEmpty: true }, (cell) => {
@@ -30,7 +32,7 @@ const getSheetData = (worksheet, rowNums) => {
 
     // 遍历所有行（不包括空行）
     worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
-        const rowData = [];
+        const rowData: any[] = [];
         // 遍历单元格
         row.eachCell({ includeEmpty: true }, (cell) => {
             rowData.push(cell.value);
@@ -45,17 +47,19 @@ const getSheetData = (worksheet, rowNums) => {
  * 第 1 列: 卡类型编码
  * 第 2 列: 卡类型名称
  */
-const generateCardTypeJson = (sheetData) => {
+const generateCardTypeList = (sheetData: ExcelJS.Worksheet) => {
     const list = getSheetData(sheetData);
-    const jsonList = list.slice(1).reduce((a, [cardTypeCode, cardTypeName]) => {
-        return [
-            ...a,
-            {
-                cardTypeCode,
-                cardTypeName,
-            },
-        ];
-    }, []);
+    const jsonList: BBearSchema.CardTypeInfo[] = list
+        .slice(1)
+        .reduce((a, [cardTypeCode, cardTypeName]) => {
+            return [
+                ...a,
+                {
+                    cardTypeCode,
+                    cardTypeName,
+                },
+            ];
+        }, []);
 
     return jsonList;
 };
@@ -65,9 +69,9 @@ const generateCardTypeJson = (sheetData) => {
  * 第 2 列: 卡分类名称
  * 第 3 列: 卡分类描述
  */
-const generateCardCategoryJson = (sheetData) => {
+const generateCardCategoryJson = (sheetData: ExcelJS.Worksheet) => {
     const list = getSheetData(sheetData);
-    const jsonList = list
+    const jsonList: BBearSchema.CardCategoryInfo[] = list
         .slice(1)
         .reduce((a, [categoryCode, categoryName, categoryDesc]) => {
             return [
@@ -88,9 +92,9 @@ const generateCardCategoryJson = (sheetData) => {
  * 第 2 列: 卡主题名称
  * 第 3 列: 卡主题描述
  */
-const generateCardThemeJson = (sheetData) => {
+const generateCardThemeList = (sheetData: ExcelJS.Worksheet) => {
     const list = getSheetData(sheetData);
-    const jsonList = list
+    const jsonList: BBearSchema.CardThemeInfo[] = list
         .slice(1)
         .reduce((a, [themeCode, themeName, themeDesc]) => {
             return [
@@ -119,9 +123,14 @@ const generateCardThemeJson = (sheetData) => {
  * 第 10 列: 高频优先级
  * 第 11 列: 主题编码
  */
-const generateCardJson = (sheetData, cardTypeList, cardCategoryList) => {
+const generateBBearCardList = (
+    sheetData: ExcelJS.Worksheet,
+    cardTypeList: BBearSchema.CardTypeInfo[],
+    cardCategoryList: BBearSchema.CardCategoryInfo[],
+    cardThemeList: BBearSchema.CardThemeInfo[]
+) => {
     const list = getSheetData(sheetData);
-    const jsonList = list
+    const jsonList: BBearSchema.CardInfo[] = list
         .slice(1)
         .reduce(
             (
@@ -139,7 +148,6 @@ const generateCardJson = (sheetData, cardTypeList, cardCategoryList) => {
                     coverSize,
                     coverName,
                     priority,
-                    themeCode,
                 ]
             ) => {
                 const { cardTypeCode } =
@@ -151,6 +159,11 @@ const generateCardJson = (sheetData, cardTypeList, cardCategoryList) => {
                     cardCategoryList.find(
                         ({ categoryName: categoryNameFromSheet }) =>
                             categoryName === categoryNameFromSheet
+                    ) || {};
+                const { themeCode } =
+                    cardThemeList.find(
+                        ({ themeName: themeNameFromSheet }) =>
+                            themeName === themeNameFromSheet
                     ) || {};
                 const idParams = {
                     cardTypeCode,
@@ -184,7 +197,52 @@ const generateCardJson = (sheetData, cardTypeList, cardCategoryList) => {
     return jsonList;
 };
 
-async function readExcel(filePath) {
+const getFieldsStrFromList = (list: any[], fields: string[]) => {
+    return fields.map((field) => {
+        return list.map((v) => v[field]).join(",");
+    });
+};
+
+const logSomething = (
+    data: {
+        cardTypeList: BBearSchema.CardTypeInfo[];
+        cardCategoryList: BBearSchema.CardCategoryInfo[];
+        cardThemeList: BBearSchema.CardThemeInfo[];
+    },
+    config?: {
+        showCategory?: boolean;
+        showTheme?: boolean;
+        showType?: boolean;
+    }
+) => {
+    const { cardTypeList, cardCategoryList, cardThemeList } = data;
+    const { showCategory, showTheme, showType } = config || {};
+    if (showType) {
+        log(
+            `卡片类型：共 ${cardTypeList.length} 种`,
+            getFieldsStrFromList(cardTypeList, ["cardTypeCode", "cardTypeName"])
+        );
+    }
+
+    if (showCategory) {
+        log(
+            `卡片分类：共 ${cardCategoryList.length} 种`,
+            getFieldsStrFromList(cardCategoryList, [
+                "categoryCode",
+                "categoryName",
+            ])
+        );
+    }
+
+    if (showTheme) {
+        log(
+            `卡片主题：共 ${cardThemeList.length} 种`,
+            getFieldsStrFromList(cardThemeList, ["themeCode", "themeName"])
+        );
+    }
+};
+
+async function readExcel(filePath: string) {
     const workbook = new ExcelJS.Workbook();
 
     try {
@@ -207,98 +265,34 @@ async function readExcel(filePath) {
             throw new Error("工作表不存在，请检查Excel文件结构");
         }
 
-        const cardTypeList = generateCardTypeJson(cardTypeSheet);
+        const cardTypeList = generateCardTypeList(cardTypeSheet);
         // console.log("=== cardTypeList ===");
         // console.log(cardTypeList);
 
         const cardCategoryList = generateCardCategoryJson(cardCategorySheet);
-        const cardThemeList = generateCardThemeJson(cardThemeSheet);
+        const cardThemeList = generateCardThemeList(cardThemeSheet);
         // console.log("=== cardCategoryList ===");
         // console.log(cardCategoryList);
 
-        const cardList = generateCardJson(
+        const cardList = generateBBearCardList(
             cardSheet,
             cardTypeList,
-            cardCategoryList
+            cardCategoryList,
+            cardThemeList
         );
 
-        // console.log("=== cardCategoryList name ===");
-        // console.log(
-        //     cardCategoryList
-        //         .map(
-        //             ({ categoryCode, categoryName }) =>
-        //                 `${categoryCode} ${categoryName}`
-        //         )
-        //         .join(", ")
-        // );
-
-        // console.log("=== cardCategoryList code ===");
-        // console.log(
-        //     cardCategoryList.reduce(
-        //         (a, { categoryCode }) => `${a}|"${categoryCode}"`,
-        //         ""
-        //     )
-        // );
-
-        // console.log("=== cardTypeList name ===");
-        // console.log(
-        //     cardTypeList
-        //         .map(
-        //             ({ cardTypeName, cardTypeCode }) =>
-        //                 `${cardTypeCode} ${cardTypeName}`
-        //         )
-        //         .join(", ")
-        // );
-
-        console.log("=== cardTypeList code ===");
-        console.log(
-            cardTypeList
-            // cardTypeList.reduce(
-            //     (a, { cardTypeCode }) => `${a}, ${cardTypeCode}`,
-            //     ""
-            // )
-        );
-
-        // console.log("=== cardThemeList name ===");
-        // console.log(
-        //     cardThemeList
-        //         .map(({ themeCode, themeName }) => `${themeCode} ${themeName}`)
-        //         .join(", ")
-        // );
-
-        // console.log("=== cardThemeList code ===");
-        // console.log(
-        //     cardThemeList.reduce(
-        //         (a, { themeCode }) => `${a}|"${themeCode}"`,
-        //         ""
-        //     )
-        // );
-        // const d1 = cardCategoryList.reduce(
-        //     (a, { categoryCode, categoryName }) => {
-        //         return {
-        //             ...a,
-        //             [categoryCode]: {
-        //                 iconType: "",
-        //                 desc: categoryName,
-        //             },
-        //         };
+        // logSomething(
+        //     {
+        //         cardTypeList,
+        //         cardCategoryList,
+        //         cardThemeList,
         //     },
-        //     {}
+        //     {
+        //         showCategory: true,
+        //         showTheme: true,
+        //         showType: true,
+        //     }
         // );
-
-        // const d2 = cardTypeList.reduce((b, { cardTypeCode, cardTypeName }) => {
-        //     return {
-        //         ...b,
-        //         [cardTypeCode]: {
-        //             iconType: "",
-        //             desc: `${cardTypeName}`,
-        //         },
-        //     };
-        // }, {});
-
-        // // const d2 = cardTypeList.map(({ cardTypeCode }) => [cardTypeCode, ""]);
-        // console.log("=== d1,d2 ===");
-        // console.log({ ...d1, ...d2 });
 
         return cardList;
     } catch (err) {
@@ -307,43 +301,26 @@ async function readExcel(filePath) {
     }
 }
 
-async function main() {
+async function testParseBBearCardXlsx() {
     try {
         // 使用示例
         console.log("=== 开始解析 ===");
         const dirpath = path.join(__dirname, "b_bear_card.xlsx");
         const cards = await readExcel(dirpath);
-        console.log("=== 卡片数据 ===");
-        console.log(cards);
+        // log("卡片数据", cards);
     } catch (err) {
         console.log("=== 解析错误 ===");
         console.error(err);
     }
 }
 
-// main();
-
-const generateCardThemes = (cards) => {
-    const themes = cards.map(({ themeCode, themeName }) => ({
-        themeCode,
-        themeName,
-    }));
-    const uniqueThemes = _.uniqBy(themes, "themeCode");
-
-    console.log("=== 卡主题 ===");
-    console.log(uniqueThemes);
-};
-
 async function getCardsFromBBearCardExcel() {
     try {
-        // 使用示例
-        console.log("=== 开始解析 getCardsFromBBearCardExcel ===");
+        log(`=== 开始处理 getCardsFromBBearCardExcel ===`);
         const dirpath = path.join(__dirname, "b_bear_card.xlsx");
         const cards = await readExcel(dirpath);
 
-        // generateCardThemes(cards);
-        console.log(`=== 卡片数据: 共 ${cards.length} 条 ===`);
-        // console.log(cards);
+        log(`卡片数据: 共 ${cards.length} 条`);
         return cards;
     } catch (err) {
         console.log("=== 解析错误 ===");
@@ -351,8 +328,4 @@ async function getCardsFromBBearCardExcel() {
     }
 }
 
-// getCardsFromBBearCardExcel();
-// node ./parse_excel.js
-module.exports = {
-    getCardsFromBBearCardExcel,
-};
+export { getCardsFromBBearCardExcel, testParseBBearCardXlsx };
