@@ -5,7 +5,7 @@ import chalk from "chalk";
 
 const log = (title: string, content?: any) => {
     // 橙色
-    console.log(chalk.bgRgb(255, 136, 0).bold.white(`=== ${title || ""} ===`));
+    console.log(chalk.bgBlue.white(`=== ${title || ""} ===`));
 
     if (content) {
         console.log(content);
@@ -66,7 +66,7 @@ const getDevCloudUrl = () => {
 
     log(`本机 IP：${ip}`);
 
-    return `http://${ip}:${host}/cover/`;
+    return `http://${ip}:${host}`;
 };
 
 export { createDirSync, getLocalIP, getDevCloudUrl, generateID, log };

@@ -66,7 +66,7 @@
             border-radius: 20px;
             padding: 25px;
             max-width: 320px;
-            margin: 0 auto 40px;
+            margin: 0 auto 20px;
             box-shadow:
                 0 10px 25px rgba(190, 130, 90, 0.15),
                 inset 0 -2px 10px rgba(255, 255, 255, 0.7),
@@ -160,6 +160,10 @@
             overflow: hidden;
         }
 
+        .modal-header.error {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4500 100%);
+        }
+
         .modal-title {
             font-size: 24px;
             color: white;
@@ -230,6 +234,10 @@
             margin-bottom: 20px;
         }
 
+        .modal-icon.error {
+            color: #ff4500;
+        }
+
         .modal-text {
             font-size: 18px;
             color: #8B4513;
@@ -237,9 +245,17 @@
             margin-bottom: 25px;
         }
 
+        .modal-text.error {
+            color: #a52a2a;
+        }
+
         .modal-text strong {
             color: #FF8C00;
             font-weight: bold;
+        }
+
+        .modal-text.error strong {
+            color: #ff4500;
         }
 
         /* 按钮区域 */
@@ -294,6 +310,17 @@
             border: 2px solid #FF8C00;
         }
 
+        .btn-home {
+            background: linear-gradient(135deg, #ff9e6d 0%, #ff7048 100%);
+            color: white;
+        }
+
+        .btn-retry {
+            background: #FEF4EB;
+            color: #8B4513;
+            border: 2px solid #FF8C00;
+        }
+
         .modal-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
@@ -326,6 +353,32 @@
             animation-delay: 2s;
         }
 
+        /* 服务器错误状态图标 */
+        .server-error-icon {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .server-error-icon .fa-server {
+            font-size: 50px;
+            color: #ff4500;
+            position: relative;
+            z-index: 2;
+            animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .server-error-icon .fa-bolt {
+            position: absolute;
+            font-size: 30px;
+            color: #ffd700;
+            top: -15px;
+            right: -15px;
+            z-index: 3;
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+
         /* 动画效果 */
         @keyframes float {
 
@@ -346,13 +399,31 @@
             }
 
             50% {
-                transform: scale(1.05);
+                transform: scale(1.2);
                 opacity: 1;
             }
 
             100% {
                 transform: scale(1);
                 opacity: 0.7;
+            }
+        }
+
+        @keyframes shake {
+            10%, 90% {
+                transform: translateX(-1px);
+            }
+            
+            20%, 80% {
+                transform: translateX(2px);
+            }
+            
+            30%, 50%, 70% {
+                transform: translateX(-4px);
+            }
+            
+            40%, 60% {
+                transform: translateX(4px);
             }
         }
 
@@ -363,13 +434,18 @@
         .floating {
             animation: float 3s ease-in-out infinite;
         }
+
+        /* 服务器错误提示动画 */
+        .error-shake {
+            animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+        }
     </style>
 </head>
 
 <body>
     <div class="demo-container">
         <h1 class="demo-title">熊熊卡主题弹框</h1>
-        <p class="demo-desc">点击下方功能卡片体验主题橙色登录提示弹框<br>包含温暖治愈的熊主题元素和友好的交互设计</p>
+        <p class="demo-desc">点击下方功能卡片体验各种主题弹框效果<br>包含温暖治愈的熊主题元素和友好的交互设计</p>
 
         <div class="func-card" id="demoCard">
             <div class="func-icon">
@@ -378,6 +454,16 @@
             <div class="func-content">
                 <div class="func-name">爪印邮局</div>
                 <div class="func-desc">查看和管理您发送与接收的卡片</div>
+            </div>
+        </div>
+
+        <div class="func-card" id="errorCard">
+            <div class="func-icon" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff4500 100%);">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="func-content">
+                <div class="func-name">服务器状态</div>
+                <div class="func-desc">测试服务器报错提示弹框</div>
             </div>
         </div>
 
@@ -425,16 +511,66 @@
         </div>
     </div>
 
+    <!-- 服务器错误弹框 -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-box">
+            <div class="modal-header error">
+                <div class="modal-paw paw-1"></div>
+                <div class="modal-paw paw-2"></div>
+                <h2 class="modal-title">服务器开小差啦</h2>
+                <p class="modal-subtitle">请稍后再试</p>
+            </div>
+            <div class="modal-content">
+                <div class="server-error-icon">
+                    <i class="fas fa-server"></i>
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <p class="modal-text error">
+                    服务器<strong>暂时无法响应</strong>您的请求<br>
+                    可能是网络问题或服务器繁忙
+                </p>
+                <p class="modal-text error">
+                    请您稍等片刻后<strong>重试</strong>操作<br>
+                    或返回首页选择其他功能
+                </p>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn btn-home" id="homeBtn">
+                    <i class="fas fa-home"></i> 返回首页
+                </button>
+                <button class="modal-btn btn-retry" id="retryBtn">
+                    <i class="fas fa-redo"></i> 重试
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 获取DOM元素
         const demoCard = document.getElementById('demoCard');
+        const errorCard = document.getElementById('errorCard');
         const loginModal = document.getElementById('loginModal');
+        const errorModal = document.getElementById('errorModal');
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const retryBtn = document.getElementById('retryBtn');
 
-        // 点击功能卡片显示弹框
+        // 点击功能卡片显示登录弹框
         demoCard.addEventListener('click', function() {
             loginModal.classList.add('active');
+        });
+
+        // 点击错误卡片显示错误弹框
+        errorCard.addEventListener('click', function() {
+            errorModal.classList.add('active');
+            
+            // 添加错误动画效果
+            const serverIcon = document.querySelector('.fa-server');
+            serverIcon.classList.remove('error-shake');
+            setTimeout(() => {
+                serverIcon.classList.add('error-shake');
+            }, 10);
         });
 
         // 确认按钮点击事件
@@ -449,10 +585,44 @@
             showNotification('已取消登录，继续浏览', 'cancel');
         });
 
+        // 返回首页按钮点击事件
+        homeBtn.addEventListener('click', function() {
+            errorModal.classList.remove('active');
+            showNotification('正在返回首页...', 'home');
+        });
+
+        // 重试按钮点击事件
+        retryBtn.addEventListener('click', function() {
+            // 添加重试动画
+            const retryIcon = this.querySelector('i');
+            retryIcon.classList.add('fa-spin');
+            
+            // 模拟重试过程
+            showNotification('正在重新连接服务器...', 'retry');
+            
+            setTimeout(() => {
+                retryIcon.classList.remove('fa-spin');
+                errorModal.classList.remove('active');
+                
+                // 模拟重试成功或失败
+                if (Math.random() > 0.5) {
+                    showNotification('连接成功！服务器已恢复', 'success');
+                } else {
+                    showNotification('连接失败，请稍后再试', 'error');
+                }
+            }, 2000);
+        });
+
         // 点击遮罩层关闭弹框
         loginModal.addEventListener('click', function(e) {
             if (e.target === loginModal) {
                 loginModal.classList.remove('active');
+            }
+        });
+        
+        errorModal.addEventListener('click', function(e) {
+            if (e.target === errorModal) {
+                errorModal.classList.remove('active');
             }
         });
 
@@ -463,7 +633,47 @@
             notification.style.bottom = '100px';
             notification.style.left = '50%';
             notification.style.transform = 'translateX(-50%)';
-            notification.style.backgroundColor = type === 'confirm' ? '#FF8C00' : '#A0522D';
+            
+            // 根据通知类型设置样式
+            let bgColor, icon, iconColor;
+            switch(type) {
+                case 'confirm':
+                    bgColor = '#FF8C00';
+                    icon = 'fa-check';
+                    iconColor = '#fff';
+                    break;
+                case 'cancel':
+                    bgColor = '#A0522D';
+                    icon = 'fa-paw';
+                    iconColor = '#fff';
+                    break;
+                case 'home':
+                    bgColor = '#FF8C00';
+                    icon = 'fa-home';
+                    iconColor = '#fff';
+                    break;
+                case 'retry':
+                    bgColor = '#ff7048';
+                    icon = 'fa-redo';
+                    iconColor = '#fff';
+                    break;
+                case 'success':
+                    bgColor = '#5cb85c';
+                    icon = 'fa-check-circle';
+                    iconColor = '#fff';
+                    break;
+                case 'error':
+                    bgColor = '#ff4500';
+                    icon = 'fa-exclamation-triangle';
+                    iconColor = '#fff';
+                    break;
+                default:
+                    bgColor = '#FF8C00';
+                    icon = 'fa-info-circle';
+                    iconColor = '#fff';
+            }
+            
+            notification.style.backgroundColor = bgColor;
             notification.style.color = 'white';
             notification.style.padding = '14px 30px';
             notification.style.borderRadius = '30px';
@@ -474,13 +684,16 @@
             notification.style.opacity = '0';
             notification.style.transition = 'opacity 0.3s, transform 0.3s';
             notification.style.transform = 'translate(-50%, 20px)';
+            notification.style.display = 'flex';
+            notification.style.alignItems = 'center';
+            notification.style.gap = '10px';
             notification.textContent = message;
             
             // 添加图标
-            const icon = document.createElement('i');
-            icon.className = type === 'confirm' ? 'fas fa-check' : 'fas fa-paw';
-            icon.style.marginRight = '10px';
-            notification.insertBefore(icon, notification.firstChild);
+            const iconEl = document.createElement('i');
+            iconEl.className = `fas ${icon}`;
+            iconEl.style.color = iconColor;
+            notification.insertBefore(iconEl, notification.firstChild);
 
             document.body.appendChild(notification);
 

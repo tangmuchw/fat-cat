@@ -12,7 +12,7 @@ const env: "dev" | "prod" = argv["env"] || "dev";
 log(`database-cards 输出环境 env: ${env}`); // 例如：node script.js --name=John --age=
 
 const cloudUrlConfig = {
-    dev: getDevCloudUrl(),
+    dev: `${getDevCloudUrl()}/images/cover/`,
     // preprod:
     //     "cloud://cloud1-4gcgkweic0306525.636c-cloud1-4gcgkweic0306525-1360400413/images/cover/",
     prod: "cloud://prod-env-3gb9vy5c3ca5a90c.7072-prod-env-3gb9vy5c3ca5a90c-1360400413/images/cover/",

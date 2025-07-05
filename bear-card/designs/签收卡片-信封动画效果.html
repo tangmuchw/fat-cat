@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熊熊主题信封卡片签收</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fff5e6, #ffe8d6);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            color: #5a3a1e;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #e67a00;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #7a4a12;
+            line-height: 1.6;
+        }
+
+        /* 信封容器 - 熊熊主题 */
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 260px;
+            margin: 0 auto 50px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        /* 熊耳朵 */
+        .bear-ear {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #d4a76a;
+            border-radius: 50%;
+            top: -20px;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bear-ear.left {
+            left: 60px;
+        }
+        
+        .bear-ear.right {
+            right: 60px;
+        }
+        
+        .bear-ear::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #8b5a2b;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* 信封图片 */
+        .envelope-img {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 85%;
+            background: #f9d4b4;
+            border-radius: 15px;
+            box-shadow: 
+                0 10px 30px rgba(230, 122, 0, 0.2),
+                0 5px 15px rgba(0, 0, 0, 0.1);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e0b070;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect x="10" y="10" width="180" height="130" fill="%23f9d4b4" stroke="%23e0b070" stroke-width="2" rx="15" ry="15"/><path d="M10,10 L100,80 L190,10" stroke="%23c89863" stroke-width="2" fill="none"/><circle cx="100" cy="60" r="25" fill="%23d4a76a" stroke="%23c89863" stroke-width="2"/><circle cx="100" cy="60" r="15" fill="%238b5a2b"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .envelope-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            font-weight: 600;
+            color: #7a4a12;
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.5s;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .envelope-container.clicked .envelope-img {
+            animation: shrink 0.8s ease forwards;
+        }
+
+        /* 卡片容器 - 初始隐藏 */
+        .card-container {
+            width: 100%;
+            perspective: 1000px;
+            position: relative;
+            margin: 40px auto 30px;
+            transform: translateY(50px) scale(0.8);
+            opacity: 0;
+            display: none;
+        }
+
+        .card-container.revealed {
+            display: block;
+            animation: cardReveal 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* 卡片主体 */
+        .bear-card {
+            background: linear-gradient(145deg, #ffffff, #fff5e9);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow:
+                0 20px 40px rgba(230, 122, 0, 0.25),
+                0 10px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 15px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+        }
+
+        /* 发卡人信息 */
+        .sender-info {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 214, 165, 0.5);
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            overflow: hidden;
+            border: 2px solid #fff;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .sender-details {
+            flex: 1;
+        }
+
+        .sender-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #5a3a1e;
+            margin-bottom: 3px;
+        }
+
+        .sender-relation {
+            font-size: 14px;
+            color: #e67a00;
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+            padding: 22px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 6px;
+        }
+
+        .card-subtitle {
+            color: #fff9e6;
+            font-size: 18px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+        }
+
+        /* 卡片封面 */
+        .card-cover {
+            height: 180px;
+            background: linear-gradient(135deg, #ffd6a5, #ffb56b);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 214, 165, 0.5);
+        }
+
+        .cover-icon {
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 4px 12px rgba(230, 122, 0, 0.4);
+        }
+
+        /* 卡片内容 */
+        .card-content {
+            padding: 25px 20px;
+            color: #5a3a1e;
+            position: relative;
+        }
+
+        .content-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #e67a00;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .card-main-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .card-main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #FFA07A;
+            border-radius: 3px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            background: rgba(255, 214, 165, 0.2);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid #ff8e3c;
+            text-align: center;
+        }
+
+        /* 卡片底部 */
+        .card-footer {
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            padding: 18px;
+            text-align: center;
+            color: #7a4a12;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 卡号展示 */
+        .card-number-display {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #5a3a1e;
+            font-family: 'Courier New', monospace;
+            border: 2px dashed rgba(122, 74, 18, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .card-number-display i {
+            margin-right: 10px;
+            color: #ff8e3c;
+        }
+
+        /* 承诺说明 */
+        .promise-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 22px;
+            padding: 10px 24px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7a4a12;
+        }
+
+        .promise-item i {
+            margin-right: 6px;
+            color: #ff8e3c;
+            font-size: 16px;
+        }
+
+        /* 操作按钮 */
+        .actions {
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            margin: 30px auto;
+        }
+
+        .btn {
+            padding: 16px 0;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+            color: #7a4a12;
+            border: 1px solid #ffb56b;
+        }
+
+        .btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* 粒子效果 */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        .heart-particle {
+            color: #e67a00;
+            font-size: 24px;
+            animation: floatUp 2s ease-out forwards;
+        }
+
+        .sparkle-particle {
+            color: #fff;
+            font-size: 16px;
+            animation: sparkle 1.5s ease-out forwards;
+        }
+
+        .paw-particle {
+            font-size: 28px;
+            color: #8b5a2b;
+            animation: pawFloat 2.5s ease-out forwards;
+        }
+
+        /* 气泡背景 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 142, 60, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+            animation: float 12s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; }
+        .bubble:nth-child(2) { width: 60px; height: 60px; top: 25%; right: 8%; }
+        .bubble:nth-child(3) { width: 100px; height: 100px; bottom: 15%; left: 10%; }
+        .bubble:nth-child(4) { width: 70px; height: 70px; bottom: 30%; right: 12%; }
+
+        /* 动画定义 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-8px) translateX(8px); }
+            50% { transform: translateY(-4px) translateX(-8px); }
+            75% { transform: translateY(4px) translateX(12px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardReveal {
+            0% { 
+                transform: translateY(50px) scale(0.8);
+                opacity: 0;
+            }
+            70% { 
+                transform: translateY(-20px) scale(1.05);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(20deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg);
+            }
+        }
+        
+        @keyframes pawFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) rotate(30deg);
+            }
+        }
+        
+        @keyframes shrink {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .header p {
+                font-size: 14px;
+            }
+            
+            .card-main-title {
+                font-size: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .envelope-container {
+                width: 250px;
+                height: 220px;
+            }
+            
+            .bear-ear {
+                width: 30px;
+                height: 30px;
+                top: -15px;
+            }
+            
+            .bear-ear.left {
+                left: 50px;
+            }
+            
+            .bear-ear.right {
+                right: 50px;
+            }
+            
+            .bear-ear::before {
+                width: 15px;
+                height: 15px;
+                top: 7px;
+                left: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 气泡背景 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <div class="container">
+        <!-- 页面头部 -->
+        <div class="header">
+            <h1><i class="fas fa-paw"></i> 您收到一份暖心卡片</h1>
+            <p>点击下面的熊熊信封，揭晓来自好友的祝福与心意</p>
+        </div>
+        
+        <!-- 信封容器 -->
+        <div class="envelope-container" id="envelopeContainer">
+            <div class="bear-ear left"></div>
+            <div class="bear-ear right"></div>
+            <div class="envelope-img" id="envelopeImg"></div>
+            <div class="envelope-label">点击打开信封</div>
+        </div>
+        
+        <!-- 卡片容器 -->
+        <div class="card-container" id="cardContainer">
+            <div class="bear-card">
+                <!-- 发卡人信息 -->
+                <div class="sender-info">
+                    <div class="avatar">
+                        <i class="fas fa-bear"></i>
+                    </div>
+                    <div class="sender-details">
+                        <div class="sender-name">暖暖熊</div>
+                        <div class="sender-relation">你的好朋友</div>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <h2 class="card-title">感谢卡</h2>
+                    <div class="card-subtitle">改 PPT 之恩</div>
+                </div>
+
+                <div class="card-cover">
+                    <i class="fas fa-heart cover-icon"></i>
+                </div>
+
+                <div class="card-content">
+                    <h3 class="content-title">致：亲爱的同事</h3>
+                    
+                    <div class="card-main-title">真心感谢你在项目最后阶段帮我修改PPT！</div>
+                    
+                    <p class="content-text">
+                        真心感谢你在项目最后阶段帮我修改PPT！你的专业建议让整个展示焕然一新。加班到深夜帮我调整排版和设计，这份付出我铭记于心。PPT最终获得了领导高度评价，这完全归功于你的帮助！
+                    </p>
+                </div>
+
+                <!-- 卡号与承诺说明 -->
+                <div class="card-footer">
+                    <div class="card-number-display">
+                        <i class="fas fa-hashtag"></i> XK-2023-0621-8888
+                    </div>
+
+                    <div class="promise-container">
+                        <div class="promise-item">
+                            <i class="fas fa-infinity"></i> 永久有效
+                        </div>
+                        <div class="promise-divider"></div>
+                        <div class="promise-item">
+                            <i class="fas fa-fingerprint"></i> 编号唯一
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="actions">
+            <button class="btn btn-primary" id="shareBtn">
+                <i class="fas fa-share-alt"></i> 分享卡片
+            </button>
+            <button class="btn btn-secondary" id="saveBtn">
+                <i class="fas fa-bookmark"></i> 收藏卡片
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelopeContainer = document.getElementById('envelopeContainer');
+            const cardContainer = document.getElementById('cardContainer');
+            const shareBtn = document.getElementById('shareBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            
+            // 点击信封事件
+            envelopeContainer.addEventListener('click', function() {
+                // 添加点击状态类
+                envelopeContainer.classList.add('clicked');
+                
+                // 创建粒子效果
+                createParticles();
+                
+                // 1.2秒后显示卡片
+                setTimeout(() => {
+                    cardContainer.classList.add('revealed');
+                }, 1200);
+            });
+            
+            // 创建粒子效果
+            function createParticles() {
+                const particlesContainer = envelopeContainer;
+                const colors = ['#e67a00', '#d4a76a', '#ff8e3c', '#c68642', '#8b5a2b'];
+                
+                // 创建爱心粒子
+                for (let i = 0; i < 20; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'particle heart-particle';
+                    heart.innerHTML = '<i class="fas fa-heart"></i>';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.top = `${Math.random() * 100}%`;
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.animationDuration = `${1 + Math.random() * 2}s`;
+                    heart.style.animationDelay = `${Math.random() * 0.5}s`;
+                    
+                    particlesContainer.appendChild(heart);
+                    
+                    // 移除元素
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2000);
+                }
+                
+                // 创建熊爪粒子
+                for (let i = 0; i < 10; i++) {
+                    const paw = document.createElement('div');
+                    paw.className = 'particle paw-particle';
+                    paw.innerHTML = '<i class="fas fa-paw"></i>';
+                    paw.style.left = `${Math.random() * 100}%`;
+                    paw.style.top = `${Math.random() * 100}%`;
+                    paw.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    paw.style.animationDuration = `${1.5 + Math.random() * 1.5}s`;
+                    paw.style.animationDelay = `${Math.random() * 0.3}s`;
+                    
+                    particlesContainer.appendChild(paw);
+                    
+                    // 移除元素
+                    setTimeout(() => {
+                        paw.remove();
+                    }, 2500);
+                }
+                
+                // 创建闪光粒子
+                for (let i = 0; i < 15; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'particle sparkle-particle';
+                    sparkle.innerHTML = '<i class="fas fa-sparkle"></i>';
+                    sparkle.style.left = `${Math.random() * 100}%`;
+                    sparkle.style.top = `${Math.random() * 100}%`;
+                    sparkle.style.color = '#ffffff';
+                    sparkle.style.animationDuration = `${0.8 + Math.random() * 1}s`;
+                    sparkle.style.animationDelay = `${Math.random() * 0.3}s`;
+                    
+                    particlesContainer.appendChild(sparkle);
+                    
+                    // 移除元素
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 1500);
+                }
+            }
+            
+            // 按钮点击效果
+            shareBtn.addEventListener('click', function() {
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+                
+                alert('卡片已分享！您的心意已传递给更多人 🐻❤️');
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+                
+                alert('卡片已收藏！您可以在个人中心随时查看');
+            });
+        });
+    </script>
+</body>
+</html>

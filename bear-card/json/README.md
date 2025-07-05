@@ -1,0 +1,3 @@
+-   node 切换到 20.19
+-   执行: ts-node ./bear-card/json/src/database-cards.ts --env=dev
+-   执行: ts-node ./bear-card/json/src/database-cards.ts --env=prod

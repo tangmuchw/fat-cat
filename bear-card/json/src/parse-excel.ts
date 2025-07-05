@@ -120,8 +120,9 @@ const generateCardThemeList = (sheetData: ExcelJS.Worksheet) => {
  * 第 7 列: 正文
  * 第 8 列: 封面设计描述
  * 第 9 列: 封面尺寸
- * 第 10 列: 高频优先级
- * 第 11 列: 主题编码
+ * 第 10 列: 封面图
+ * 第 11 列: 高频优先级
+ * 第 12 列:
  */
 const generateBBearCardList = (
     sheetData: ExcelJS.Worksheet,
@@ -317,7 +318,7 @@ async function testParseBBearCardXlsx() {
 async function getCardsFromBBearCardExcel() {
     try {
         log(`=== 开始处理 getCardsFromBBearCardExcel ===`);
-        const dirpath = path.join(__dirname, "b_bear_card.xlsx");
+        const dirpath = path.join(__dirname, "b-bear-card.xlsx");
         const cards = await readExcel(dirpath);
 
         log(`卡片数据: 共 ${cards.length} 条`);
