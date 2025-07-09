@@ -120,9 +120,10 @@ const generateCardThemeList = (sheetData: ExcelJS.Worksheet) => {
  * 第 7 列: 正文
  * 第 8 列: 封面设计描述
  * 第 9 列: 封面尺寸
- * 第 10 列: 封面图
- * 第 11 列: 高频优先级
- * 第 12 列:
+ * 第 10 列: 封面图名称
+ * 第 11 列: 封面图预览
+ * 第 12 列: 高频优先级
+ * 第 13 列: 创建时间
  */
 const generateBBearCardList = (
     sheetData: ExcelJS.Worksheet,
@@ -131,6 +132,7 @@ const generateBBearCardList = (
     cardThemeList: BBearSchema.CardThemeInfo[]
 ) => {
     const list = getSheetData(sheetData);
+
     const jsonList: BBearSchema.CardInfo[] = list
         .slice(1)
         .reduce(
@@ -148,7 +150,9 @@ const generateBBearCardList = (
                     coverDesignStyle,
                     coverSize,
                     coverName,
+                    coverImage,
                     priority,
+                    createAt,
                 ]
             ) => {
                 const { cardTypeCode } =
@@ -189,6 +193,7 @@ const generateBBearCardList = (
                         // coverDesignDesc,
                         // coverSize,
                         priority,
+                        createAt,
                     },
                 ];
             },

@@ -652,7 +652,7 @@
                 width: 110px;
                 padding: 12px 8px;
             }
-            
+
             .hero-bear {
                 width: 80px;
                 height: 80px;
@@ -882,7 +882,7 @@
             margin-bottom: 20px;
             font-weight: 500;
         }
-        
+
         /* 熊对话气泡 */
         .speech-bubble {
             position: absolute;
@@ -899,7 +899,7 @@
             z-index: 10;
             white-space: nowrap;
         }
-        
+
         .speech-bubble::after {
             content: '';
             position: absolute;
@@ -910,7 +910,7 @@
             border-style: solid;
             border-color: white transparent transparent;
         }
-        
+
         /* 熊爪印 */
         .paw-print {
             position: absolute;
@@ -920,7 +920,7 @@
             border-radius: 50%;
             z-index: 0;
         }
-        
+
         .paw-print::before,
         .paw-print::after {
             content: '';
@@ -930,12 +930,12 @@
             background: inherit;
             border-radius: 50%;
         }
-        
+
         .paw-print::before {
             top: -5px;
             left: 3px;
         }
-        
+
         .paw-print::after {
             top: -5px;
             right: 3px;
@@ -945,121 +945,6 @@
 
 <body>
     <div class="container">
-        <!-- 紧凑型英雄区域 -->
-        <div class="compact-hero">
-            <div class="brand-title">熊熊卡·难开口？派熊出征</div>
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="hero-title">难开口？派熊出征</div>
-                    <div class="hero-subtitle">让暖暖熊帮你传递心意，化解尴尬</div>
-                </div>
-                <div class="hero-bear">
-                    <!-- 熊对话气泡 -->
-                    <div class="speech-bubble">
-                        <i class="fas fa-heart"></i> 交给我吧！
-                    </div>
-                    <div class="bear-head">
-                        <div class="bear-ear bear-ear-left"></div>
-                        <div class="bear-ear bear-ear-right"></div>
-                        <div class="bear-eye bear-eye-left"></div>
-                        <div class="bear-eye bear-eye-right"></div>
-                        <div class="bear-nose"></div>
-                    </div>
-                    <div class="bear-body">
-                        <div class="bear-arm bear-arm-left"></div>
-                        <div class="bear-arm bear-arm-right"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 紧急开口区域 -->
-        <div class="urgent-section">
-            <div class="urgent-title">
-                <span class="fire-icon">🔥</span> 急需开口通道
-            </div>
-            <div class="urgent-subtitle">快速模板直达，化解尴尬时刻</div>
-            <div class="urgent-options">
-                <div class="urgent-option" data-type="道歉卡">
-                    <i class="fas fa-sad-tear bounce"></i> 
-                    <span>道歉</span>
-                </div>
-                <div class="urgent-option" data-type="拒绝卡">
-                    <i class="fas fa-shield-alt bounce"></i> 
-                    <span>拒绝</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 五大主题卡片 -->
-        <div class="section">
-            <div class="section-title">
-                <span>五大主题卡片</span>
-                <a href="#" class="view-all">查看全部</a>
-            </div>
-            <div class="card-grid">
-                <div class="theme-card" data-card="感谢卡">
-                    <div class="theme-icon">
-                        <i class="fas fa-hands-helping"></i>
-                    </div>
-                    <div class="theme-name">感谢卡</div>
-                    <div class="theme-desc">表达感激之情，温暖人心</div>
-                    <div class="card-type-indicator">
-                        <i class="fas fa-bolt"></i> 高频
-                    </div>
-                    <!-- 熊爪印装饰 -->
-                    <div class="paw-print floating" style="top:20px; left:20px;"></div>
-                </div>
-
-                <div class="theme-card" data-card="鼓励卡">
-                    <div class="theme-icon">
-                        <i class="fas fa-thumbs-up"></i>
-                    </div>
-                    <div class="theme-name">鼓励卡</div>
-                    <div class="theme-desc">传递正能量，支持前行</div>
-                    <div class="card-type-indicator">
-                        <i class="fas fa-bolt"></i> 高频
-                    </div>
-                </div>
-
-                <div class="theme-card" data-card="夸夸卡">
-                    <div class="theme-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="theme-name">夸夸卡</div>
-                    <div class="theme-desc">真诚赞美，拉近距离</div>
-                    <div class="card-type-indicator">
-                        <i class="fas fa-bolt"></i> 高频
-                    </div>
-                </div>
-
-                <div class="theme-card" data-card="道歉卡">
-                    <div class="theme-icon">
-                        <i class="fas fa-sad-tear"></i>
-                    </div>
-                    <div class="theme-name">道歉卡</div>
-                    <div class="theme-desc">化解误会，修复关系</div>
-                    <!-- 熊爪印装饰 -->
-                    <div class="paw-print floating" style="bottom:20px; right:20px;"></div>
-                </div>
-
-                <div class="theme-card" data-card="拒绝卡">
-                    <div class="theme-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="theme-name">拒绝卡</div>
-                    <div class="theme-desc">委婉说不，不伤情面</div>
-                </div>
-
-                <div class="theme-card" data-card="更多卡片">
-                    <div class="theme-icon">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                    <div class="theme-name">更多卡片</div>
-                    <div class="theme-desc">探索更多表达方式</div>
-                </div>
-            </div>
-        </div>
 
         <!-- 职场感谢卡专区 -->
         <div class="work-thanks-section">
@@ -1134,332 +1019,9 @@
             </div>
         </div>
 
-        <!-- 分类展示区 -->
-        <div class="category-section">
-            <div class="section-title">
-                <span>场景分类</span>
-                <a href="#" class="view-all">查看全部</a>
-            </div>
 
-            <!-- 职场突围 -->
-            <div class="category-card">
-                <div class="paw-decoration paw-1 floating"></div>
-                <div class="paw-decoration paw-2 floating"></div>
-                <div class="category-header">
-                    <div class="category-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <div>
-                        <div class="category-title">职场突围</div>
-                        <div class="category-desc">利益导向，需谨慎措辞</div>
-                    </div>
-                </div>
-
-                <div class="theme-scroll-container">
-                    <div class="scroll-arrow scroll-left">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="themes-container" id="workThemes">
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-hands-helping"></i>
-                            </div>
-                            <div class="theme-name-small">感谢卡</div>
-                            <div class="theme-tag">改PPT之恩</div>
-                            <div class="theme-tag">带饭之恩</div>
-                            <div class="theme-tag">加班协助</div>
-                            <div class="theme-tag">项目支持</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-sad-tear"></i>
-                            </div>
-                            <div class="theme-name-small">道歉卡</div>
-                            <div class="theme-tag">任务延期</div>
-                            <div class="theme-tag">沟通失误</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="theme-name-small">拒绝卡</div>
-                            <div class="theme-tag">拒绝加班</div>
-                            <div class="theme-tag">拒绝额外任务</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-comment-alt"></i>
-                            </div>
-                            <div class="theme-name-small">轻效卡</div>
-                            <div class="theme-tag">会议提醒</div>
-                            <div class="theme-tag">进度同步</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <div class="theme-name-small">任务卡</div>
-                            <div class="theme-tag">分工确认</div>
-                            <div class="theme-tag">截止提醒</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <div class="theme-name-small">建议卡</div>
-                            <div class="theme-tag">流程优化</div>
-                            <div class="theme-tag">改进建议</div>
-                        </div>
-                    </div>
-                    <div class="scroll-arrow scroll-right">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-
-                <div class="more-themes">
-                    <a href="#" class="more-link">查看全部职场主题 +</a>
-                </div>
-            </div>
-
-            <!-- 亲密关系 -->
-            <div class="category-card">
-                <div class="paw-decoration paw-1 floating"></div>
-                <div class="paw-decoration paw-2 floating"></div>
-                <div class="category-header">
-                    <div class="category-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div>
-                        <div class="category-title">亲密关系</div>
-                        <div class="category-desc">情感导向，重温度传递</div>
-                    </div>
-                </div>
-
-                <div class="theme-scroll-container">
-                    <div class="scroll-arrow scroll-left">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="themes-container" id="loveThemes">
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="theme-name-small">夸夸卡</div>
-                            <div class="theme-tag">日常小确幸</div>
-                            <div class="theme-tag">特殊成就</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-hands"></i>
-                            </div>
-                            <div class="theme-name-small">抱抱卡</div>
-                            <div class="theme-tag">安慰鼓励</div>
-                            <div class="theme-tag">表达爱意</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-sad-tear"></i>
-                            </div>
-                            <div class="theme-name-small">道歉卡</div>
-                            <div class="theme-tag">忘记纪念日</div>
-                            <div class="theme-tag">无心之失</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-calendar-heart"></i>
-                            </div>
-                            <div class="theme-name-small">纪念卡</div>
-                            <div class="theme-tag">周年纪念</div>
-                            <div class="theme-tag">特殊日子</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="theme-name-small">能量卡</div>
-                            <div class="theme-tag">能量补给</div>
-                            <div class="theme-tag">加油打气</div>
-                        </div>
-                    </div>
-                    <div class="scroll-arrow scroll-right">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-
-                <div class="more-themes">
-                    <a href="#" class="more-link">查看全部亲密主题 +</a>
-                </div>
-            </div>
-
-            <!-- 朋友社交 -->
-            <div class="category-card">
-                <div class="paw-decoration paw-1 floating"></div>
-                <div class="paw-decoration paw-2 floating"></div>
-                <div class="category-header">
-                    <div class="category-icon">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                    <div>
-                        <div class="category-title">朋友社交</div>
-                        <div class="category-desc">边界导向，怕伤情面</div>
-                    </div>
-                </div>
-
-                <div class="theme-scroll-container">
-                    <div class="scroll-arrow scroll-left">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="themes-container" id="friendThemes">
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="theme-name-small">拒绝卡</div>
-                            <div class="theme-tag">拒绝借钱</div>
-                            <div class="theme-tag">拒绝邀约</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-grin-squint-tears"></i>
-                            </div>
-                            <div class="theme-name-small">自嘲卡</div>
-                            <div class="theme-tag">化解尴尬</div>
-                            <div class="theme-tag">幽默破冰</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-thumbs-up"></i>
-                            </div>
-                            <div class="theme-name-small">鼓励卡</div>
-                            <div class="theme-tag">考试加油</div>
-                            <div class="theme-tag">面试鼓励</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-hands-helping"></i>
-                            </div>
-                            <div class="theme-name-small">感谢卡</div>
-                            <div class="theme-tag">帮助感谢</div>
-                            <div class="theme-tag">礼物致谢</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-hands"></i>
-                            </div>
-                            <div class="theme-name-small">抱抱卡</div>
-                            <div class="theme-tag">安慰朋友</div>
-                            <div class="theme-tag">表达支持</div>
-                        </div>
-                    </div>
-                    <div class="scroll-arrow scroll-right">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-
-                <div class="more-themes">
-                    <a href="#" class="more-link">查看全部朋友主题 +</a>
-                </div>
-            </div>
-
-            <!-- 自我疗愈 -->
-            <div class="category-card">
-                <div class="paw-decoration paw-1 floating"></div>
-                <div class="paw-decoration paw-2 floating"></div>
-                <div class="category-header">
-                    <div class="category-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <div>
-                        <div class="category-title">自我疗愈</div>
-                        <div class="category-desc">关怀内向人群，自我关怀</div>
-                    </div>
-                </div>
-
-                <div class="theme-scroll-container">
-                    <div class="scroll-arrow scroll-left">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="themes-container" id="selfThemes">
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="theme-name-small">能量卡</div>
-                            <div class="theme-tag">自我激励</div>
-                            <div class="theme-tag">能量补充</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-grin-squint-tears"></i>
-                            </div>
-                            <div class="theme-name-small">自嘲卡</div>
-                            <div class="theme-tag">化解失败</div>
-                            <div class="theme-tag">幽默解压</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-thumbs-up"></i>
-                            </div>
-                            <div class="theme-name-small">鼓励卡</div>
-                            <div class="theme-tag">自我肯定</div>
-                            <div class="theme-tag">成就庆祝</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-spa"></i>
-                            </div>
-                            <div class="theme-name-small">疗愈卡</div>
-                            <div class="theme-tag">压力释放</div>
-                            <div class="theme-tag">心灵充电</div>
-                        </div>
-                        <div class="theme-item">
-                            <div class="theme-icon-small">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <div class="theme-name-small">学习卡</div>
-                            <div class="theme-tag">学习计划</div>
-                            <div class="theme-tag">知识总结</div>
-                        </div>
-                    </div>
-                    <div class="scroll-arrow scroll-right">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-
-                <div class="more-themes">
-                    <a href="#" class="more-link">查看全部自我主题 +</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 熊主题装饰区 -->
-        <div class="theme-decoration">
-            <div class="theme-background rotating"></div>
-            <p class="theme-text">用温暖的话语，传递真挚的情感</p>
-            <div class="paw-line line-1"></div>
-            <div class="paw-line line-2"></div>
-        </div>
     </div>
 
-    <!-- 底部导航 -->
-    <div class="bottom-nav">
-        <div class="nav-item active">
-            <div class="nav-icon"><i class="fas fa-home"></i></div>
-            <div>首页</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
-            <div>创建</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-inbox"></i></div>
-            <div>收件箱</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"><i class="fas fa-user"></i></div>
-            <div>我的</div>
-        </div>
-    </div>
 
     <script>
         // 五大主题卡片点击事件
@@ -1570,25 +1132,25 @@
                     paw.style.opacity = Math.random() * 0.3 + 0.1;
                     paw.style.width = (Math.random() * 10 + 15) + 'px';
                     paw.style.height = (Math.random() * 10 + 15) + 'px';
-                    
+
                     // 随机位置
                     const posX = Math.random() * 80 + 10;
                     const posY = Math.random() * 80 + 10;
                     paw.style.left = posX + '%';
                     paw.style.top = posY + '%';
-                    
+
                     card.appendChild(paw);
                 }
             });
-            
+
             // 为所有图标添加悬停动画
             const allIcons = document.querySelectorAll('.theme-icon i, .scenario-icon i');
             allIcons.forEach(icon => {
-                icon.addEventListener('mouseenter', function() {
+                icon.addEventListener('mouseenter', function () {
                     this.classList.add('bounce');
                 });
-                
-                icon.addEventListener('mouseleave', function() {
+
+                icon.addEventListener('mouseleave', function () {
                     this.classList.remove('bounce');
                 });
             });

@@ -25,5 +25,6 @@ declare module BBearSchema {
         content: string;
         coverName: string;
         priority: string;
+        createAt: string; // 2025-06-07
     }
 }

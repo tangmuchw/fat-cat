@@ -36,11 +36,14 @@ th:nth-child(3) { width: 200px }
 | cardNumber                | string | 卡的编号，用于唯一标识每张卡                                                                               |
 | checkedNotifySignedStatus | number | 是否勾选了通知签收状态, 0 未勾选，1 勾选                                                                   |
 | createAt                  | Date   | 创建时间，日期类型存储                                                                                     |
-| receivedAt                | Date   | 签收时间，日期类型存储                                                                                     |
+| updatedAt                 | Date   | 更新时间，日期类型存储                                                                                     |
 | sentAt                    | Date   | 送卡时间，日期类型存储                                                                                     |
 | expiredAt                 | Date   | 过期时间，日期类型存储                                                                                     |
-| canceledAt                | Date   | 撤回时间，日期类型存储                                                                                     |
-| updatedAt                 | Date   | 更新时间，日期类型存储                                                                                     |
+| finalAt                   | Date   | 终态时间，日期类型存储，当 状态 为 已撤回，已拒绝，已签收 时，记录当前操作时间                             |
+
+<!-- | canceledAt                | Date   | 撤回时间，日期类型存储                                                                                     |
+| rejectedAt                | Date   | 拒绝签收时间，日期类型存储                                                                                 |
+| receivedAt                | Date   | 签收时间，日期类型存储                                                                                     | -->
 
 ## 卡面表 cards v1.0.4
 
@@ -73,11 +76,13 @@ th:nth-child(3) { width: 200px }
 
 > 权限：仅创建者可读写
 
-| 字段名   | 类型   | 说明     |
-| -------- | ------ | -------- |
-| openid   | string | 用户 ID  |
-| msg      | string | 反馈内容 |
-| createAt | Date   | 创建时间 |
+| 字段名    | 类型   | 说明                                              |
+| --------- | ------ | ------------------------------------------------- |
+| openid    | string | 用户 ID                                           |
+| fromWhere | string | 来自哪里, msg-board 留言板, preview-card 预览卡片 |
+| content   | string | 反馈内容                                          |
+| extraInfo | Object | 额外信息, preview-card 时, 存有 cardId            |
+| createAt  | Date   | 创建时间                                          |
 
 ## 修改记录表 edit_logs
 

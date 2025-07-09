@@ -44,9 +44,15 @@ const getUpdatedCards = async () => {
         return {
             ...v,
             status: v.status || "online",
-            createAt: null,
             updatedAt,
             cover: v.cover ? `${cloudUrl}${v.cover}` : null,
+            createAt: v.createAt
+                ? {
+                      $date: moment(v.createAt, "YYYY-MM-DD").format(
+                          "YYYY-MM-DDTHH:mm:ss.SSSZ"
+                      ),
+                  }
+                : null,
             // copywriting: v.copywriting || "永久有效 | 编号唯一",
         };
     });

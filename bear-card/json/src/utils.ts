@@ -5,7 +5,7 @@ import chalk from "chalk";
 
 const log = (title: string, content?: any) => {
     // 橙色
-    console.log(chalk.bgBlue.white(`=== ${title || ""} ===`));
+    console.log(chalk.bgYellow.white(`=== ${title || ""} ===`));
 
     if (content) {
         console.log(content);
