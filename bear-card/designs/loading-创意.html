@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>熊熊卡 - 高情商表达小帮手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            position: relative;
+            overflow: auto;
+            width: 375px;
+            height: 667px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: background 0.5s ease;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+        }
+
+        /* 顶部导航栏 */
+        .navbar {
+            width: 100%;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .navbar-title {
+            flex: 1;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transition: color 0.5s ease;
+        }
+
+        /* 装饰元素 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 142, 60, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+            animation: float 10s infinite ease-in-out;
+            transition: background 0.5s ease;
+        }
+
+        /* 卡片容器 */
+        .card-container {
+            width: 100%;
+            max-width: 340px;
+            perspective: 1000px;
+            z-index: 10;
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* 卡片主体 */
+        .bear-card {
+            background: linear-gradient(145deg, #ffffff, #fff5e9);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow:
+                0 12px 30px rgba(230, 122, 0, 0.2),
+                0 5px 15px rgba(0, 0, 0, 0.08),
+                inset 0 0 15px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+
+        /* 发卡人信息 */
+        .sender-info {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 214, 165, 0.5);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.5s ease;
+        }
+
+        .avatar i {
+            font-size: 22px;
+            color: white;
+        }
+
+        .sender-details {
+            flex: 1;
+        }
+
+        .sender-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #5a3a1e;
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            padding: 18px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease;
+            background: linear-gradient(to right, #ffb56b, #ff8e3c);
+        }
+
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(-2deg);
+        }
+
+        .card-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 4px;
+            transition: color 0.5s ease;
+        }
+
+        .card-subtitle {
+            color: #fff9e6;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+            transition: color 0.5s ease;
+        }
+
+        /* 卡片封面 - 默认设计 */
+        .card-cover {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid rgba(255, 214, 165, 0.5);
+            transition: background 0.5s ease;
+        }
+
+        .card-cover::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        }
+
+        /* 默认封面内容 */
+        .default-cover {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+            transition: color 0.5s ease;
+        }
+
+        .cover-title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: color 0.5s ease;
+        }
+
+        .cover-subtitle {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.9;
+            transition: color 0.5s ease;
+        }
+
+        /* 装饰元素 */
+        .cover-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .decoration-item {
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: white;
+            transition: background 0.5s ease;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 18px;
+            animation: floatHeart 8s infinite linear;
+            transition: color 0.5s ease;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 16px;
+            animation: twinkle 3s infinite;
+            transition: color 0.5s ease;
+        }
+
+        .diamond {
+            color: #1E90FF;
+            font-size: 18px;
+            animation: spin 12s infinite linear;
+            transition: color 0.5s ease;
+        }
+
+        /* 卡片内容 */
+        .card-content {
+            padding: 20px 15px;
+            color: #5a3a1e;
+            position: relative;
+        }
+
+        .card-content::before {
+            content: "";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            height: 8px;
+            background: #ffd6a5;
+            border-radius: 50%;
+            filter: blur(4px);
+            transition: background 0.5s ease;
+        }
+
+        .content-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #e67a00;
+            font-weight: 600;
+            text-align: center;
+            transition: color 0.5s ease;
+        }
+
+        /* 新增：卡片内容标题 */
+        .card-main-title {
+            font-size: 19px;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+            line-height: 1.3;
+            transition: color 0.5s ease;
+        }
+
+        .card-main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #FFA07A;
+            border-radius: 3px;
+            transition: background 0.5s ease;
+        }
+
+        .content-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: rgba(255, 214, 165, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid #ff8e3c;
+            transition: all 0.5s ease;
+        }
+
+        /* 卡片底部 - 优化卡号展示 */
+        .card-footer {
+            padding: 15px;
+            text-align: center;
+            color: #7a4a12;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+        }
+
+        .card-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 卡号展示区域 */
+        .card-number-display {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: #5a3a1e;
+            font-family: 'Courier New', monospace;
+            border: 2px dashed rgba(122, 74, 18, 0.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 280px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+            transition: all 0.5s ease;
+        }
+
+        .card-number-display::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, #ff8e3c, #ffb56b);
+            transition: background 0.5s ease;
+        }
+
+        .card-number-display i {
+            margin-right: 8px;
+            color: #ff8e3c;
+            transition: color 0.5s ease;
+        }
+
+        /* 承诺说明 - 优化设计 */
+        .promise-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 20px;
+            width: 100%;
+            max-width: 280px;
+            transition: background 0.5s ease;
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: center;
+            margin: 0 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #7a4a12;
+            transition: color 0.5s ease;
+        }
+
+        .promise-item i {
+            margin-right: 5px;
+            color: #ff8e3c;
+            font-size: 14px;
+            transition: color 0.5s ease;
+        }
+
+        .promise-divider {
+            width: 1px;
+            height: 20px;
+            background: rgba(122, 74, 18, 0.3);
+            margin: 0 5px;
+            transition: background 0.5s ease;
+        }
+
+        /* 操作区域 */
+        .action-section {
+            width: 100%;
+            max-width: 340px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 214, 165, 0.5);
+            transition: background 0.5s ease, border-color 0.5s ease;
+        }
+
+        /* 卡片类型选择器 */
+        .card-type-selector {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 214, 165, 0.2);
+            border-radius: 12px;
+            transition: background 0.5s ease;
+        }
+
+        .selector-title {
+            font-size: 14px;
+            color: #5a3a1e;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            transition: color 0.5s ease;
+        }
+
+        .selector-title i {
+            margin-right: 8px;
+            color: #ff8e3c;
+            transition: color 0.5s ease;
+        }
+
+        .card-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .type-option {
+            flex: 1;
+            min-width: 60px;
+            padding: 8px 5px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #7a4a12;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 182, 107, 0.3);
+        }
+
+        .type-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .type-option.active {
+            color: white;
+            border-color: #ff6a00;
+            font-weight: 600;
+        }
+
+        /* 通知选项 */
+        .notification-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 214, 165, 0.2);
+            border-radius: 12px;
+            transition: background 0.5s ease;
+        }
+
+        .checkbox-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #fff;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border: 2px solid #ff8e3c;
+        }
+
+        .checkbox-container input:checked~.checkmark {
+            background-color: #ff8e3c;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .option-label {
+            font-size: 14px;
+            color: #5a3a1e;
+            flex: 1;
+            transition: color 0.5s ease;
+        }
+
+        /* 操作按钮 */
+        .actions {
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 14px 0;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+
+        .btn:hover::after {
+            left: 120%;
+        }
+
+        .btn-primary {
+            color: white;
+            transition: background 0.5s ease;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+        }
+
+        /* 修改解锁按钮样式 */
+        .btn-secondary {
+            color: white;
+            /* 修改字体颜色为白色 */
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            /* 边框更亮 */
+            transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+            background: linear-gradient(to right, #ffd6a5, #ffb56b);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(230, 122, 0, 0.3);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* 动画定义 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-8px) translateX(8px);
+            }
+
+            50% {
+                transform: translateY(-4px) translateX(-8px);
+            }
+
+            75% {
+                transform: translateY(4px) translateX(12px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 新增：预言卡星光动画 */
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        /* 新增：预言卡星座动画 */
+        @keyframes constellation {
+            0% {
+                stroke-dashoffset: 100;
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+                opacity: 0.5;
+            }
+        }
+
+        /* 卡片类型特定样式 */
+        /* 感谢卡 */
+        .card-cover.thanks {
+            background: linear-gradient(135deg, #ffb56b, #ff8e3c);
+        }
+
+        /* 鼓励卡 */
+        .card-cover.encourage {
+            background: linear-gradient(135deg, #4facfe, #00c5f2);
+            /* 青色更亮 */
+        }
+
+        /* 夸夸卡 */
+        .card-cover.praise {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        /* 道歉卡 */
+        .card-cover.apology {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+        }
+
+        /* 拒绝卡 */
+        .card-cover.refuse {
+            background: linear-gradient(135deg, #ff5858, #f09819);
+        }
+
+        /* 纪念卡 */
+        .card-cover.memory {
+            background: linear-gradient(135deg, #ffd26f, #ff7b54);
+        }
+
+        /* 自嘲卡 */
+        .card-cover.self-deprecating {
+            background: linear-gradient(135deg, #6a85b6, #bac8e0);
+        }
+
+        /* 抱抱卡 */
+        .card-cover.hug {
+            background: linear-gradient(135deg, #ff5858, #ffc8c8);
+        }
+
+        /* 充能卡 */
+        .card-cover.energy {
+            background: linear-gradient(135deg, #0fd850, #f9f047);
+        }
+
+        /* 轻效卡 - 改为紫罗兰色调 */
+        .card-cover.light {
+            background: linear-gradient(135deg, #8e2de2, #aa6aff);
+            /* 更明亮的紫色 */
+        }
+
+        /* 任务卡 - 改为更深的绿色 */
+        .card-cover.task {
+            background: linear-gradient(135deg, #11998e, #4aef9d);
+        }
+
+        /* 学习卡 - 改为深蓝/天蓝渐变 */
+        .card-cover.learning {
+            background: linear-gradient(135deg, #0b4b7c, #1c9bef);
+            /* 深蓝到天蓝 */
+        }
+
+        /* 疗愈卡 - 改为粉紫色 */
+        .card-cover.healing {
+            background: linear-gradient(135deg, #9d50bb, #6e48aa);
+            /* 粉紫色调 */
+        }
+
+        /* 建议卡 - 改为珊瑚色 */
+        .card-cover.suggestion {
+            background: linear-gradient(135deg, #d66d75, #f7b5a6);
+            /* 珊瑚色调 */
+        }
+
+        /* 预言卡 - 明亮的紫罗兰渐变 */
+        .card-cover.prophecy {
+            background: linear-gradient(135deg, #7B5BFF, #9E7EFF);
+        }
+
+        /* 预言卡专属装饰 - 星座图案 */
+        .constellation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+        }
+
+        .constellation path {
+            stroke: #FFF;
+            stroke-width: 1;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            fill: none;
+            animation: constellation 10s infinite linear;
+        }
+
+        /* 预言卡星光效果 */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #FFF;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s infinite;
+        }
+
+        /* ============ 新增：加载动画 ============ */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .loading-content {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bear-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .bear-loader::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 142, 60, 0.5);
+        }
+
+        /* 熊爪图案 */
+        .bear-loader::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: white;
+            clip-path: path('M25,10 C30,10 35,15 35,25 C35,35 25,45 25,45 C25,45 15,35 15,25 C15,15 20,10 25,10 Z');
+            animation: rotate 2s infinite linear;
+        }
+
+        /* 环绕的爱心 */
+        .loading-heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 24px;
+            animation: orbit 3s infinite linear;
+        }
+
+        .loading-heart:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .loading-heart:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        .loading-heart:nth-child(3) {
+            animation-delay: -1s;
+        }
+
+        .loading-heart:nth-child(4) {
+            animation-delay: -1.5s;
+        }
+
+        .loading-text {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ff8e3c;
+            letter-spacing: 1px;
+        }
+
+        /* 加载动画关键帧 */
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(80px) rotate(0deg);
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(80px) rotate(-360deg);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="bear-loader"></div>
+            <i class="fas fa-heart loading-heart"></i>
+            <i class="fas fa-heart loading-heart"></i>
+            <i class="fas fa-heart loading-heart"></i>
+            <i class="fas fa-heart loading-heart"></i>
+            <div class="loading-text">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+
+        // ====== 加载动画处理 ======
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // // 模拟加载过程
+        // setTimeout(() => {
+        //     loadingOverlay.style.opacity = '0';
+        //     loadingOverlay.style.visibility = 'hidden';
+        // }, 2500); // 2.5秒后隐藏加载动画
+    </script>
+</body>
+
+</html>

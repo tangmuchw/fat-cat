@@ -124,6 +124,7 @@ const generateCardThemeList = (sheetData: ExcelJS.Worksheet) => {
  * 第 11 列: 封面图预览
  * 第 12 列: 高频优先级
  * 第 13 列: 创建时间
+ * 第 14 列: 状态 online/offline/soon
  */
 const generateBBearCardList = (
     sheetData: ExcelJS.Worksheet,
@@ -153,6 +154,7 @@ const generateBBearCardList = (
                     coverImage,
                     priority,
                     createAt,
+                    status,
                 ]
             ) => {
                 const { cardTypeCode } =
@@ -181,7 +183,7 @@ const generateBBearCardList = (
                         _id: `${cardTypeCode}-${generateID(idParams)}`,
                         categoryCode,
                         categoryName,
-                        // categoryDesc,
+                        categoryDesc,
                         typeCode: cardTypeCode,
                         typeName: cardTypeName,
                         themeName,
@@ -194,6 +196,7 @@ const generateBBearCardList = (
                         // coverSize,
                         priority,
                         createAt,
+                        status,
                     },
                 ];
             },

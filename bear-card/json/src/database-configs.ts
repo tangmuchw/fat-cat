@@ -11,8 +11,8 @@ log(`database-config.ts argv env: ${env}`); // 例如：node script.js --name=Jo
 
 const configs = {
     _id: "2025-06-11_latest",
-    brandTitle: "不敢说的话熊熊来说",
-    heroTitle: "让暖暖熊帮你传递心意，化解尴尬",
+    brandTitle: "每一张卡片，都是一个故事",
+    heroTitle: "让熊熊开启，未说的篇章",
 };
 
 const DIR_PATH = path.join(__dirname, `output/configs`);

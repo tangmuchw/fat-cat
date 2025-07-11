@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨卡片加载动画</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fff9f4, #fef4eb);
+            color: #5a3a1e;
+            overflow-x: hidden;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ff6a00;
+            text-shadow: 0 2px 4px rgba(230, 122, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #7a4a12;
+            opacity: 0.8;
+        }
+
+        /* 加载动画容器 */
+        .loading-container {
+            position: relative;
+            width: 320px;
+            height: 380px;
+            margin: 0 auto 40px;
+            perspective: 1200px;
+        }
+
+        /* 卡片组 */
+        .cards-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: floatCard 6s infinite ease-in-out;
+        }
+
+        .card {
+            position: absolute;
+            width: 280px;
+            height: 340px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 20px 40px rgba(230, 122, 0, 0.2),
+                0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backface-visibility: hidden;
+        }
+
+        .card-1 {
+            background: linear-gradient(145deg, #ffffff, #fff5e9);
+            transform: translateZ(0px);
+            z-index: 5;
+        }
+
+        .card-2 {
+            background: linear-gradient(145deg, #fff5e9, #ffeedd);
+            transform: translateZ(-40px);
+            z-index: 4;
+            filter: blur(1px);
+            opacity: 0.9;
+        }
+
+        .card-3 {
+            background: linear-gradient(145deg, #ffeedd, #ffe6cc);
+            transform: translateZ(-80px);
+            z-index: 3;
+            filter: blur(2px);
+            opacity: 0.8;
+        }
+
+        /* 卡片内容 */
+        .card-icon {
+            font-size: 72px;
+            margin-bottom: 25px;
+            color: #ff8e3c;
+            text-shadow: 0 6px 12px rgba(230, 122, 0, 0.2);
+            animation: pulse 3s infinite;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff6a00;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            border-radius: 2px;
+            animation: underlinePulse 4s infinite;
+        }
+
+        .card-text {
+            font-size: 18px;
+            color: #7a4a12;
+            line-height: 1.7;
+            max-width: 90%;
+        }
+
+        /* 加载进度 */
+        .progress-container {
+            width: 280px;
+            height: 10px;
+            background: rgba(255, 182, 107, 0.2);
+            border-radius: 5px;
+            margin: 40px auto 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) inset;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            border-radius: 5px;
+            animation: progress 4s infinite ease-in-out;
+        }
+
+        /* 加载文本 */
+        .loading-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff6a00;
+            margin-bottom: 15px;
+            position: relative;
+            animation: textPulse 2s infinite;
+        }
+
+        .loading-subtext {
+            font-size: 17px;
+            color: #7a4a12;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        /* 控制按钮 */
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.1),
+                0 4px 10px rgba(230, 122, 0, 0.2);
+            background: linear-gradient(to right, #ff8e3c, #ff6a00);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 25px rgba(230, 122, 0, 0.3),
+                0 6px 15px rgba(230, 122, 0, 0.25);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ff8e3c;
+            color: #ff6a00;
+            box-shadow: 0 4px 10px rgba(230, 122, 0, 0.15);
+        }
+
+        /* 动画定义 */
+        @keyframes floatCard {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+            50% {
+                transform: translateY(0) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 0.85;
+            }
+        }
+
+        @keyframes progress {
+            0%, 100% { width: 10%; }
+            30% { width: 40%; }
+            50% { width: 70%; }
+            70% { width: 90%; }
+        }
+
+        @keyframes underlinePulse {
+            0%, 100% {
+                width: 80px;
+                opacity: 1;
+            }
+            50% {
+                width: 120px;
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes textPulse {
+            0%, 100% { 
+                transform: scale(1);
+                text-shadow: 0 0 0 rgba(255, 106, 0, 0.3);
+            }
+            50% { 
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: rgba(255, 142, 60, 0.08);
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 24px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 22px;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-40px) translateX(20px);
+            }
+            50% {
+                transform: translateY(-10px) translateX(-30px);
+            }
+            75% {
+                transform: translateY(20px) translateX(25px);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { 
+                transform: scale(1);
+            }
+            20% { 
+                transform: scale(1.2);
+            }
+            40% { 
+                transform: scale(1);
+            }
+            60% { 
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: #ff8e3c;
+            opacity: 0;
+            animation: particleFloat 8s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-200px) translateX(150px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            h1 { font-size: 32px; }
+            .subtitle { font-size: 16px; }
+            .loading-container { 
+                width: 280px;
+                height: 340px;
+            }
+            .card { 
+                width: 240px;
+                height: 300px;
+            }
+            .card-icon { font-size: 60px; }
+            .card-title { font-size: 24px; }
+            .card-text { font-size: 16px; }
+            .btn { padding: 14px 30px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- 装饰元素 -->
+    <div class="decoration circle" style="width: 180px; height: 180px; top: 10%; left: 8%; animation-delay: 0s;"></div>
+    <div class="decoration circle" style="width: 120px; height: 120px; top: 80%; left: 88%; animation-delay: 2s;"></div>
+    <div class="decoration heart" style="top: 25%; left: 88%; animation-delay: 1.5s;"><i class="fas fa-heart"></i></div>
+    <div class="decoration heart" style="top: 75%; left: 10%; animation-delay: 3s;"><i class="fas fa-heart"></i></div>
+    <div class="decoration star" style="top: 15%; left: 15%; animation-delay: 0.8s;"><i class="fas fa-star"></i></div>
+    <div class="decoration star" style="top: 85%; left: 85%; animation-delay: 2.5s;"><i class="fas fa-star"></i></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>温馨卡片工坊</h1>
+            <div class="subtitle">用心传递每一份情感</div>
+        </div>
+        
+        <!-- 加载动画容器 -->
+        <div class="loading-container">
+            <div class="cards-wrapper">
+                <div class="card card-1">
+                    <i class="fas fa-envelope-open-text card-icon"></i>
+                    <div class="card-title">打开心扉</div>
+                    <div class="card-text">我们正在为您精心准备一张满载心意的卡片</div>
+                </div>
+                <div class="card card-2">
+                    <i class="fas fa-pen-fancy card-icon"></i>
+                    <div class="card-title">精心设计</div>
+                    <div class="card-text">每一笔每一画都倾注了我们的心意</div>
+                </div>
+                <div class="card card-3">
+                    <i class="fas fa-heart card-icon"></i>
+                    <div class="card-title">情感传递</div>
+                    <div class="card-text">让这张卡片成为您情感的使者</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 加载进度 -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <!-- 加载文本 -->
+        <div class="loading-text">正在准备您的专属卡片</div>
+        <div class="loading-subtext">这可能需要几秒钟，但每一秒都在为您的卡片增添温暖</div>
+        
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button class="btn" id="sendBtn">
+                <i class="fas fa-paper-plane"></i> 发送祝福
+            </button>
+            <button class="btn btn-outline" id="customizeBtn">
+                <i class="fas fa-palette"></i> 自定义卡片
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#ff8e3c', '#ff6a00', '#ffb56b', '#ffd6a5', '#ff6b6b'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // 随机大小
+                const size = Math.random() * 12 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机位置
+                const left = Math.random() * 100;
+                particle.style.left = `${left}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // 随机颜色
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                
+                // 随机动画
+                const duration = Math.random() * 10 + 6;
+                const delay = Math.random() * 6;
+                const distance = Math.random() * 150 + 100;
+                
+                // 创建关键帧
+                const keyframes = `
+                    @keyframes particleFloat-${i} {
+                        0% {
+                            transform: translateY(0) translateX(0) rotate(0deg);
+                            opacity: 0;
+                        }
+                        10% {
+                            opacity: ${Math.random() * 0.5 + 0.3};
+                        }
+                        90% {
+                            opacity: ${Math.random() * 0.5 + 0.3};
+                        }
+                        100% {
+                            transform: translateY(-${distance}px) translateX(${Math.random() * 200 - 100}px) rotate(${Math.random() * 360}deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                
+                // 添加样式
+                const style = document.createElement('style');
+                style.textContent = keyframes;
+                document.head.appendChild(style);
+                
+                // 应用动画
+                particle.style.animation = `particleFloat-${i} ${duration}s ${delay}s infinite linear`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 按钮交互效果
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-check"></i> 祝福已发送';
+            this.style.background = 'linear-gradient(to right, #0fd850, #0cac41)';
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-paper-plane"></i> 发送祝福';
+                this.style.background = 'linear-gradient(to right, #ff8e3c, #ff6a00)';
+                alert('您的祝福已成功送达！❤️');
+            }, 2000);
+        });
+        
+        document.getElementById('customizeBtn').addEventListener('click', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.background = getRandomGradient();
+            });
+            
+            this.innerHTML = '<i class="fas fa-check"></i> 样式已更新';
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-palette"></i> 自定义卡片';
+            }, 1500);
+        });
+        
+        function getRandomGradient() {
+            const gradients = [
+                'linear-gradient(145deg, #ff9a9e, #fad0c4)',
+                'linear-gradient(145deg, #a18cd1, #fbc2eb)',
+                'linear-gradient(145deg, #ffd26f, #ff7b54)',
+                'linear-gradient(145deg, #6a85b6, #bac8e0)',
+                'linear-gradient(145deg, #0fd850, #f9f047)',
+                'linear-gradient(145deg, #8e2de2, #aa6aff)',
+                'linear-gradient(145deg, #11998e, #4aef9d)'
+            ];
+            return gradients[Math.floor(Math.random() * gradients.length)];
+        }
+        
+        // 页面加载时创建元素
+        window.addEventListener('load', () => {
+            createParticles();
+            
+            // 添加一些额外的装饰
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'decoration heart';
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // 随机位置
+                const top = Math.random() * 90 + 5;
+                const left = Math.random() * 90 + 5;
+                heart.style.top = `${top}%`;
+                heart.style.left = `${left}%`;
+                
+                // 随机动画延迟
+                const delay = Math.random() * 5;
+                heart.style.animationDelay = `${delay}s`;
+                
+                // 随机颜色
+                const colors = ['#ff6b6b', '#ff8e3c', '#ff6a00', '#ffd6a5'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.color = color;
+                
+                document.body.appendChild(heart);
+            }
+        });
+    </script>
+</body>
+</html>
