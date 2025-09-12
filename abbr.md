@@ -15,4 +15,10 @@
 | ARPU     | Average Revenue Per User，月活跃用户人数，是指每用户平均收入，即在一个特定时间段内（通常为一个月或一年），电信运营企业平均每个用户贡献的通信业务收入，单位为元/户 ‌                                                |
 | UV       | Unique Visitor，独立访客                                                                                                                                                                                           |
 | LTV      | Life time value，生命周期总价值                                                                                                                                                                                    |
+| DUA      | Daily Active User，日活跃用户数                                                                                                                                                                                    |
+| QPS      | Queries Per Second，每秒查询率                                                                                                                                                                                     |
+| SOP      | SOP，Standard Operating Procedure，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作                                                                                  |
+| ORM      | ORM，Object-Relational Mapping，是面向对象编程与关系型数据库之间的桥梁技术，通过建立对象与数据库表之间的映射关系，实现数据交互自动化。                                                                             |
+| RPC      | RPC，Remote Procedure Call， 远程过程调用                                                                                                                                                                          |
+| ESB      | ESB，Enterprise Service Bus，企业服务总线 是一种面向企业应用集成的中间件技术，通过统一的总线机制实现服务注册、路由、协议转换、接口治理等功能，帮助不同应用系统实现高效通信与协同。                                 |
 | -        | -                                                                                                                                                                                                                  |
