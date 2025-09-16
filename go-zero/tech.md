@@ -160,3 +160,7 @@ docker run -d \
  /usr/local/bin/etcd \
  --advertise-client-urls http://0.0.0.0:2379 \
  --listen-client-urls http://0.0.0.0:2379
+
+---
+
+docker run --name my-redis -d -p 6379:6379 redis
