@@ -4,9 +4,10 @@
 
 > 参考[React 各版本性能优化方案原理分析](https://www.jianshu.com/p/25e0c17d43e9)
 > 总结：
-> react16：提出 fiber，hooks
-> react17：提出 lanes、 更改事件处理(把事件添加到 React 渲染树的根 Dom 容器中)
+> react16：提出 fiber（可执行单元，协调算法），hooks
+> react17：提出 lanes（优先级算法）、 更改事件处理(把事件添加到 React 渲染树的根 Dom 容器中)
 > react18：提出 concurrentMode 并发渲染机制，全自动批处理、startTransition 过度任务
+> react19：提出 Actions API：这是最核心的更新。它提供了一套统一的方式来处理表单提交、数据变更等异步操作；Ref 作为 Props
 
 ## React15.x
 
@@ -457,6 +458,8 @@ onClick() {
 -   表单：form 元素支持将函数传递给 action 和 formAction 属性，将函数传递给 action 属性默认启用 Actions，并在提交后自动重置表单。
 
 ```JavaScript
+// const { pending, data, error } = useFormStatus();
+
  const [isPending, setIsPending] = useState(false);
  const [error, setError] = useState(null);
  const handleSubmit = async () => {
@@ -489,4 +492,72 @@ const handleSubmit = () => {
   })
 };
 
+```
+
+### 新增 hooks
+
+#### useOptimistic：乐观更新
+
+> 在操作完成前立即更新 UI，提供更流畅的用户体验。
+
+```js
+import { useOptimistic, useActionState } from "react";
+
+// Action 函数
+async function sendMessage(message) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return { id: Date.now(), text: message };
+}
+
+function MessageForm() {
+    const [messages, setMessages] = useState([]);
+
+    // useActionState 管理表单状态
+    const [state, submitAction, isPending] = useActionState(
+        async (prevState, formData) => {
+            const message = formData.get("message");
+            await sendMessage(message);
+            return null;
+        },
+        null
+    );
+
+    // useOptimistic 用于乐观更新
+    const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+        messages,
+        (currentMessages, newMessage) => [
+            ...currentMessages,
+            { id: "temp-id", text: newMessage, isOptimistic: true },
+        ]
+    );
+
+    async function handleSubmit(formData) {
+        const message = formData.get("message");
+        addOptimisticMessage(message); // 立即显示
+        await submitAction(formData); // 实际提交
+        // 成功后，useActionState 会触发重新获取真实数据
+    }
+
+    return (
+        <div>
+            <form action={handleSubmit}>
+                <input name="message" />
+                <button type="submit" disabled={isPending}>
+                    {isPending ? "Sending..." : "Send"}
+                </button>
+            </form>
+
+            <ul>
+                {optimisticMessages.map((msg) => (
+                    <li
+                        key={msg.id}
+                        style={{ opacity: msg.isOptimistic ? 0.5 : 1 }}
+                    >
+                        {msg.text} {msg.isOptimistic && "(Sending...)"}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
 ```
