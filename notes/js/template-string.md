@@ -76,3 +76,108 @@ function myTemplate(strings, ...values) {
 const name = "World";
 console.log(myTemplate`Hello, ${name}!`);
 ```
+
+---
+
+## V8 引擎中模板字符串的核心实现（伪代码还原）
+
+以下是 V8 源码中模板字符串相关逻辑的**简化伪代码**（基于 V8 源码的 `template-literal.cc`/`runtime-template-literal.cc`），帮你理解核心逻辑：
+
+### 1. 基础模板字符串（无标签）的实现逻辑
+
+```cpp
+// V8 伪代码：处理基础模板字符串 `a${b}c`
+Handle<String> EvaluateTemplateLiteral(
+    Isolate* isolate,
+    Handle<FixedArray> quasis,        // 静态字符串片段：["a", "c"]
+    Handle<FixedArray> expressions) { // 表达式结果：[b的值]
+  // 1. 计算总长度，预分配内存（性能优化）
+  int total_length = 0;
+  for (int i = 0; i < quasis->length(); i++) {
+    total_length += Handle<String>::cast(quasis->get(i))->length();
+  }
+  for (int i = 0; i < expressions->length(); i++) {
+    total_length += Handle<String>::cast(ToString(isolate, expressions->get(i)))->length();
+  }
+
+  // 2. 创建拼接后的字符串
+  Handle<SeqOneByteString> result = factory->NewRawOneByteString(total_length);
+  int pos = 0;
+
+  // 3. 交替拼接静态片段和表达式结果
+  for (int i = 0; i < quasis->length(); i++) {
+    // 拼接静态片段
+    Handle<String> quasi = Handle<String>::cast(quasis->get(i));
+    CopyChars(result, pos, quasi);
+    pos += quasi->length();
+
+    // 拼接对应表达式（最后一个静态片段后无表达式）
+    if (i < expressions->length()) {
+      Handle<String> expr_str = ToString(isolate, expressions->get(i));
+      CopyChars(result, pos, expr_str);
+      pos += expr_str->length();
+    }
+  }
+
+  return result;
+}
+```
+
+### 2. 带标签的模板字符串（如 `tag`hello${name}``）的实现逻辑
+
+带标签的模板字符串会先创建「模板对象（TemplateObject）」并缓存，再调用标签函数：
+
+```cpp
+// V8 伪代码：创建模板对象（缓存静态片段，提升性能）
+Handle<JSArray> CreateTemplateObject(
+    Isolate* isolate,
+    Handle<FixedArray> raw_quasis,  // 原始静态片段（未转义）
+    Handle<FixedArray> cooked_quasis) { // 转义后的静态片段
+  // 1. 检查缓存，避免重复创建
+  Handle<JSArray> cache = GetTemplateObjectCache(isolate);
+  for (int i = 0; i < cache->length(); i++) {
+    if (IsEqualTemplateObject(cache->get(i), raw_quasis, cooked_quasis)) {
+      return Handle<JSArray>::cast(cache->get(i));
+    }
+  }
+
+  // 2. 创建新的模板对象（包含 raw 和 cooked 两个属性）
+  Handle<JSObject> template_obj = factory->NewJSObject();
+  template_obj->SetProperty(isolate, factory->raw_string(), raw_quasis);
+  template_obj->SetProperty(isolate, factory->cooked_string(), cooked_quasis);
+
+  // 3. 存入缓存，后续复用
+  cache->Add(template_obj);
+  return template_obj;
+}
+
+// 调用标签函数
+Handle<Object> CallTemplateTag(
+    Isolate* isolate,
+    Handle<Function> tag,          // 标签函数
+    Handle<JSArray> template_obj,  // 模板对象
+    Handle<FixedArray> expressions) { // 表达式结果
+  // 构建参数：tag(template_obj, expr1, expr2, ...)
+  Handle<FixedArray> args = factory->NewFixedArray(1 + expressions->length());
+  args->set(0, template_obj);
+  for (int i = 0; i < expressions->length(); i++) {
+    args->set(i + 1, expressions->get(i));
+  }
+
+  // 调用标签函数并返回结果
+  return Execution::Call(isolate, tag, isolate->global_proxy(), args);
+}
+```
+
+---
+
+## 三、和手写模拟版的核心区别
+
+| 维度     | 手写模拟版（正则替换）         | 引擎原生实现（V8）               |
+| -------- | ------------------------------ | -------------------------------- |
+| 执行阶段 | 运行时                         | 编译+运行时（编译期拆分结构）    |
+| 性能     | 正则匹配+多次替换，性能低      | 预计算长度+内存预分配，性能极高  |
+| 功能     | 仅支持变量替换                 | 支持表达式、转义、标签函数、缓存 |
+| 安全性   | 需手动处理注入（如 eval 风险） | 引擎层面隔离，无注入风险         |
+
+---

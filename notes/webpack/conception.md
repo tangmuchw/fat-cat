@@ -94,3 +94,13 @@ module.exports = config
 - **初始化**：启动构建；读取与合并配置参数；加载 Plugin；实例化 Complier
 - **编译**：从 Entry 出发，针对每个 Module 调用对应的 Loader 翻译文件，再找到该 Module 依赖的 Module，递归进行编译处理，对编译后的 Module 组合成 Chunk 及对应资源 Assets
 - **输出**：把编译过程得到的 Assets 输出到文件系统中
+
+## Webpack 5 的核心特性（当前最新稳定版）
+
+Webpack 5 相比 4 有大量优化，核心亮点：
+
+- 持久化缓存：内置缓存机制，大幅提升二次构建速度；
+- 模块联邦（Module Federation）：支持跨应用共享模块（微前端核心能力）；
+- 更好的 Tree Shaking：优化了无用代码剔除，减小打包体积；
+- Node.js 模块 Polyfill 移除：默认不再自动注入 Node.js 核心模块（如 path/fs），需手动配置，减小打包体积；
+- 性能优化：编译速度、内存占用均有显著提升。
