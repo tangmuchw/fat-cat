@@ -162,6 +162,7 @@
 ## React
 
 - [React DOM Diff](./notes/react/domDiff.md)
+- [React 生命周期](./notes/react/life-cycle.md)
 - [hooks](./notes/react/hooks.md)
 - [setState（React < 18.x）](./notes/react/setState.md)
 - [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
@@ -190,6 +191,7 @@
 - [Docker](./tech/docker.md)
 - [Nginx 基础和负载均衡简单配置](./tech/nginx.md)
 - [Prisma](./tech/prisma.md)
+- [字节](./tech/kb.md)
 - [SSG](./tech/ssg.md)
 - [SSR](./tech/ssr.md)
 - [技术调研的核心步骤](./tech/researchSteps.md)

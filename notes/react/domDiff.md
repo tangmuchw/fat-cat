@@ -59,7 +59,7 @@ function reconcileChildrenArray(
       nextOldFiber = oldFiber.sibling;
     }
 
-    var newFiber = updateSlot( // 从第一个old fiber 开始与 第一个 newChild 比较，看是否相同
+    var newFiber = updateSlot( // 从第一个 old fiber 开始与 第一个 newChild 比较，看是否相同
       returnFiber,
       oldFiber,
       newChildren[newIdx],
@@ -120,7 +120,7 @@ function reconcileChildrenArray(
   var existingChildren = mapRemainingChildren(returnFiber, oldFiber); // Keep scanning and use the map to restore deleted items as moves.
 
   for (; newIdx < newChildren.length; newIdx++) {
-    var _newFiber2 = updateFromMap( // 从existingChildren中找存在的fiber
+    var _newFiber2 = updateFromMap( // 从 existingChildren 中找存在的fiber
       existingChildren,
       returnFiber,
       newIdx,

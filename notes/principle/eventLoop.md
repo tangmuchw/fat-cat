@@ -67,31 +67,34 @@
 - 概念：每次执行栈执行的代码就是一个宏任务（macro task），DOM 渲染后触发
 - 与 DOM 任务交互流程： 会在一个 macro task 执行结束后，在下一个 macro task 执行开始前，对页面进行渲染, 即 macro task => 渲染 => macro task
 - 场景：
-  - script（整体代码）
-  - setTimeout
-  - setInterval
-  - I/O
-  - UI 交互事件
-  - postMessage
-  - MessageChannel: 允许我们创建一个新的消息通道，并通过它的两个 MessagePort 属性发送数据。
-  - setImmediate(Node.js)
+    - script（整体代码）
+    - setTimeout
+    - setInterval
+    - I/O
+    - UI 交互事件
+    - postMessage
+    - MessageChannel: 允许我们创建一个新的消息通道，并通过它的两个 MessagePort 属性发送数据。
+    - setImmediate(Node.js)
 
 ### 主菜-微任务
 
 - 概念：在当前 task 执行结束后立即执行的任务（micro task），DOM 渲染前触发
 - 场景：
-  - Promise.then
-  - MutationObserver: 提供了监视对 DOM 树所做更改的能力
-  - process.nextTick(Node.js)
+    - Promise.then
+    - MutationObserver: 提供了监视对 DOM 树所做更改的能力
+    - process.nextTick(Node.js)
 
 ### 甜品-运行机制
 
-```
-                               --- N --> 浏览器渲染 -> 下一个宏任务
-                               |
-宏任务 -> 执行结束 ->  有微任务？ --
-                               |
-                               --- Y --> 执行所有微任务 -> 浏览器渲染 -> 下一个宏任务
+```mermaid
+graph TD
+A[宏任务] --> B[执行结束]
+B --> C{有微任务？}
+C -->  |否| D[浏览器渲染]
+C --> |是| E[执行所有微任务]
+E --> D
+D --> F[下一个宏任务]
+
 ```
 
 ### 甜品-Promise 和 async
