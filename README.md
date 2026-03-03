@@ -86,6 +86,7 @@
 ## Installer
 
 - [Yarn](./notes/installer/yarn.md)
+- [Npm](./notes/installer/npm.md)
 
 ## JS
 
@@ -113,6 +114,7 @@
 - [this](./notes/js/this.md)
 - [throttle](./notes/js/throttle.md)
 - [模板字符串简单实现](./notes/js/template-string.md)
+- [严格模式都做了什么](./notes/js/strict-mode.md)
 
 ## Module
 
