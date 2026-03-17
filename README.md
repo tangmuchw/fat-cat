@@ -115,6 +115,7 @@
 - [throttle](./notes/js/throttle.md)
 - [模板字符串简单实现](./notes/js/template-string.md)
 - [严格模式都做了什么](./notes/js/strict-mode.md)
+- [JS原型链](./notes/js/prototype.md)
 
 ## Module
 
@@ -166,6 +167,7 @@
 - [React DOM Diff](./notes/react/domDiff.md)
 - [React 生命周期](./notes/react/life-cycle.md)
 - [hooks](./notes/react/hooks.md)
+- [JSX → React 解析全流程 + Fiber 结构（彻底讲透）](./notes/react/jsx-to-fiber.md)
 - [setState（React < 18.x）](./notes/react/setState.md)
 - [HOC，RenderProps, Hooks 简单对比](./notes/react/componentCreationContrast.md)
 - [DOM Update Process](./notes/react/domUpdateProcess.md)
@@ -187,6 +189,7 @@
 - [DNSHijack](./notes/security/DNSHijack.md)
 - [JSONHijack](./notes/security/JSONHijack.md)
 - [XSS](./notes/security/XSS.md)
+- [安全头部与防护](./notes/security/headers.md)
 
 ## Tech
 
