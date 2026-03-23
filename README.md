@@ -22,8 +22,8 @@
 
 - [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
 - [HTTP 权威指南](./library/HTTPTheDefinitiveGuide/README.md)
-  <!-- - [深入浅出 Webpack](./library/Webpack/README.md) -->
-  <!-- -   [算法图解](./library/AlgorithmDiagram/README.md) -->
+    <!-- - [深入浅出 Webpack](./library/Webpack/README.md) -->
+    <!-- -   [算法图解](./library/AlgorithmDiagram/README.md) -->
 - [CSS 权威指南（第三版）](./library/CSSTheDefinitiveGuide/README.md)
 - [底层逻辑 2：理解商业世界的本质](./library/UnderlyingLogic2/README.md)
 - [SaaS 创业路线图](./library/SaaSEntrepreneurialRoadmap/README.md)
@@ -33,6 +33,7 @@
 - [定价即经营](./library/PricingAsManagement/README.md)
 - [Python3 网络爬虫宝典](./library/Python3/README.md)
 - [JavaScript 高级程序设计（第 4 版）](./library/JS4/README.md)
+- [Vue.js 设计与实现](./library/VuejsDesignAndImplementation/README.md)
 
 ## Algorithm
 
@@ -181,6 +182,10 @@
 - [lanes (车道模型)类型任务的位掩码优先级体系](./notes/react/17x/lanes.md)
 - [React 15、16、17、18、19 各版本的区别（特点）](./notes/react/diff-react-version.md)
 - [React 17.x 为什么要废弃 ComponentWillMount、ReceiveProps 和 Update 这三个生命周期](./notes/react/17x/why-abandon-ComponentWillMount-ReceiveProps-Update.md)
+
+## Uni-app
+
+- [uni-app 生命周期（vue2）](./uniapp/uni-app-lifecycle-vue2.jpg)
 
 ## Security
 
