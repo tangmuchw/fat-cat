@@ -1,6 +1,4 @@
-# Rollup 源码深度分析
-
-我来详细分析 Rollup 的核心源码实现。我们将从架构设计到具体实现逐步深入。
+# Rollup 源码分析
 
 ## 一、源码结构概览
 
@@ -175,7 +173,7 @@ class Scope {
     addDeclaration(
         name: string,
         identifier: Node,
-        kind: "var" | "let" | "const" | "function"
+        kind: "var" | "let" | "const" | "function",
     ): Variable {
         const variable = new Variable(name, identifier, kind);
         this.variables.set(name, variable);
@@ -205,7 +203,10 @@ class Scope {
 ```typescript
 // src/ModuleLoader.ts
 class ModuleLoader {
-    constructor(private graph: Graph, private pluginDriver: PluginDriver) {}
+    constructor(
+        private graph: Graph,
+        private pluginDriver: PluginDriver,
+    ) {}
 
     async loadModule(id: string, importer?: string): Promise<Module> {
         // 1. 解析模块ID
@@ -274,7 +275,7 @@ class TransformPipeline {
 
                 return currentCode;
             },
-            currentCode
+            currentCode,
         );
 
         module.ast = currentAst;
@@ -292,7 +293,7 @@ class TransformPipeline {
 class Chunk {
     constructor(
         private modules: Module[],
-        private options: NormalizedOutputOptions
+        private options: NormalizedOutputOptions,
     ) {}
 
     render(): MagicString {
@@ -375,7 +376,7 @@ class PluginDriver {
 
     async hookFirst<T extends keyof PluginHooks>(
         hookName: T,
-        args: Parameters<PluginHooks[T]>
+        args: Parameters<PluginHooks[T]>,
     ): Promise<any> {
         for (const plugin of this.plugins) {
             const hook = plugin[hookName];
@@ -391,7 +392,7 @@ class PluginDriver {
 
     async hookParallel<T extends keyof PluginHooks>(
         hookName: T,
-        args: Parameters<PluginHooks[T]>
+        args: Parameters<PluginHooks[T]>,
     ): Promise<void> {
         const promises: Promise<any>[] = [];
 
@@ -400,8 +401,8 @@ class PluginDriver {
             if (hook) {
                 promises.push(
                     Promise.resolve().then(() =>
-                        (hook as Function).apply(plugin, args)
-                    )
+                        (hook as Function).apply(plugin, args),
+                    ),
                 );
             }
         }
@@ -525,7 +526,7 @@ class ModuleRenderer {
                     magicString.overwrite(
                         binding.start,
                         binding.end,
-                        binding.renderedName
+                        binding.renderedName,
                     );
                 }
             }
@@ -649,7 +650,7 @@ class RollupError extends Error {
             this.frame = this.generateCodeFrame(
                 props.loc.file,
                 props.loc.line,
-                props.loc.column
+                props.loc.column,
             );
         }
     }
@@ -657,7 +658,7 @@ class RollupError extends Error {
     private generateCodeFrame(
         file: string,
         line: number,
-        column: number
+        column: number,
     ): string {
         const lines = fs.readFileSync(file, "utf-8").split("\n");
         const start = Math.max(0, line - 3);
