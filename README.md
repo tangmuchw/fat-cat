@@ -22,8 +22,8 @@
 
 - [JS 高级程序设计(第 3 版)](./library/ProfessionalJSforWebDevalopers/README.md)
 - [HTTP 权威指南](./library/HTTPTheDefinitiveGuide/README.md)
-    <!-- - [深入浅出 Webpack](./library/Webpack/README.md) -->
-    <!-- -   [算法图解](./library/AlgorithmDiagram/README.md) -->
+      <!-- - [深入浅出 Webpack](./library/Webpack/README.md) -->
+      <!-- -   [算法图解](./library/AlgorithmDiagram/README.md) -->
 - [CSS 权威指南（第三版）](./library/CSSTheDefinitiveGuide/README.md)
 - [底层逻辑 2：理解商业世界的本质](./library/UnderlyingLogic2/README.md)
 - [SaaS 创业路线图](./library/SaaSEntrepreneurialRoadmap/README.md)
@@ -62,6 +62,12 @@
 
 - [浏览器缓存](./notes/browser/cache.md)
 
+## 命令
+
+- [chown](./cmd/chown.md)
+- [curl](./cmd/curl.md)
+- [ls](./cmd/ls.md)
+
 ## Design Patterns
 
 - [发布订阅者模式](./notes/design/publish&subscribe.md)
@@ -88,6 +94,7 @@
 
 - [Yarn](./notes/installer/yarn.md)
 - [Npm](./notes/installer/npm.md)
+- [Pnpm](./notes/installer/pnpm.md)
 
 ## JS
 
@@ -190,11 +197,11 @@
 
 ## Security
 
-- [CSRF](./notes/security/CSRF.md)
-- [DDos](./notes/security/DDos.md)
-- [DNSHijack](./notes/security/DNSHijack.md)
-- [JSONHijack](./notes/security/JSONHijack.md)
-- [XSS](./notes/security/XSS.md)
+- [CSRF 跨站请求伪造](./notes/security/CSRF.md)
+- [DDos 分布式服务攻击](./notes/security/DDos.md)
+- [DNSHijack DNS 劫持](./notes/security/DNSHijack.md)
+- [JSONHijack JSON 劫持](./notes/security/JSONHijack.md)
+- [XSS 跨站脚本攻击](./notes/security/XSS.md)
 - [安全头部与防护](./notes/security/headers.md)
 
 ## Tech
