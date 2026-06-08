@@ -232,7 +232,7 @@
 - [JS 数据类型](./notes/questions/jsBasicDataTypes.md)
 - [同一个链接，PC 打开的是 web 应用，手机打开的是 h5 应用](./notes/questions/judge-web-or-h5.md)
 - [设计一套全站请求耗时统计工具](./notes/questions/stats-request-time-tool.md)
-- [script 标签放在 header 里和放在 body 底部有什么区别](./notes/questions/script-position.md.md)
+- [script 标签放在 header 里和放在 body 底部有什么区别](./notes/questions/script-position.md)
 
 ### 编程题
 
