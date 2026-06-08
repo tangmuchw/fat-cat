@@ -529,6 +529,7 @@ function traverse(source, seen = new Set()) {
 // packages/reactivity/src/baseHandlers.ts
 
 const mutableHandlers = {
+    //  receiver 让代理中的 getter/setter 的 this 绑定到实际调用者，而不是原始目标对象。
     get(target, key, receiver) {
         track(target, key);
         const res = Reflect.get(target, key, receiver);
@@ -539,6 +540,7 @@ const mutableHandlers = {
         return res;
     },
     set(target, key, newVal, receiver) {
+        // 判断 key 是不是 target 对象自己拥有的属性（不是继承来的）
         const type = Object.prototype.hasOwnProperty.call(target, key)
             ? TriggerOpTypes.SET
             : TriggerOpTypes.ADD;
