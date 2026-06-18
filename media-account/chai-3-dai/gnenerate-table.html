@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 表格解析器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f5f9;
+            font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 30px 30px 40px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .sub {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 15px;
+            font-family: inherit;
+            line-height: 1.8;
+            resize: vertical;
+            transition: border 0.25s ease, box-shadow 0.25s ease;
+            background: #fafbfc;
+            color: #1e293b;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #FEA6B7;
+            box-shadow: 0 0 0 4px rgba(254, 166, 183, 0.15);
+            background: #ffffff;
+        }
+
+        .watermark-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0 18px;
+            flex-wrap: wrap;
+        }
+
+        .watermark-row label {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .watermark-row input {
+            flex: 1;
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafbfc;
+            transition: border 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            min-width: 160px;
+        }
+
+        .watermark-row input:focus {
+            outline: none;
+            border-color: #FEA6B7;
+            box-shadow: 0 0 0 4px rgba(254, 166, 183, 0.12);
+            background: #ffffff;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 0 0 24px;
+        }
+
+        .btn {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f1f5f9;
+            color: #1e293b;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .btn-primary {
+            background: #1e293b;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        .btn-pink {
+            background: #FEA6B7;
+            color: #1e293b;
+        }
+
+        .btn-pink:hover {
+            background: #f58d9f;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ========== 截图容器（带留白） ========== */
+        #screenshot-container {
+            background: #ffffff;
+            padding: 40px;
+            /* 上下左右留白 40px */
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-top: 10px;
+            position: relative;
+        }
+
+        /* 预览表格区域（带滚动） */
+        #preview {
+            position: relative;
+            border: 2px solid #FEA6B7;
+            /* 外框淡灰 */
+            border-radius: 12px;
+            overflow: auto;
+            max-height: 620px;
+            background: #ffffff;
+            padding: 0;
+        }
+
+        /* ========== 水印小角标（右下角，灰色透明） ========== */
+        .watermark-corner {
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.18);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            user-select: none;
+            z-index: 10;
+        }
+
+        /* ========== 表格样式（合并边框，淡灰色） ========== */
+        #preview table {
+            width: 100%;
+            border-collapse: collapse;
+            /* 合并边框 */
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1e293b;
+            table-layout: fixed;
+            min-width: 600px;
+            background: #ffffff;
+        }
+
+        #preview th,
+        #preview td {
+            /* 淡灰色边框，柔和 */
+            padding: 15px 20px;
+            vertical-align: top;
+            word-break: break-word;
+            background: #ffffff;
+        }
+
+        #preview tbody td {
+            /* border: 1px solid #FEA6B7; */
+        }
+
+        #preview th {
+            /* border: 1px solid #FEA6B7; */
+            background-color: #FEA6B7;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+            text-align: center;
+            /* 边框与表头协调 */
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        /* 隔行浅灰 */
+        #preview tbody tr:nth-child(even) td {
+            background: #faf8f9;
+        }
+
+        #preview tbody tr:hover td {
+            background: #fdf3f5;
+        }
+
+        /* ===== 下载按钮 ===== */
+        .download-wrapper {
+            text-align: right;
+            margin-top: 22px;
+        }
+
+        #downloadBtn {
+            display: inline-block;
+            padding: 12px 36px;
+            background: #1e293b;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            letter-spacing: 0.3px;
+        }
+
+        #downloadBtn:hover {
+            background: #0f172a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        #downloadBtn:active {
+            transform: scale(0.96);
+        }
+
+        .footer-note {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #cbd5e1;
+            user-select: none;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 700px) {
+            .container {
+                padding: 18px 14px 30px;
+            }
+
+            #screenshot-container {
+                padding: 20px;
+            }
+
+            textarea {
+                font-size: 14px;
+                padding: 12px 14px;
+            }
+
+            .watermark-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .watermark-row label {
+                white-space: normal;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 8px 18px;
+            }
+
+            #preview table {
+                font-size: 13px;
+                min-width: 480px;
+            }
+
+            #preview th {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+
+            #preview td {
+                padding: 12px 14px;
+            }
+
+            .watermark-corner {
+                font-size: 11px;
+                bottom: 8px;
+                right: 10px;
+                padding: 2px 8px;
+            }
+        }
+
+        @media print {
+            #preview tbody tr:nth-child(even) td {
+                background: #faf8f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            #preview th {
+                background-color: #FEA6B7 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📊 Markdown 表格解析器</h1>
+        <p class="sub">在下方输入符合 Markdown 语法的表格，点击「解析生成」预览，随后下载高清图片。</p>
+
+        <textarea id="markdownInput" rows="8" placeholder="粘贴 Markdown 表格..."></textarea>
+
+        <!-- 水印自定义输入框 -->
+        <div class="watermark-row">
+            <label for="watermarkInput">💧 右下角水印文字：</label>
+            <input type="text" id="watermarkInput" value="@拆拆拆三代" placeholder="输入水印文字">
+            <span style="font-size:13px; color:#94a3b8;">修改后自动更新</span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-pink" onclick="loadExample()">📝 重置示例</button>
+            <button class="btn btn-primary" onclick="parseAndRender()">🔍 解析生成</button>
+        </div>
+
+        <!-- ===== 截图容器（包含表格 + 水印角标） ===== -->
+        <div id="screenshot-container">
+            <div id="preview">
+                <!-- 表格由 JS 动态渲染到此 -->
+                <!-- 水印角标由 JS 动态添加 -->
+            </div>
+        </div>
+
+        <div class="download-wrapper">
+            <button id="downloadBtn" onclick="downloadImage()">⬇️ 下载高清图片 (PNG)</button>
+        </div>
+        <div class="footer-note">图片带有 40px 留白 · 右下角淡灰水印</div>
+    </div>
+
+    <script>
+        /**
+         * 解析 Markdown 表格
+         */
+        function parseMarkdownTable(markdown) {
+            const lines = markdown.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return null;
+
+            let separatorIndex = -1;
+            for (let i = 0; i < lines.length; i++) {
+                if (/^\s*\|?\s*:?-{3,}:?\s*\|/.test(lines[i])) {
+                    separatorIndex = i;
+                    break;
+                }
+            }
+            if (separatorIndex === -1 || separatorIndex === 0) return null;
+
+            const headerIndex = separatorIndex - 1;
+            const headerCells = parseRow(lines[headerIndex]);
+            if (!headerCells || headerCells.length === 0) return null;
+
+            const dataRows = [];
+            for (let i = separatorIndex + 1; i < lines.length; i++) {
+                const cells = parseRow(lines[i]);
+                if (cells && cells.length > 0) {
+                    while (cells.length < headerCells.length) cells.push('');
+                    dataRows.push(cells.slice(0, headerCells.length));
+                }
+            }
+            return { headers: headerCells, rows: dataRows };
+        }
+
+        function parseRow(line) {
+            let trimmed = line.trim();
+            if (trimmed.startsWith('|')) trimmed = trimmed.substring(1);
+            if (trimmed.endsWith('|')) trimmed = trimmed.slice(0, -1);
+            return trimmed.split('|').map(cell => cell.trim());
+        }
+
+        /**
+         * 渲染表格（支持 <br> 等标签），并添加水印角标
+         */
+        function renderTable(headers, rows) {
+            const container = document.getElementById('preview');
+            // 生成表格 HTML
+            let html = '<table><thead><tr>';
+            headers.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            rows.forEach(row => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += `<td>${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+
+            // 清空并插入表格
+            container.innerHTML = html;
+
+            // 添加右下角水印
+            addWatermarkCorner(container);
+        }
+
+        /**
+         * 添加右下角小水印（灰色透明）
+         */
+        function addWatermarkCorner(container) {
+            // 移除旧水印
+            const old = container.querySelector('.watermark-corner');
+            if (old) old.remove();
+
+            const input = document.getElementById('watermarkInput');
+            const text = input ? input.value.trim() : '@拆拆拆三代';
+            if (!text) return;
+
+            const div = document.createElement('div');
+            div.className = 'watermark-corner';
+            div.textContent = text;
+            container.appendChild(div);
+        }
+
+        /**
+         * 更新水印文字（仅更新，不重新渲染表格）
+         */
+        function updateWatermark() {
+            const container = document.getElementById('preview');
+            const old = container.querySelector('.watermark-corner');
+            if (old) {
+                const input = document.getElementById('watermarkInput');
+                old.textContent = input ? input.value.trim() : '@拆拆拆三代';
+            } else {
+                // 如果不存在则重建
+                addWatermarkCorner(container);
+            }
+        }
+
+        function parseAndRender() {
+            const input = document.getElementById('markdownInput').value;
+            const result = parseMarkdownTable(input);
+            if (!result || result.rows.length === 0) {
+                alert('⚠️ 无法解析，请检查格式：\n1. 第一行为表头\n2. 第二行为分隔行（如 | --- | --- |）\n3. 后续为数据行\n4. 每行以 | 开头和结尾');
+                return;
+            }
+            renderTable(result.headers, result.rows);
+        }
+
+        // -------- 默认示例 --------
+        function loadExample() {
+            const example = `| 客观事实 | 我的感受 | 别人的评价 | 客观数据 |
+| :--- | :--- | :--- | :--- |
+| • 我的岗位名称是什么<br>• 我入职多久了<br>• 我每天的常规工作内容是什么<br>• 我最近一次调薪是什么时候、调了多少<br>• 我每天早上几点出门、晚上几点到家<br>• 我负责的业务/产品的数据是什么<br>• 我的汇报对象是谁 | • 最近一次让你对工作产生负面感受的瞬间，是什么事、什么话触发的<br>• 那一刻你心里冒出来的第一句话是什么<br>• 你每天早上出门前，对这一天是期待、麻木还是抗拒<br>• 你最近一次在工作里觉得“这事我干成了”是什么时候——如果很久没有，也写下来 | • 直属上级最近一次给你的反馈是什么（原话，不是你的转述）<br>• 你收到的正式绩效评价是什么<br>• 同事或协作方对你的评价是什么 | • 你的薪资在同行业同经验水平里处于什么位置<br>• 你的工作时长在行业里算什么水平<br>• 你过去一年的产出有哪些可以量化的结果<br>• 你所在的业务是增长、持平还是收缩 |`;
+            document.getElementById('markdownInput').value = example;
+        }
+
+        // -------- 下载图片（截图容器） --------
+        function downloadImage() {
+            const element = document.getElementById('screenshot-container');
+            const table = element.querySelector('table');
+            if (!table) {
+                alert('请先生成表格');
+                return;
+            }
+
+            const btn = document.getElementById('downloadBtn');
+            const originalText = btn.textContent;
+            btn.textContent = '⏳ 生成中...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                scale: 3,
+                backgroundColor: '#ffffff',
+                allowTaint: false,
+                useCORS: true,
+                logging: false,
+                borderRadius: '16px',
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '自我审视表.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                alert('下载失败，请查看控制台错误信息');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        // -------- 页面加载自动渲染，并绑定水印输入事件 --------
+        window.onload = function () {
+            loadExample();
+            parseAndRender();
+
+            const watermarkInput = document.getElementById('watermarkInput');
+            if (watermarkInput) {
+                watermarkInput.addEventListener('input', updateWatermark);
+            }
+        };
+    </script>
+
+</body>
+
+</html>
