@@ -160,11 +160,11 @@
         /* 预览表格区域（带滚动） */
         #preview {
             position: relative;
-            border: 2px solid #FEA6B7;
+            border: 2px solid #ff2442;
             /* 外框淡灰 */
             border-radius: 12px;
             overflow: auto;
-            max-height: 620px;
+            /* max-height: 620px; */
             background: #ffffff;
             padding: 0;
         }
@@ -211,7 +211,7 @@
 
         #preview th {
             /* border: 1px solid #FEA6B7; */
-            background-color: #FEA6B7;
+            background-color: #ff2442;
             color: #ffffff;
             font-weight: 600;
             font-size: 15px;
@@ -349,7 +349,7 @@
         <!-- 水印自定义输入框 -->
         <div class="watermark-row">
             <label for="watermarkInput">💧 右下角水印文字：</label>
-            <input type="text" id="watermarkInput" value="@拆拆拆三代" placeholder="输入水印文字">
+            <input type="text" id="watermarkInput" value="@汤木先生" placeholder="输入水印文字">
             <span style="font-size:13px; color:#94a3b8;">修改后自动更新</span>
         </div>
 
@@ -447,7 +447,7 @@
             if (old) old.remove();
 
             const input = document.getElementById('watermarkInput');
-            const text = input ? input.value.trim() : '@拆拆拆三代';
+            const text = input ? input.value.trim() : '@汤木先生';
             if (!text) return;
 
             const div = document.createElement('div');
@@ -464,7 +464,7 @@
             const old = container.querySelector('.watermark-corner');
             if (old) {
                 const input = document.getElementById('watermarkInput');
-                old.textContent = input ? input.value.trim() : '@拆拆拆三代';
+                old.textContent = input ? input.value.trim() : '@汤木先生';
             } else {
                 // 如果不存在则重建
                 addWatermarkCorner(container);

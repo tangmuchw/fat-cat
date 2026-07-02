@@ -11,16 +11,20 @@
 ```javascript
 // 最简组件
 const MyComponent = {
-  render() {
-    return h('div', 'hello')
-  }
-}
+    render() {
+        return h("div", "hello");
+    },
+};
 
 // defineComponent 只是把对象结构化，本身不增加响应式逻辑
 const MyComponent = defineComponent({
-  data() { return { msg: 'hello' } },
-  render() { return h('div', this.msg) }
-})
+    data() {
+        return { msg: "hello" };
+    },
+    render() {
+        return h("div", this.msg);
+    },
+});
 ```
 
 ---
@@ -33,33 +37,33 @@ const MyComponent = defineComponent({
 // packages/runtime-core/src/component.ts
 
 function createComponentInstance(vnode) {
-  const type = vnode.type  // 用户组件对象
+    const type = vnode.type; // 用户组件对象
 
-  const instance = {
-    type,
-    vnode,              // vnode 引用实例
-    el: null,           // 挂载后指向真实 DOM
-    props: {},          // props（只读）
-    attrs: {},          // 未声明的 attrs（非 props 部分）
-    slots: {},          // 插槽
-    ctx: {},            // 组件上下文（provide/inject 等）
-    setupState: {},     // setup() 返回的对象
-    data: null,         // data() 返回的对象
-    render: null,      // render 函数
-    proxy: null,       // 组件代理（访问 this.xxx）
-    isMounted: false,
-    isUnmounted: false,
-    update: null,      // 组件的 update effect
-    next: null,        // 待更新的 vnode（用于异步更新）
-    bc: null,          // beforeCreate
-    bm: null,          // beforeMount
-    m: null,           // mounted
-    bu: null,          // beforeUpdate
-    u: null,           // updated
-    um: null,          // unmounted
-  }
+    const instance = {
+        type,
+        vnode, // vnode 引用实例
+        el: null, // 挂载后指向真实 DOM
+        props: {}, // props（只读）
+        attrs: {}, // 未声明的 attrs（非 props 部分）
+        slots: {}, // 插槽
+        ctx: {}, // 组件上下文（provide/inject 等）
+        setupState: {}, // setup() 返回的对象
+        data: null, // data() 返回的对象
+        render: null, // render 函数
+        proxy: null, // 组件代理（访问 this.xxx）
+        isMounted: false,
+        isUnmounted: false,
+        update: null, // 组件的 update effect
+        next: null, // 待更新的 vnode（用于异步更新）
+        bc: null, // beforeCreate
+        bm: null, // beforeMount
+        m: null, // mounted
+        bu: null, // beforeUpdate
+        u: null, // updated
+        um: null, // unmounted
+    };
 
-  return instance
+    return instance;
 }
 ```
 
@@ -74,18 +78,18 @@ setup 是组件初始化阶段**最先执行的选项**，在 props 解析之后
 ```javascript
 // 形式1：返回对象 → 直接成为组件实例的代理属性
 const Comp = {
-  setup() {
-    const count = ref(0)
-    return { count }  // 模板中 this.count 直接用
-  }
-}
+    setup() {
+        const count = ref(0);
+        return { count }; // 模板中 this.count 直接用
+    },
+};
 
 // 形式2：返回函数 → 作为 render 函数
 const Comp = {
-  setup(props, { emit }) {
-    return () => h('div', props.msg + '!')
-  }
-}
+    setup(props, { emit }) {
+        return () => h("div", props.msg + "!");
+    },
+};
 ```
 
 ### 3.2 setupStatefulComponent
@@ -94,50 +98,50 @@ const Comp = {
 // packages/runtime-core/src/componentRenderUtils.ts
 
 function setupStatefulComponent(instance) {
-  const Component = instance.type
+    const Component = instance.type;
 
-  // 1. 创建组件代理（访问 this）
-  // 模板中 this.count → proxy.count → setupState.count / data.xxx / props.xxx
-  instance.proxy = new Proxy(instance.ctx, {
-    get(target, key) {
-      const res = resolveSetupState(instance, key)
-      if (res !== undefined) return res
-      // 依次从 setupState → data → props → ctx 查找
+    // 1. 创建组件代理（访问 this）
+    // 模板中 this.count → proxy.count → setupState.count / data.xxx / props.xxx
+    instance.proxy = new Proxy(instance.ctx, {
+        get(target, key) {
+            const res = resolveSetupState(instance, key);
+            if (res !== undefined) return res;
+            // 依次从 setupState → data → props → ctx 查找
+        },
+    });
+
+    // 2. 执行 setup(props, { emit, slots, expose })
+    const setup = Component.setup;
+    if (setup) {
+        const setupContext = {
+            attrs: instance.attrs,
+            slots: instance.slots,
+            emit: bind(emit, instance),
+            expose: (exposed) => Object.assign(instance.exposed, exposed),
+        };
+        const setupResult = setup(instance.props, setupContext);
+
+        // 3. 处理 setup 返回值
+        if (typeof setupResult === "function") {
+            // 返回 render 函数
+            instance.render = setupResult;
+        } else if (typeof setupResult === "object") {
+            // 返回响应式对象
+            instance.setupState = reactive(setupResult);
+        }
     }
-  })
 
-  // 2. 执行 setup(props, { emit, slots, expose })
-  const setup = Component.setup
-  if (setup) {
-    const setupContext = {
-      attrs: instance.attrs,
-      slots: instance.slots,
-      emit: bind(emit, instance),
-      expose: (exposed) => Object.assign(instance.exposed, exposed)
+    // 4. 解析 data
+    if (Component.data) {
+        instance.data = Component.data();
     }
-    const setupResult = setup(instance.props, setupContext)
 
-    // 3. 处理 setup 返回值
-    if (typeof setupResult === 'function') {
-      // 返回 render 函数
-      instance.render = setupResult
-    } else if (typeof setupResult === 'object') {
-      // 返回响应式对象
-      instance.setupState = reactive(setupResult)
+    // 5. 编译 render 函数（模板没有 render 时）
+    if (!instance.render) {
+        instance.render = Component.template
+            ? compile(Component.template, runtimeDOMOptions)
+            : () => {};
     }
-  }
-
-  // 4. 解析 data
-  if (Component.data) {
-    instance.data = Component.data()
-  }
-
-  // 5. 编译 render 函数（模板没有 render 时）
-  if (!instance.render) {
-    instance.render = Component.template
-      ? compile(Component.template, runtimeDOMOptions)
-      : () => {}
-  }
 }
 ```
 
@@ -151,15 +155,15 @@ function setupStatefulComponent(instance) {
 // packages/runtime-core/src/componentRenderUtils.ts
 
 function renderComponentRoot(instance) {
-  const { type: Component, vnode, proxy } = instance
+    const { type: Component, vnode, proxy } = instance;
 
-  // 执行 render 函数：render(this) = render(proxy)
-  // render 中访问 this.xxx → proxy.xxx → 响应式追踪
-  const subTree = instance.render.call(proxy, proxy)
+    // 执行 render 函数：render(this) = render(proxy)
+    // render 中访问 this.xxx → proxy.xxx → 响应式追踪
+    const subTree = instance.render.call(proxy, proxy);
 
-  // 递归 patch 渲染子节点
-  patch(null, subTree, container)
-  return subTree
+    // 递归 patch 渲染子节点
+    patch(null, subTree, container);
+    return subTree;
 }
 ```
 
@@ -188,7 +192,7 @@ function renderComponentRoot(instance) {
 // → 触发三次 trigger
 // → 但 update effect 已在队列中
 // → 队列去重后只执行一次 render
-queueJob(update)
+queueJob(update);
 // 微任务执行时：count 已经是最终值，只 patch 一次
 ```
 
@@ -201,8 +205,8 @@ queueJob(update)
 ```javascript
 // 子组件声明了 props
 const Child = {
-  props: ['msg', 'count']
-}
+    props: ["msg", "count"],
+};
 
 // 父组件传递
 // <Child msg="hello" count="1" class="wrapper" />
@@ -217,7 +221,7 @@ props 是**只读的响应式对象**，子组件修改 props 会报警告：
 
 ```javascript
 // 子组件中
-this.msg = 'new value'  // 警告：props are readonly
+this.msg = "new value"; // 警告：props are readonly
 ```
 
 props 变化触发子组件更新的原理：
@@ -238,8 +242,10 @@ props 变化触发子组件更新的原理：
 ```javascript
 // 用户代码
 export default {
-  mounted() { console.log('mounted') }
-}
+    mounted() {
+        console.log("mounted");
+    },
+};
 
 // Vue 内部
 // 在组件实例创建时，从 Component 选项中提取，存入 instance.m
@@ -306,21 +312,21 @@ setup() {
 
 ```javascript
 function provide(key, value) {
-  // 当前组件实例的 ctx 上存一份
-  const currentInstance = getCurrentInstance()
-  currentInstance.ctx[key] = value
+    // 当前组件实例的 ctx 上存一份
+    const currentInstance = getCurrentInstance();
+    currentInstance.ctx[key] = value;
 }
 
 function inject(key) {
-  const currentInstance = getCurrentInstance()
-  // 从当前实例向上遍历 ctx 链查找
-  let parent = currentInstance.parent
-  while (parent) {
-    if (parent.ctx[key] !== undefined) {
-      return parent.ctx[key]
+    const currentInstance = getCurrentInstance();
+    // 从当前实例向上遍历 ctx 链查找
+    let parent = currentInstance.parent;
+    while (parent) {
+        if (parent.ctx[key] !== undefined) {
+            return parent.ctx[key];
+        }
+        parent = parent.parent;
     }
-    parent = parent.parent
-  }
 }
 ```
 
@@ -333,15 +339,13 @@ function inject(key) {
 ```html
 <!-- 父组件模板 -->
 <Layout>
-  <template #header>导航</template>
-  <template #default>内容</template>
+    <template #header>导航</template>
+    <template #default>内容</template>
 </Layout>
 
 <!-- 编译后 vnode.children -->
-Layout.children = [
-  { key: 'header', fn: () => h('div', '导航') },
-  { key: 'default', fn: () => h('div', '内容') }
-]
+Layout.children = [ { key: 'header', fn: () => h('div', '导航') }, { key:
+'default', fn: () => h('div', '内容') } ]
 ```
 
 ### 9.2 子组件使用插槽
@@ -349,19 +353,13 @@ Layout.children = [
 ```html
 <!-- 子组件模板 -->
 <div class="layout">
-  <slot name="header" />
-  <slot />
+    <slot name="header" />
+    <slot />
 </div>
 
 <!-- 编译后 render 函数 -->
-render() {
-  return [
-    h('div', { class: 'layout' }, [
-      slots.header?.() || null,   // 调用插槽函数，返回 vnode
-      slots.default?.() || null
-    ])
-  ]
-}
+render() { return [ h('div', { class: 'layout' }, [ slots.header?.() || null, //
+调用插槽函数，返回 vnode slots.default?.() || null ]) ] }
 ```
 
 ### 9.3 作用域插槽
@@ -374,9 +372,9 @@ render() {
 
 <!-- 父组件使用 -->
 <Comp>
-  <template #default="{ item, index }">
-    {{ index }}: {{ item.name }}
-  </template>
+    <template #default="{ item, index }">
+        {{ index }}: {{ item.name }}
+    </template>
 </Comp>
 ```
 
@@ -393,18 +391,18 @@ Vue 3 中组件 render 里的 `this` 指向一个代理：
 // 实际等于 proxy.count
 
 const proxy = new Proxy(instance, {
-  get(target, key) {
-    // 依次查找：
-    // 1. setupState（setup 返回的对象）
-    // 2. data（data() 返回的对象）
-    // 3. props（显式声明的 props）
-    // 4. ctx 上的 provide/inject 等
-    // 5. 原型链（Vue 公开的 $parent 等）
-  },
-  set(target, key, value) {
-    // 同上，但优先查找 setupState/data
-  }
-})
+    get(target, key) {
+        // 依次查找：
+        // 1. setupState（setup 返回的对象）
+        // 2. data（data() 返回的对象）
+        // 3. props（显式声明的 props）
+        // 4. ctx 上的 provide/inject 等
+        // 5. 原型链（Vue 公开的 $parent 等）
+    },
+    set(target, key, value) {
+        // 同上，但优先查找 setupState/data
+    },
+});
 ```
 
 优先级：**setupState > data > props > ctx**
