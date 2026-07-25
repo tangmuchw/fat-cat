@@ -46,6 +46,27 @@
             margin-bottom: 20px;
         }
 
+        .markdown-hint {
+            display: inline-block;
+            margin-top: -6px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: #94a3b8;
+            background: #f1f5f9;
+            padding: 4px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .markdown-hint code {
+            background: #e2e8f0;
+            padding: 1px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
         textarea {
             width: 100%;
             padding: 14px 18px;
@@ -62,8 +83,8 @@
 
         textarea:focus {
             outline: none;
-            border-color: #FEA6B7;
-            box-shadow: 0 0 0 4px rgba(254, 166, 183, 0.15);
+            border-color: #98B4C8;
+            box-shadow: 0 0 0 4px rgba(152, 180, 200, 0.15);
             background: #ffffff;
         }
 
@@ -96,8 +117,8 @@
 
         .watermark-row input:focus {
             outline: none;
-            border-color: #FEA6B7;
-            box-shadow: 0 0 0 4px rgba(254, 166, 183, 0.12);
+            border-color: #98B4C8;
+            box-shadow: 0 0 0 4px rgba(152, 180, 200, 0.12);
             background: #ffffff;
         }
 
@@ -132,13 +153,13 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
         }
 
-        .btn-pink {
-            background: #FEA6B7;
+        .btn-secondary {
+            background: #98B4C8;
             color: #1e293b;
         }
 
-        .btn-pink:hover {
-            background: #f58d9f;
+        .btn-secondary:hover {
+            background: #7fa3b9;
             transform: translateY(-2px);
         }
 
@@ -150,26 +171,23 @@
         #screenshot-container {
             background: #ffffff;
             padding: 40px;
-            /* 上下左右留白 40px */
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
             margin-top: 10px;
             position: relative;
         }
 
-        /* 预览表格区域（带滚动） */
+        /* 预览表格区域 */
         #preview {
             position: relative;
-            border: 2px solid #ff2442;
-            /* 外框淡灰 */
+            border: 2px solid #98B4C8;
             border-radius: 12px;
             overflow: auto;
-            /* max-height: 620px; */
             background: #ffffff;
             padding: 0;
         }
 
-        /* ========== 水印小角标（右下角，灰色透明） ========== */
+        /* ========== 水印小角标 ========== */
         .watermark-corner {
             position: absolute;
             bottom: 12px;
@@ -183,11 +201,13 @@
             z-index: 10;
         }
 
-        /* ========== 表格样式（合并边框，淡灰色） ========== */
+        /* ========== 表格样式（优化边框，消除白线） ========== */
         #preview table {
             width: 100%;
             border-collapse: collapse;
             /* 合并边框 */
+            border: 2px solid #98B4C8;
+            /* 表格整体边框加粗 */
             font-size: 14px;
             line-height: 1.8;
             color: #1e293b;
@@ -198,37 +218,38 @@
 
         #preview th,
         #preview td {
-            /* 淡灰色边框，柔和 */
+            border: 2px solid #98B4C8;
+            /* 单元格边框加粗至 2px */
             padding: 15px 20px;
             vertical-align: top;
             word-break: break-word;
             background: #ffffff;
+            /* 确保背景覆盖边框底部，避免缝隙 */
+            background-clip: padding-box;
         }
 
-        #preview tbody td {
-            /* border: 1px solid #FEA6B7; */
-        }
-
+        /* 表头：暖橙渐变 */
         #preview th {
-            /* border: 1px solid #FEA6B7; */
-            background-color: #ff2442;
+            background: linear-gradient(135deg, #F79E38, #E26F2E);
             color: #ffffff;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 15px;
             text-align: center;
-            /* 边框与表头协调 */
             position: sticky;
             top: 0;
             z-index: 5;
+            border-bottom: 2px solid #98B4C8;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
         }
 
-        /* 隔行浅灰 */
+        /* 隔行浅灰蓝 */
         #preview tbody tr:nth-child(even) td {
-            background: #faf8f9;
+            background: #f0f5f8;
         }
 
+        /* 悬停暖橙淡色 */
         #preview tbody tr:hover td {
-            background: #fdf3f5;
+            background: #fdf0e0;
         }
 
         /* ===== 下载按钮 ===== */
@@ -270,7 +291,6 @@
             user-select: none;
         }
 
-        /* 移动端适配 */
         @media (max-width: 700px) {
             .container {
                 padding: 18px 14px 30px;
@@ -323,14 +343,14 @@
 
         @media print {
             #preview tbody tr:nth-child(even) td {
-                background: #faf8f9 !important;
+                background: #f0f5f8 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
 
             #preview th {
-                background-color: #FEA6B7 !important;
-                color: #fff !important;
+                background: #F79E38 !important;
+                color: #ffffff !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -344,9 +364,12 @@
         <h1>📊 Markdown 表格解析器</h1>
         <p class="sub">在下方输入符合 Markdown 语法的表格，点击「解析生成」预览，随后下载高清图片。</p>
 
+        <div class="markdown-hint">
+            ✨ 支持 <code>**加粗**</code> 与 <code>__加粗__</code> 语法
+        </div>
+
         <textarea id="markdownInput" rows="8" placeholder="粘贴 Markdown 表格..."></textarea>
 
-        <!-- 水印自定义输入框 -->
         <div class="watermark-row">
             <label for="watermarkInput">💧 右下角水印文字：</label>
             <input type="text" id="watermarkInput" value="@汤木先生" placeholder="输入水印文字">
@@ -354,15 +377,13 @@
         </div>
 
         <div class="btn-group">
-            <button class="btn btn-pink" onclick="loadExample()">📝 重置示例</button>
+            <button class="btn btn-secondary" onclick="loadExample()">📝 重置示例</button>
             <button class="btn btn-primary" onclick="parseAndRender()">🔍 解析生成</button>
         </div>
 
-        <!-- ===== 截图容器（包含表格 + 水印角标） ===== -->
         <div id="screenshot-container">
             <div id="preview">
-                <!-- 表格由 JS 动态渲染到此 -->
-                <!-- 水印角标由 JS 动态添加 -->
+                <!-- 表格由 JS 动态渲染 -->
             </div>
         </div>
 
@@ -373,9 +394,13 @@
     </div>
 
     <script>
-        /**
-         * 解析 Markdown 表格
-         */
+        function parseInlineMarkdown(text) {
+            if (!text) return text;
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.+?)__/g, '<strong>$1</strong>');
+        }
+
         function parseMarkdownTable(markdown) {
             const lines = markdown.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return null;
@@ -411,38 +436,28 @@
             return trimmed.split('|').map(cell => cell.trim());
         }
 
-        /**
-         * 渲染表格（支持 <br> 等标签），并添加水印角标
-         */
         function renderTable(headers, rows) {
             const container = document.getElementById('preview');
-            // 生成表格 HTML
+
             let html = '<table><thead><tr>';
             headers.forEach(h => {
-                html += `<th>${h}</th>`;
+                html += `<th>${parseInlineMarkdown(h)}</th>`;
             });
             html += '</tr></thead><tbody>';
             rows.forEach(row => {
                 html += '<tr>';
                 row.forEach(cell => {
-                    html += `<td>${cell}</td>`;
+                    html += `<td>${parseInlineMarkdown(cell)}</td>`;
                 });
                 html += '</tr>';
             });
             html += '</tbody></table>';
 
-            // 清空并插入表格
             container.innerHTML = html;
-
-            // 添加右下角水印
             addWatermarkCorner(container);
         }
 
-        /**
-         * 添加右下角小水印（灰色透明）
-         */
         function addWatermarkCorner(container) {
-            // 移除旧水印
             const old = container.querySelector('.watermark-corner');
             if (old) old.remove();
 
@@ -456,9 +471,6 @@
             container.appendChild(div);
         }
 
-        /**
-         * 更新水印文字（仅更新，不重新渲染表格）
-         */
         function updateWatermark() {
             const container = document.getElementById('preview');
             const old = container.querySelector('.watermark-corner');
@@ -466,7 +478,6 @@
                 const input = document.getElementById('watermarkInput');
                 old.textContent = input ? input.value.trim() : '@汤木先生';
             } else {
-                // 如果不存在则重建
                 addWatermarkCorner(container);
             }
         }
@@ -481,15 +492,14 @@
             renderTable(result.headers, result.rows);
         }
 
-        // -------- 默认示例 --------
         function loadExample() {
-            const example = `| 客观事实 | 我的感受 | 别人的评价 | 客观数据 |
+            const example =
+                `| 客观事实 | 我的感受 | 别人的评价 | 客观数据 |
 | :--- | :--- | :--- | :--- |
-| • 我的岗位名称是什么<br>• 我入职多久了<br>• 我每天的常规工作内容是什么<br>• 我最近一次调薪是什么时候、调了多少<br>• 我每天早上几点出门、晚上几点到家<br>• 我负责的业务/产品的数据是什么<br>• 我的汇报对象是谁 | • 最近一次让你对工作产生负面感受的瞬间，是什么事、什么话触发的<br>• 那一刻你心里冒出来的第一句话是什么<br>• 你每天早上出门前，对这一天是期待、麻木还是抗拒<br>• 你最近一次在工作里觉得“这事我干成了”是什么时候——如果很久没有，也写下来 | • 直属上级最近一次给你的反馈是什么（原话，不是你的转述）<br>• 你收到的正式绩效评价是什么<br>• 同事或协作方对你的评价是什么 | • 你的薪资在同行业同经验水平里处于什么位置<br>• 你的工作时长在行业里算什么水平<br>• 你过去一年的产出有哪些可以量化的结果<br>• 你所在的业务是增长、持平还是收缩 |`;
+| • 我的**岗位名称**是什么<br>• 我**入职**多久了<br>• 我每天的**常规工作内容**是什么<br>• 我最近一次**调薪**是什么时候、调了多少<br>• 我每天早上几点出门、晚上几点到家<br>• 我负责的**业务/产品**的数据是什么<br>• 我的**汇报对象**是谁 | • 最近一次让你对工作产生**负面感受**的瞬间，是什么事、什么话触发的<br>• 那一刻你心里冒出来的**第一句话**是什么<br>• 你每天早上出门前，对这一天是**期待、麻木还是抗拒**<br>• 你最近一次在工作里觉得**“这事我干成了”**是什么时候——如果很久没有，也写下来 | • 直属上级最近一次给你的**反馈**是什么（原话，不是你的转述）<br>• 你收到的**正式绩效评价**是什么<br>• 同事或协作方对你的**评价**是什么 | • 你的薪资在同行业同经验水平里处于**什么位置**<br>• 你的工作时长在行业里算什么**水平**<br>• 你过去一年的产出有哪些可以**量化的结果**<br>• 你所在的业务是**增长、持平还是收缩** |`;
             document.getElementById('markdownInput').value = example;
         }
 
-        // -------- 下载图片（截图容器） --------
         function downloadImage() {
             const element = document.getElementById('screenshot-container');
             const table = element.querySelector('table');
@@ -525,7 +535,6 @@
             });
         }
 
-        // -------- 页面加载自动渲染，并绑定水印输入事件 --------
         window.onload = function () {
             loadExample();
             parseAndRender();
