@@ -1,0 +1,4 @@
+[MESSAGES CONTROL]
+# 各示例文件为"独立可运行、按步骤递进"而各自内置相同的工具函数
+# （matrix_multiply / transpose 等），属教学设计选择，关闭跨文件重复检测。
+disable=duplicate-code
